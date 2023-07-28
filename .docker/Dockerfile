@@ -1,5 +1,5 @@
 FROM openjdk:17-oracle
-ARG JAR_FILE=build/libs/untitled-1.0.0.0.jar
+ARG JAR_FILE=build/libs/gooding-1.0.0.0.jar
 ENV MY_SERVER=${MY_SERVER} \
 ACTIVE_PROFILE=${ACTIVE_PROFILE} \
 SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL} \
