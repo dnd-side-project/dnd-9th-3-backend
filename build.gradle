@@ -11,7 +11,6 @@ plugins {
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
     id 'java'
     id 'jacoco'
-    id 'checkstyle'
 }
 
 group = 'com.dnd.gooding'
@@ -139,23 +138,6 @@ jacocoTestCoverageVerification {
 
     }
 }
-
-compileJava.options.encoding = 'UTF-8'
-compileTestJava.options.encoding = 'UTF-8'
-
-tasks.withType(Checkstyle) {
-    reports {
-        xml.required = true
-        html.required = true
-    }
-}
-
-checkstyle {
-    configFile = file("checkstyle/naver-checkstyle-rules.xml")
-    configProperties = ["suppressionFile": "checkstyle/naver-checkstyle-suppressions.xml"]
-}
-
-checkstyleMain.source = fileTree('src/main/java')
 
 def querydslDir = "$buildDir/generated/querydsl"
 
