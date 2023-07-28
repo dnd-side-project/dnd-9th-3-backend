@@ -1,0 +1,41 @@
+version: "3"
+services:
+  redis:
+    container_name: redis
+    image: redis:alpine
+    command: redis-server --port 6379
+    hostname: redis
+    ports:
+      - "6379:6379"
+  green:
+    container_name: green
+    image: yong7317/gooding
+    ports:
+      - "8080:8080"
+    environment:
+      MY_SERVER: ${MY_SERVER}
+      ACTIVE_PROFILE: ${ACTIVE_PROFILE}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+  blue:
+    container_name: blue
+    image: yong7317/gooding
+    ports:
+      - "8081:8080"
+    environment:
+      MY_SERVER: ${MY_SERVER}
+      ACTIVE_PROFILE: ${ACTIVE_PROFILE}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}

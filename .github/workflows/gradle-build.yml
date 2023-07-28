@@ -1,0 +1,60 @@
+name: CI - Gradle Build
+
+# Event
+on:
+  push:
+    branches: [ "develop" ]
+
+# 권한 설정
+permissions: write-all
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
+      # 환경 변수 설정
+      - name: Set up Environment
+        run: echo "${{ secrets.ENV_PROPERTIES }}" > ./.env
+
+      # 빌드시 캐시 적용
+      - name: Cache Gradle Packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
+
+      # 빌드
+      - name: Build with Gradle
+        run: ./gradlew build
+        shell: bash
+
+      # 테스트 커버리지 리포트 생성
+      - name: Add Test Coverage Report as Comment to the PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.2
+        with:
+          title: 📝 테스트 커버리지 리포트
+          paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ github.token }}
+          min-coverage-overall: 50        # 프로젝트 전체 테스트 커버리지에 대한 기준
+          min-coverage-changed-files: 50  # 변경이 일어난 파일의 테스트 커버리지 기준
+
+      # 테스트 실패시 코드 라인에 대한 체크 추가
+      - name: if test fail, add check comment on failed code line
+        uses: mikepenz/action-junit-report@v3
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.html'
+          token: ${{ github.token }}
