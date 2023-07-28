@@ -3,7 +3,8 @@ name: CI - Gradle Build
 # Event
 on:
   push:
-    branches: [ "develop" ]
+    branches:
+      - develop
 
 # 권한 설정
 permissions: write-all
