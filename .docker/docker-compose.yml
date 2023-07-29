@@ -2,7 +2,7 @@ version: "3"
 services:
   redis:
     container_name: redis
-    image: yong7317/redis-image:1.0.0
+    image: yong7317/redis-image
     ports:
       - "6379:6379"
   green:
