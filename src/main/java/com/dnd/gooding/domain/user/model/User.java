@@ -19,19 +19,20 @@ import lombok.Getter;
 public class User extends BaseEntity {
 
 	@Id
+	@Column(name = "user_id")
 	@GeneratedValue(strategy = IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, length = 20)
+	@Column(name = "nickname", nullable = false, length = 20)
 	private String nickname;
 
-	@Column(nullable = false)
+	@Column(name = "profile_image_url", nullable = false)
 	private String profileImgUrl;
 
-	@Column(nullable = false)
+	@Column(name = "provider", nullable = false)
 	private String provider;
 
-	@Column(nullable = false)
+	@Column(name = "oauth_id", nullable = false)
 	private String oauthId;
 
 	public static User from(OAuthUserInfo oAuthUserInfo) {

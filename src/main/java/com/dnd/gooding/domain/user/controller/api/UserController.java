@@ -1,7 +1,6 @@
 package com.dnd.gooding.domain.user.controller.api;
 
 import com.dnd.gooding.global.dto.ErrorResponse;
-import com.dnd.gooding.global.exception.ServiceException;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,9 +35,10 @@ public class UserController {
 	})
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserProfileResponse> getById(
-			@Parameter(description = "사용자 순번") @PathVariable Long id) {
+			@Parameter(description = "사용자 아이디") @PathVariable Long id
+	) {
 		return ResponseEntity
 			.ok()
-			.body((userService.getById(id)));
+			.body(userService.getById(id));
 	}
 }

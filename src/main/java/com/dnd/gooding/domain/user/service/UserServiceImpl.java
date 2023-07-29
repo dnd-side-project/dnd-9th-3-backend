@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
+	@Transactional
 	@Override
 	public UserProfileResponse getById(Long userId) {
 		return UserProfileResponse.from(
