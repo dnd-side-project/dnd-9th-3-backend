@@ -3,8 +3,6 @@ services:
   redis:
     container_name: redis
     image: redis:alpine
-    command: redis-server --port 6379
-    hostname: redis
     ports:
       - "6379:6379"
   green:

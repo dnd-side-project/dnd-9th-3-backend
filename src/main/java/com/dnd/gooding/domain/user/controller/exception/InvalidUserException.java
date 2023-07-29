@@ -1,4 +1,4 @@
-package com.dnd.gooding.domain.user.exception;
+package com.dnd.gooding.domain.user.controller.exception;
 
 import com.dnd.gooding.global.exception.ErrorCode;
 import com.dnd.gooding.global.exception.ServiceException;

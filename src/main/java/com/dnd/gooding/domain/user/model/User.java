@@ -14,7 +14,7 @@ import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
 import lombok.Getter;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Getter
 public class User extends BaseEntity {
 
