@@ -1,10 +1,5 @@
 version: "3"
 services:
-  redis:
-    container_name: redis
-    image: yong7317/redis-image
-    ports:
-      - "6379:6379"
   green:
     container_name: green
     image: yong7317/gooding
@@ -22,8 +17,6 @@ services:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PORT: ${REDIS_PORT}
-    links:
-      - redis
   blue:
     container_name: blue
     image: yong7317/gooding
@@ -41,5 +34,3 @@ services:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       REDIS_HOST: ${REDIS_HOST}
       REDIS_PORT: ${REDIS_PORT}
-    links:
-      - redis

@@ -3,13 +3,6 @@
 IS_GREEN=$(docker ps | grep green) # 현재 실행중인 App이 blue인지 확인한다.
 DEFAULT_CONF=" /etc/nginx/nginx.conf"
 
-if [ $(docker ps | grep -c "redis") -eq 0 ]; then
-  echo "### Starting redis ###"
-  docker-compose up -d redis
-else
-  echo "redis is already running"
-fi
-
 if [ -z "$IS_GREEN" ];then # blue라면
   echo "### BLUE => GREEN ###"
 
