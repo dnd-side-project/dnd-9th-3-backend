@@ -52,6 +52,7 @@ public class SecurityConfiguration {
 			.authorizeHttpRequests()
 			.antMatchers("/").permitAll()
 			.antMatchers("/health-check").permitAll()
+			.antMatchers("/api/v1/tokens/temp").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic().disable()

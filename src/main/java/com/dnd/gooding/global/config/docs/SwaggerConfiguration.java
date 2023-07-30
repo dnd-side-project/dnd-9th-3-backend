@@ -51,4 +51,11 @@ public class SwaggerConfiguration {
 			.pathsToMatch("/api/v1/user/**")
 			.build();
 	}
+
+	@Bean GroupedOpenApi tokenGroup() {
+		return GroupedOpenApi.builder()
+			.group("Token")
+			.pathsToMatch("/api/v1/tokens/**")
+			.build();
+	}
 }

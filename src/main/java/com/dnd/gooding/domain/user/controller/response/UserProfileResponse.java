@@ -8,7 +8,7 @@ import lombok.Builder;
 @Builder
 @Schema(description = "사용자 프로필")
 public record UserProfileResponse(
-	@Schema(description = "사용자 순번")
+	@Schema(description = "사용자 ID")
 	Long id,
 	@Schema(description = "사용자 닉네임")
 	String nickname,
