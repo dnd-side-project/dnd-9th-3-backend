@@ -30,20 +30,6 @@ public class SecurityConfiguration {
 	private final HttpCookieOAuthAuthorizationRequestRepository httpCookieOAuthAuthorizationRequestRepository;
 
 	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web
-			.ignoring()
-			.antMatchers(
-				"/static/js/**",
-				"/static/images/**",
-				"/static/css/**",
-				"/static/scss/**",
-				"/swagger-ui/**",
-				"/swagger-resources/**",
-				"/v3/api-docs/**");
-	}
-
-	@Bean
 	public SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
 		return http
 			.cors()
@@ -52,6 +38,13 @@ public class SecurityConfiguration {
 			.authorizeHttpRequests()
 			.antMatchers("/").permitAll()
 			.antMatchers("/health-check").permitAll()
+			.antMatchers("/static/js/**").permitAll()
+			.antMatchers("/static/images/**").permitAll()
+			.antMatchers("/static/css/**").permitAll()
+			.antMatchers("/static/scss/**").permitAll()
+			.antMatchers("/swagger-ui/**").permitAll()
+			.antMatchers("/swagger-resources/**").permitAll()
+			.antMatchers("/v3/api-docs/**").permitAll()
 			.antMatchers("/api/v1/tokens/temp").permitAll()
 			.anyRequest().authenticated()
 			.and()
