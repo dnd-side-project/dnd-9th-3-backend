@@ -30,48 +30,63 @@ public class SecurityConfiguration {
 	private final HttpCookieOAuthAuthorizationRequestRepository httpCookieOAuthAuthorizationRequestRepository;
 
 	@Bean
-	public SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
-		return http
-			.cors()
-			.configurationSource(corsConfigurationSource())
-			.and()
-			.authorizeHttpRequests()
-			.antMatchers("/").permitAll()
-			.antMatchers("/health-check").permitAll()
-			.antMatchers("/static/js/**").permitAll()
-			.antMatchers("/static/images/**").permitAll()
-			.antMatchers("/static/css/**").permitAll()
-			.antMatchers("/static/scss/**").permitAll()
-			.antMatchers("/swagger-ui/**").permitAll()
-			.antMatchers("/swagger-resources/**").permitAll()
-			.antMatchers("/v3/api-docs/**").permitAll()
-			.antMatchers("/api/v1/doc/**").permitAll()
-			.antMatchers("/api/v1/tokens/temp").permitAll()
-			.anyRequest().authenticated()
-			.and()
-			.httpBasic().disable()
-			.rememberMe().disable()
-			.csrf().disable()
-			.logout().disable()
-			.requestCache().disable()
-			.formLogin().disable()
-			.headers().disable()
-			.sessionManagement()
-			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and()
-			.oauth2Login()
-			.authorizationEndpoint().baseUri("/oauth2/authorization")
-			.authorizationRequestRepository(httpCookieOAuthAuthorizationRequestRepository)
-			.and()
-			.successHandler(customOAuth2SuccessHandler)
-			.failureHandler(customOAuth2FailureHandler)
-			.and()
-			.exceptionHandling()
-			.and()
-			.addFilterBefore(jwtAuthenticationFilter, OAuth2AuthorizationRequestRedirectFilter.class)
-			.addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class)
-			.build();
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web
+			.ignoring()
+			.antMatchers(
+				"/static/js/**",
+				"/static/images/**",
+				"/static/css/**",
+				"/static/scss/**",
+				"/swagger-ui/**",
+				"/swagger-resources/**",
+				"/v3/api-docs/**",
+				"/api/v1/tokens/temp");
 	}
+
+	// @Bean
+	// public SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
+	// 	return http
+	// 		.cors()
+	// 		.configurationSource(corsConfigurationSource())
+	// 		.and()
+	// 		.authorizeHttpRequests()
+	// 		.antMatchers("/").permitAll()
+	// 		.antMatchers("/health-check").permitAll()
+	// 		.antMatchers("/static/js/**").permitAll()
+	// 		.antMatchers("/static/images/**").permitAll()
+	// 		.antMatchers("/static/css/**").permitAll()
+	// 		.antMatchers("/static/scss/**").permitAll()
+	// 		.antMatchers("/swagger-ui/**").permitAll()
+	// 		.antMatchers("/swagger-resources/**").permitAll()
+	// 		.antMatchers("/v3/api-docs/**").permitAll()
+	// 		.antMatchers("/api/v1/doc/**").permitAll()
+	// 		.antMatchers("/api/v1/tokens/temp").permitAll()
+	// 		.anyRequest().authenticated()
+	// 		.and()
+	// 		.httpBasic().disable()
+	// 		.rememberMe().disable()
+	// 		.csrf().disable()
+	// 		.logout().disable()
+	// 		.requestCache().disable()
+	// 		.formLogin().disable()
+	// 		.headers().disable()
+	// 		.sessionManagement()
+	// 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+	// 		.and()
+	// 		.oauth2Login()
+	// 		.authorizationEndpoint().baseUri("/oauth2/authorization")
+	// 		.authorizationRequestRepository(httpCookieOAuthAuthorizationRequestRepository)
+	// 		.and()
+	// 		.successHandler(customOAuth2SuccessHandler)
+	// 		.failureHandler(customOAuth2FailureHandler)
+	// 		.and()
+	// 		.exceptionHandling()
+	// 		.and()
+	// 		.addFilterBefore(jwtAuthenticationFilter, OAuth2AuthorizationRequestRedirectFilter.class)
+	// 		.addFilterBefore(exceptionHandlerFilter, JwtAuthenticationFilter.class)
+	// 		.build();
+	// }
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
