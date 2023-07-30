@@ -40,3 +40,10 @@ spring-doc:
   title: Gooding
   version: v1
   description: description
+  api-docs:
+    enabled: true
+    swagger-ui:
+      enabled: true
+      tagsSorter: alpha
+      operations-sorter: alpha
+      display-request-duration: true

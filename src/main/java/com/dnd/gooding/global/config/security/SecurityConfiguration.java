@@ -47,8 +47,8 @@ public class SecurityConfiguration {
 			.configurationSource(corsConfigurationSource())
 			.and()
 			.authorizeHttpRequests()
-			.antMatchers("/", "/health-check", "/swagger-ui/index.html","/swagger-ui/**",
-				"/swagger-resources/**", "/v3/api-docs/**", "/docs", "/api/v1/tokens/temp").permitAll()
+			.antMatchers("/", "/health-check","/api/v1/tokens/temp").permitAll()
+			.antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic().disable()
