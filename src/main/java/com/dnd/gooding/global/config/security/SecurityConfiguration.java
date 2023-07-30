@@ -39,7 +39,8 @@ public class SecurityConfiguration {
 				"/static/css/**",
 				"/static/scss/**",
 				"/swagger-ui/**",
-				"/swagger-resources/**");
+				"/swagger-resources/**",
+				"/v3/api-docs/**");
 	}
 
 	@Bean
@@ -51,6 +52,7 @@ public class SecurityConfiguration {
 			.authorizeHttpRequests()
 			.antMatchers("/").permitAll()
 			.antMatchers("/health-check").permitAll()
+			.antMatchers("/docs").permitAll()
 			.antMatchers("/api/v1/tokens/temp").permitAll()
 			.anyRequest().authenticated()
 			.and()

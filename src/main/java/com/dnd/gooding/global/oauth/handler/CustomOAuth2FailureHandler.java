@@ -10,6 +10,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomOAuth2FailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private static final String DEFAULT_TARGET_URL = "/";
 	private final HttpCookieOAuthAuthorizationRequestRepository httpCookieOAuthAuthorizationRequestRepository;
 
@@ -38,12 +41,14 @@ public class CustomOAuth2FailureHandler extends SimpleUrlAuthenticationFailureHa
 			.map(cookie -> URLDecoder.decode(cookie, UTF_8))
 			.orElse(DEFAULT_TARGET_URL);
 
+		logger.info("[CustomOAuth2FailureHandler] onAuthenticationFailure redirectUrl : " + redirectUrl);
 		String targetUrl = UriComponentsBuilder.fromUriString(redirectUrl)
 			.queryParam("error", specialCharactersRemove(exception.getMessage()))
 			.build().toUriString();
 
 		httpCookieOAuthAuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
 
+		logger.info("[CustomOAuth2FailureHandler] onAuthenticationFailure targetUrl : " + targetUrl);
 		getRedirectStrategy().sendRedirect(request, response, targetUrl);
 	}
 

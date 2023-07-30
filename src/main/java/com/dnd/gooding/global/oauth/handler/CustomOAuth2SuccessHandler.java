@@ -13,6 +13,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -33,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CustomOAuth2SuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final TokenService tokenService;
 
 	@Override
@@ -44,8 +47,10 @@ public class CustomOAuth2SuccessHandler extends SavedRequestAwareAuthenticationS
 			Tokens tokens = tokenService.createTokens(customOAuth2User.getUserInfo());
 			String targetUrl = determineTargetUrl(request, tokens.accessToken());
 			setRefreshTokenInCookie(response, tokens.refreshToken());
+			logger.info("[CustomOAuth2SuccessHandler] onAuthenticationSuccess targetUrl : " + targetUrl);
 			getRedirectStrategy().sendRedirect(request, response, targetUrl);
 		} else {
+			logger.info("[CustomOAuth2SuccessHandler] onAuthenticationSuccess authentication : " + authentication);
 			super.onAuthenticationSuccess(request, response, authentication);
 		}
 	}
@@ -57,7 +62,7 @@ public class CustomOAuth2SuccessHandler extends SavedRequestAwareAuthenticationS
 			.map(cookie -> URLDecoder.decode(cookie, UTF_8))
 			.map(this::encodeKoreanCharacters)
 			.orElse(getDefaultTargetUrl());
-
+		logger.info("[CustomOAuth2SuccessHandler] determineTargetUrl targetUrl : " + targetUrl);
 		return UriComponentsBuilder.fromUriString(targetUrl)
 			.queryParam("accessToken", accessToken)
 			.build().toUriString();

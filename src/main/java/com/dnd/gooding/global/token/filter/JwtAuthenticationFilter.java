@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -23,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final TokenService tokenService;
 
 	@Override
@@ -35,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			JwtAuthenticationToken authentication = tokenService.getAuthenticationByAccessToken(accessToken);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
-
+		logger.info("[JwtAuthenticationFilter] accessToken : " + accessToken);
 		filterChain.doFilter(request, response);
 	}
 

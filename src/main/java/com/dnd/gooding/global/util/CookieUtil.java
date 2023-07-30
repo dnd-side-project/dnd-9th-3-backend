@@ -10,6 +10,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseCookie;
 import org.springframework.util.SerializationUtils;
 
@@ -17,6 +19,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = PRIVATE)
 public class CookieUtil {
+
+	private static final Logger logger = LoggerFactory.getLogger(CookieUtil.class);
 
 	public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
 
@@ -28,6 +32,7 @@ public class CookieUtil {
 				.findFirst();
 		}
 
+		logger.info("[CookieUtil] getCookie cookies : " + cookies);
 		return Optional.empty();
 	}
 

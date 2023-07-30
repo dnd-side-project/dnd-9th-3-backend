@@ -2,6 +2,8 @@ package com.dnd.gooding.global.token.api;
 
 import static org.springframework.http.HttpHeaders.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +26,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Tag(name = "Token", description = "토큰 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/tokens")
 public class TokenController {
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final TokenService tokenService;
 
 	@Operation(summary = "임시 토큰을 발급 받는다.")
@@ -38,6 +43,7 @@ public class TokenController {
 	@GetMapping(value = "temp", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TokenResponse> tempAccessToken() {
 		String tempAccessToken = tokenService.createAccessToken(1L, "ROLE_USER");
+		logger.info("[TokenController] tempAccessToken : " + tempAccessToken);
 		return ResponseEntity
 			.ok()
 			.body(new TokenResponse(tempAccessToken));
