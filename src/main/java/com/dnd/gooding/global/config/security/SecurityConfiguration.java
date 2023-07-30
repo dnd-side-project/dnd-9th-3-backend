@@ -45,6 +45,7 @@ public class SecurityConfiguration {
 			.antMatchers("/swagger-ui/**").permitAll()
 			.antMatchers("/swagger-resources/**").permitAll()
 			.antMatchers("/v3/api-docs/**").permitAll()
+			.antMatchers("/api/v1/doc/**").permitAll()
 			.antMatchers("/api/v1/tokens/temp").permitAll()
 			.anyRequest().authenticated()
 			.and()

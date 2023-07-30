@@ -40,5 +40,3 @@ spring-doc:
   title: Gooding
   version: v1
   description: description
-  swagger-ui:
-    path: /index.html
