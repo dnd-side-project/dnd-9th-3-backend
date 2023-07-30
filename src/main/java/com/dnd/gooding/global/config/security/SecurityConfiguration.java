@@ -37,10 +37,7 @@ public class SecurityConfiguration {
 				"/static/js/**",
 				"/static/images/**",
 				"/static/css/**",
-				"/static/scss/**",
-				"/swagger-ui/**",
-				"/swagger-resources/**",
-				"/v3/api-docs/**");
+				"/static/scss/**");
 	}
 
 	@Bean
@@ -50,10 +47,8 @@ public class SecurityConfiguration {
 			.configurationSource(corsConfigurationSource())
 			.and()
 			.authorizeHttpRequests()
-			.antMatchers("/").permitAll()
-			.antMatchers("/health-check").permitAll()
-			.antMatchers("/docs").permitAll()
-			.antMatchers("/api/v1/tokens/temp").permitAll()
+			.antMatchers("/", "/health-check", "/swagger-ui/index.html","/swagger-ui/**",
+				"/swagger-resources/**", "/v3/api-docs/**", "/docs", "/api/v1/tokens/temp").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic().disable()
