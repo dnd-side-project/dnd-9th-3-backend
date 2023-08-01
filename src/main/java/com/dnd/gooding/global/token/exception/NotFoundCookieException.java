@@ -1,7 +1,7 @@
 package com.dnd.gooding.global.token.exception;
 
-import com.dnd.gooding.global.exception.ErrorCode;
-import com.dnd.gooding.global.exception.ServiceException;
+import com.dnd.gooding.global.common.exception.ErrorCode;
+import com.dnd.gooding.global.common.exception.ServiceException;
 
 public class NotFoundCookieException extends ServiceException {
 

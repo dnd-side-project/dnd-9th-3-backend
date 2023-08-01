@@ -1,7 +1,7 @@
 package com.dnd.gooding.domain.user.service;
 
-import com.dnd.gooding.domain.user.controller.request.UpdateUserRequest;
-import com.dnd.gooding.domain.user.controller.response.UserProfileResponse;
+import com.dnd.gooding.domain.user.dto.request.UpdateUserRequest;
+import com.dnd.gooding.domain.user.dto.response.UserProfileResponse;
 import com.dnd.gooding.global.oauth.dto.AuthUserInfo;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
 

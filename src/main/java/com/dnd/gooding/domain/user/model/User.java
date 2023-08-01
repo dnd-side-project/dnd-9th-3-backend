@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.dnd.gooding.global.domain.BaseEntity;
+import com.dnd.gooding.global.common.domain.BaseEntity;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
 
 import lombok.Getter;

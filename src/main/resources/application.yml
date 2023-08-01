@@ -47,3 +47,10 @@ spring-doc:
       tagsSorter: alpha
       operations-sorter: alpha
       display-request-duration: true
+
+jwt:
+  issuer: yong7317
+  secret-key: ${JWT_SECRET_KEY}
+  expiry-seconds:
+    access-token: 1800
+    refresh-token: 604800

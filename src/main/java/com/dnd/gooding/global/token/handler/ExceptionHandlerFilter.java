@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.dnd.gooding.global.dto.ErrorResponse;
+import com.dnd.gooding.global.common.dto.ErrorResponse;
 import com.dnd.gooding.global.token.exception.TokenException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

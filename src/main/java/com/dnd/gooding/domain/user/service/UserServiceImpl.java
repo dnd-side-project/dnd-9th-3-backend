@@ -3,9 +3,9 @@ package com.dnd.gooding.domain.user.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dnd.gooding.domain.user.controller.request.UpdateUserRequest;
-import com.dnd.gooding.domain.user.controller.response.UserProfileResponse;
-import com.dnd.gooding.domain.user.controller.exception.UserNotFoundException;
+import com.dnd.gooding.domain.user.dto.request.UpdateUserRequest;
+import com.dnd.gooding.domain.user.dto.response.UserProfileResponse;
+import com.dnd.gooding.domain.user.exception.UserNotFoundException;
 import com.dnd.gooding.domain.user.model.User;
 import com.dnd.gooding.domain.user.repository.UserRepository;
 import com.dnd.gooding.global.oauth.dto.AuthUserInfo;
