@@ -17,6 +17,7 @@ spring:
 
   # JPA 설정
   jpa:
+    database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: create-drop
