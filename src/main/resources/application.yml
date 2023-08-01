@@ -7,8 +7,6 @@ spring:
   profiles:
     active:
       - ${ACTIVE_PROFILE}
-    include:
-      - security
 
   # database 설정
   datasource:
