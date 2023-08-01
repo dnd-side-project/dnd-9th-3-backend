@@ -27,17 +27,23 @@ import com.google.gson.JsonParser;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class OAuth2UserService {
 
 	private final UserService userService;
 	private final TokenService tokenService;
 
-	@Value("${kakao.client-id}")
-	private String clientId;
-
-	@Value("${kakao.redirect-url}")
-	private String redirectUrl;
+	private final String clientId;
+	private final String redirectUrl;
+	public OAuth2UserService(
+		@Value("${kakao.client-id}") String clientId,
+		@Value("${kakao.redirect-url}") String redirectUrl,
+		UserService userService,
+		TokenService tokenService) {
+		this.clientId = clientId;
+		this.redirectUrl = redirectUrl;
+		this.userService = userService;
+		this.tokenService = tokenService;
+	}
 
 	public Tokens getKakaoAccessToken (String code) {
 		String access_Token = "";
