@@ -11,6 +11,7 @@ import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +33,12 @@ public class OAuth2UserService {
 	private final UserService userService;
 	private final TokenService tokenService;
 
+	@Value("${kakao.client-id}")
+	private String clientId;
+
+	@Value("${kakao.redirect-url}")
+	private String redirectUrl;
+
 	public Tokens getKakaoAccessToken (String code) {
 		String access_Token = "";
 		String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -49,8 +56,8 @@ public class OAuth2UserService {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
-			sb.append("&client_id=66e15e5cd7fdce2de67e28ec53aad52a"); // TODO REST_API_KEY 입력
-			sb.append("&redirect_uri=http://localhost:8080/oauth/kakao"); // TODO 인가코드 받은 redirect_uri 입력
+			sb.append("&client_id="+clientId); 			// TODO REST_API_KEY 입력
+			sb.append("&redirect_uri="+redirectUrl); 	// TODO 인가코드 받은 redirect_uri 입력
 			sb.append("&code=" + code);
 			bw.write(sb.toString());
 			bw.flush();

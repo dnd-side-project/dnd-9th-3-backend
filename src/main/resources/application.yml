@@ -54,3 +54,7 @@ jwt:
   expiry-seconds:
     access-token: 1800
     refresh-token: 604800
+
+kakao:
+  client-id: ${KAKAO_CLIENT_ID}
+  redirect-url: ${KAKAO_REDIRECT_URI}
