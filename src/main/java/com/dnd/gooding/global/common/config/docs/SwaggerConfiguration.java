@@ -2,6 +2,7 @@ package com.dnd.gooding.global.common.config.docs;
 
 import static org.springframework.http.HttpHeaders.*;
 
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +40,7 @@ public class SwaggerConfiguration {
 			.description(description);
 
 		return new OpenAPI()
+			.addServersItem(new Server().url("/"))
 			.components(components)
 			.addSecurityItem(securityRequirement)
 			.info(info);
