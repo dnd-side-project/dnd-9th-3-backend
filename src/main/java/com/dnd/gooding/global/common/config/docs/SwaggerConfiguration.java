@@ -2,7 +2,6 @@ package com.dnd.gooding.global.common.config.docs;
 
 import static org.springframework.http.HttpHeaders.*;
 
-import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +12,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 public class SwaggerConfiguration {
@@ -58,6 +58,13 @@ public class SwaggerConfiguration {
 		return GroupedOpenApi.builder()
 			.group("Token")
 			.pathsToMatch("/api/v1/tokens/**")
+			.build();
+	}
+
+	@Bean GroupedOpenApi oauthGroup() {
+		return GroupedOpenApi.builder()
+			.group("OAuth")
+			.pathsToMatch("/oauth/**")
 			.build();
 	}
 }

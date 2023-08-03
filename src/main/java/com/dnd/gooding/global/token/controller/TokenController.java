@@ -40,7 +40,7 @@ public class TokenController {
 
 	@Operation(summary = "임시 토큰을 발급 받는다.")
 	@SecurityRequirements()
-	@GetMapping(value = "temp", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "temporary", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TokenResponse> tempAccessToken() {
 		String tempAccessToken = tokenService.createAccessToken(1L, "ROLE_USER");
 		logger.info("[TokenController] tempAccessToken : " + tempAccessToken);
