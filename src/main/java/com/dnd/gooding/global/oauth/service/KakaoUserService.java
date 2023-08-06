@@ -15,23 +15,22 @@ import com.dnd.gooding.global.oauth.dto.AuthUserInfo;
 import com.dnd.gooding.global.oauth.dto.KakaoUserInfo;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
 import com.dnd.gooding.global.token.dto.Tokens;
-import com.dnd.gooding.global.token.dto.response.TokenResponse;
 import com.dnd.gooding.global.token.service.TokenService;
 
 @Service
-public class OAuth2UserService {
+public class KakaoUserService {
 
 	private final UserService userService;
 	private final TokenService tokenService;
 	private final String USER_INFO_URL = "https://kapi.kakao.com/v2/user/me";
-	public OAuth2UserService(
+	public KakaoUserService(
 		UserService userService,
 		TokenService tokenService) {
 		this.userService = userService;
 		this.tokenService = tokenService;
 	}
 
-	public Tokens getKakaoAccessToken(String accessToken) {
+	public Tokens getAccessToken(String accessToken) {
 		RestTemplate restTemplate = new RestTemplate();
 
 		HttpHeaders headers = new HttpHeaders();
