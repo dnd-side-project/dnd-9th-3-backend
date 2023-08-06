@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -24,7 +22,7 @@ public class GoogleUserService {
 
 	private final UserService userService;
 	private final TokenService tokenService;
-	private final String USER_INFO_URL = "https://www.googleapis.com/oauth2/v2/userinfo";
+	private final String USER_INFO_URL = "https://oauth2.googleapis.com/tokeninfo";
 
 	public GoogleUserService(
 		UserService userService,
@@ -33,17 +31,15 @@ public class GoogleUserService {
 		this.tokenService = tokenService;
 	}
 
-	public Tokens getAccessToken(String accessToken) {
+	public Tokens getAccessToken(String idToken) {
 		RestTemplate restTemplate = new RestTemplate();
 
-		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-		parameters.add("access_token", accessToken);
-
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer " + accessToken);
-		HttpEntity request = new HttpEntity<>(parameters, headers);
+		HttpEntity request = new HttpEntity<>(headers);
 
-		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(USER_INFO_URL);
+		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(USER_INFO_URL)
+			.queryParam("id_token", idToken);
+
 		ResponseEntity<GoogleUserInfo> responseEntity = restTemplate.exchange(
 			uriComponentsBuilder.toUriString(),
 			HttpMethod.GET,
@@ -62,8 +58,8 @@ public class GoogleUserService {
 	@Transactional
 	public AuthUserInfo saveUser(GoogleUserInfo googleUserInfo) {
 		OAuthUserInfo oAuthUser = OAuthUserInfo.builder()
-			.oauthId(googleUserInfo.id())
-			.nickname(googleUserInfo.email().replace("\"", ""))
+			.oauthId(googleUserInfo.sub().replace("\"", ""))
+			.nickname(googleUserInfo.name().replace("\"", ""))
 			.profileImgUrl(googleUserInfo.picture().replace("\"", ""))
 			.provider("google")
 			.build();

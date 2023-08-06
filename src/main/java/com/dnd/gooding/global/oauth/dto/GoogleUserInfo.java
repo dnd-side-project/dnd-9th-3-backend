@@ -1,8 +1,9 @@
 package com.dnd.gooding.global.oauth.dto;
 
 public record GoogleUserInfo(
-	String id,
+	String sub,
 	String email,
+	String name,
 	String picture
 ) {
 }

@@ -17,6 +17,7 @@ spring:
 
   # JPA 설정
   jpa:
+    open-in-view: false
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
@@ -25,6 +26,7 @@ spring:
       hibernate:
         format_sql: true
         use_sql_comments: true
+        default_batch_fetch_size: 1000
 
   # redis 설정
 #  redis:

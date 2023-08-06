@@ -1,26 +1,29 @@
 package com.dnd.gooding.domain.user.model;
 
-import static javax.persistence.GenerationType.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.dnd.gooding.domain.record.model.Record;
 import com.dnd.gooding.global.common.domain.BaseEntity;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
 
 import lombok.Getter;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Getter
 public class User extends BaseEntity {
 
 	@Id
 	@Column(name = "user_id")
-	@GeneratedValue(strategy = IDENTITY)
+	@GeneratedValue
 	private Long id;
 
 	@Column(name = "nickname", nullable = false, length = 20)
@@ -35,6 +38,9 @@ public class User extends BaseEntity {
 	@Column(name = "oauth_id", nullable = false)
 	private String oauthId;
 
+	@OneToMany(mappedBy = "user")	// 주인이 아닌 쪽에 mappedBy
+	private List<Record> records = new ArrayList<>();
+
 	public static User from(OAuthUserInfo oAuthUserInfo) {
 		User user = new User();
 		user.nickname = oAuthUserInfo.nickname();
@@ -43,5 +49,4 @@ public class User extends BaseEntity {
 		user.oauthId = oAuthUserInfo.oauthId();
 		return user;
 	}
-
 }

@@ -53,8 +53,8 @@ public class OAuthController {
 	@GetMapping(value = "/google", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TokenResponse> google(
 		HttpServletResponse response,
-		@Parameter(description = "구글에서 인가받은 액세스 토큰") @RequestParam String accessToken) {
-		Tokens tokens = googleUserService.getAccessToken(accessToken);
+		@Parameter(description = "구글에서 인가받은 ID 토큰") @RequestParam String idToken) {
+		Tokens tokens = googleUserService.getAccessToken(idToken);
 		CookieUtil.addCookie(response, "refreshToken", tokens.refreshToken(), 180);
 		return ResponseEntity
 			.ok()
