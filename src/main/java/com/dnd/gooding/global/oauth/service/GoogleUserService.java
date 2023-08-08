@@ -1,5 +1,7 @@
 package com.dnd.gooding.global.oauth.service;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,8 +16,10 @@ import com.dnd.gooding.domain.user.service.UserService;
 import com.dnd.gooding.global.oauth.dto.AuthUserInfo;
 import com.dnd.gooding.global.oauth.dto.GoogleUserInfo;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
+import com.dnd.gooding.global.oauth.dto.response.OAuthResponse;
 import com.dnd.gooding.global.token.dto.Tokens;
 import com.dnd.gooding.global.token.service.TokenService;
+import com.dnd.gooding.global.util.CookieUtil;
 
 @Service
 public class GoogleUserService {
@@ -31,7 +35,9 @@ public class GoogleUserService {
 		this.tokenService = tokenService;
 	}
 
-	public Tokens getAccessToken(String idToken) {
+	public OAuthResponse getAccessToken(
+		HttpServletResponse response,
+		String idToken) {
 		RestTemplate restTemplate = new RestTemplate();
 
 		HttpHeaders headers = new HttpHeaders();
@@ -50,7 +56,8 @@ public class GoogleUserService {
 		if(responseEntity.getStatusCode() == HttpStatus.OK) {
 			AuthUserInfo user = saveUser(responseEntity.getBody());
 			Tokens tokens = tokenService.createTokens(user);
-			return tokens;
+			CookieUtil.addCookie(response, "refreshToken", tokens.refreshToken(), 180);
+			return new OAuthResponse(tokens.accessToken(), user.oauthId());
 		}
 		return null;
 	}
