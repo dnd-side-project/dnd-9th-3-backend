@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 	public AuthUserInfo getOrRegisterUser(OAuthUserInfo oauthUserInfo) {
 		User user = userRepository.findByUserIdByProviderAndOauthId(oauthUserInfo.provider(), oauthUserInfo.oauthId())
 			.orElseGet(() -> save(User.from(oauthUserInfo)));
-		return new AuthUserInfo(user.getId(), DEFAULT_ROLE, user.getNickname());
+		return new AuthUserInfo(user.getId(), DEFAULT_ROLE, user.getNickname(), user.getOauthId());
 	}
 
 	public User save(User user) {

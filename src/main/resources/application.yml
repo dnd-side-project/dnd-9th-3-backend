@@ -7,6 +7,13 @@ spring:
   profiles:
     active:
       - ${ACTIVE_PROFILE}
+    include:
+      - cloud
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
+  file-dir:
 
   # database 설정
   datasource:
@@ -33,9 +40,10 @@ spring:
 #    host: ${REDIS_HOST}
 #    port: ${REDIS_PORT}
 
-logging.level:
-  org.hibernate.SQL: debug
-  org.hibernate.type: trace
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
 
 spring-doc:
   title: Gooding
@@ -55,3 +63,17 @@ jwt:
   expiry-seconds:
     access-token: 1800
     refresh-token: 604800
+---
+spring:
+  environment: "local"
+  config:
+    activate:
+      on-profile: "local"
+  file-dir: /src/main/resources/static/files/
+---
+spring:
+  environment: "development"
+  config:
+    activate:
+      on-profile: "development"
+  file-dir: /home/ec2-user/files/
