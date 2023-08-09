@@ -1,6 +1,8 @@
 package com.dnd.gooding.domain.record.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.dnd.gooding.domain.file.model.File;
 import com.dnd.gooding.domain.user.model.User;
 import com.dnd.gooding.global.common.domain.BaseEntity;
 
@@ -36,14 +40,14 @@ public class Record extends BaseEntity {
 	@Column(name = "record_date", nullable = false)
 	private LocalDateTime recordDate;
 
-	@Column(name = "record_place_title", nullable = false, length = 20)
-	private String recordPlaceTitle;
+	@Column(name = "place_title", nullable = false, length = 20)
+	private String placeTitle;
 
-	@Column(name = "record_place_latitude", nullable = false)
-	private Double recordPlaceLatitude;
+	@Column(name = "place_latitude", nullable = false)
+	private Double placeLatitude;
 
-	@Column(name = "record_place_longitude", nullable = false)
-	private Double recordPlaceLongitude;
+	@Column(name = "place_longitude", nullable = false)
+	private Double placeLongitude;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "record_open", nullable = false)
@@ -55,6 +59,9 @@ public class Record extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	// @OneToMany(mappedBy = "file")	// 주인이 아닌 쪽에 mappedBy
+	// private List<File> files = new ArrayList<>();
 
 	//==연관관계 메서드==//
 	public void setUser(User user) {

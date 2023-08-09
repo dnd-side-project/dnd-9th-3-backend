@@ -38,6 +38,8 @@
         var file = $('#img')[0].files[0];
         var formData = new FormData();
         formData.append('data', file);
+        formData.append('oauthId', '123123123');
+
 
         $.ajax({
             type: 'POST',

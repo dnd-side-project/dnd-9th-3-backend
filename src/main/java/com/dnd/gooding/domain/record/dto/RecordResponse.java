@@ -15,9 +15,9 @@ public class RecordResponse {
 	String title;
 	String description;
 	LocalDateTime recordDate;
-	String recordPlaceTitle;
-	Double recordPlaceLatitude;
-	Double recordPlaceLongitude;
+	String placeTitle;
+	Double placeLatitude;
+	Double placeLongitude;
 	String recordOpen;
 	int recordScore;
 
@@ -27,9 +27,9 @@ public class RecordResponse {
 			.title(record.getTitle())
 			.description(record.getDescription())
 			.recordDate(record.getRecordDate())
-			.recordPlaceTitle(record.getRecordPlaceTitle())
-			.recordPlaceLatitude(record.getRecordPlaceLatitude())
-			.recordPlaceLongitude(record.getRecordPlaceLongitude())
+			.placeTitle(record.getPlaceTitle())
+			.placeLatitude(record.getPlaceLatitude())
+			.placeLongitude(record.getPlaceLongitude())
 			.recordOpen(record.getRecordOpen().name())
 			.recordScore(record.getRecordScore())
 			.build();
