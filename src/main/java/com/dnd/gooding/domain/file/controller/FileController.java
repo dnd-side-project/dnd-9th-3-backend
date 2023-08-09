@@ -24,7 +24,7 @@ public class FileController {
 
 	private final S3UploadService s3UploadService;
 
-	@Operation(summary = "사용자를 검색한다.",
+	@Operation(summary = "이미지를 업로드한다.",
 		responses = {
 			@ApiResponse(responseCode = "200", description = "정상처리")
 	})
