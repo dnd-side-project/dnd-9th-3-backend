@@ -42,17 +42,16 @@ public class RecordController {
 			@ApiResponse(responseCode = "400", description = "파일 변환에 실패했습니다.",
 				content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 		})
-	@PostMapping(value = "/upload")
+	@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Void> upload(
 		@RequestPart("images") List<MultipartFile> images,
 		@RequestPart("videos") List<MultipartFile> videos,
-		@RequestParam("oauthId") String oauthId,
-		@ModelAttribute("uploadRequest") UploadRequest uploadRequest
+		@RequestPart("oauthId") String oauthId,
+		@RequestPart(value = "uploadRequest") UploadRequest uploadRequest
 	) throws IOException {
 		// Record record = recordService.create(oauthId, uploadRequest);
 		// s3UploadService.upload(images, "images", record);
 		// s3UploadService.upload(videos, "videos", record);
-		System.out.println(uploadRequest);
 		return ResponseEntity
 			.status(HttpStatus.CREATED)
 			.build();
