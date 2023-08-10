@@ -1,4 +1,4 @@
-package com.dnd.gooding.global.common.config.aws;
+package com.dnd.gooding.global.config.aws;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

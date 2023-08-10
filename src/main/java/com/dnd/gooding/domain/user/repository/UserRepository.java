@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.dnd.gooding.domain.user.model.User;
 
-public interface UserJpaRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
+public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
 }

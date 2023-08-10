@@ -16,8 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.dnd.gooding.domain.file.model.File;
+import com.dnd.gooding.domain.record.dto.request.UploadRequest;
 import com.dnd.gooding.domain.user.model.User;
-import com.dnd.gooding.global.common.domain.BaseEntity;
+import com.dnd.gooding.global.common.model.BaseEntity;
 
 import lombok.Getter;
 
@@ -54,14 +55,14 @@ public class Record extends BaseEntity {
 	private RecordOpenStatus recordOpen;
 
 	@Column(name = "record_score", nullable = false)
-	private int recordScore;
+	private Integer recordScore;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	// @OneToMany(mappedBy = "file")	// 주인이 아닌 쪽에 mappedBy
-	// private List<File> files = new ArrayList<>();
+	@OneToMany(mappedBy = "record")	// 주인이 아닌 쪽에 mappedBy
+	private List<File> files = new ArrayList<>();
 
 	//==연관관계 메서드==//
 	public void setUser(User user) {
@@ -69,9 +70,16 @@ public class Record extends BaseEntity {
 		user.getRecords().add(this);
 	}
 
-	//==생성 메서드==//
-	public static Record createRecord(User user) {
+	public static Record create(UploadRequest uploadRequest, User user) {
 		Record record = new Record();
+		record.title = uploadRequest.getTitle();
+		// record.description = uploadRequest.description();
+		// record.recordDate = uploadRequest.recordDate();
+		// record.placeTitle = uploadRequest.placeTitle();
+		// record.placeLatitude = uploadRequest.placeLatitude();
+		// record.placeLongitude = uploadRequest.placeLongitude();
+		// record.recordOpen = uploadRequest.recordOpen();
+		// record.recordScore = uploadRequest.recordScore();
 		record.setUser(user);
 		return record;
 	}

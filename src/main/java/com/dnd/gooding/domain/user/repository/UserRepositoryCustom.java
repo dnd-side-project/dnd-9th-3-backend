@@ -7,4 +7,5 @@ import com.dnd.gooding.domain.user.model.User;
 public interface UserRepositoryCustom {
 
 	Optional<User> findByUserIdByProviderAndOauthId(String provider, String oauthId);
+	Optional<User> findByOauthId(String oauthId);
 }

@@ -8,9 +8,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.dnd.gooding.domain.file.dto.FileCreate;
 import com.dnd.gooding.domain.record.model.Record;
 import com.dnd.gooding.domain.user.model.User;
-import com.dnd.gooding.global.common.domain.BaseEntity;
+import com.dnd.gooding.global.common.model.BaseEntity;
 
 import lombok.Getter;
 
@@ -36,16 +37,32 @@ public class File extends BaseEntity {
 	@Column(name = "new_name", nullable = false, length = 100)
 	private String newName;
 
-	@Column(name = "oauth_id", nullable = false)
-	private String oauthId;
-
 	@ManyToOne
-	@JoinColumn(name = "oauth_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
+	@ManyToOne
+	@JoinColumn(name = "record_id")
+	private Record record;
+
 	//==연관관계 메서드==//
-	public void setUser(User user) {
+	private void setUser(User user) {
 		this.user = user;
 		user.getFiles().add(this);
+	}
+	private void setRecord(Record record) {
+		this.record = record;
+		record.getFiles().add(this);
+	}
+
+	public static File create(FileCreate fileCreate, Record record) {
+		File file = new File();
+		file.extension = fileCreate.getExtension();
+		file.fileUrl = fileCreate.getFileUrl();
+		file.originName = fileCreate.getOriginName();
+		file.newName = fileCreate.getNewName();
+		file.setUser(record.getUser());
+		file.setRecord(record);
+		return file;
 	}
 }

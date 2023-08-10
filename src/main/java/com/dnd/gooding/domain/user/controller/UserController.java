@@ -35,8 +35,7 @@ public class UserController {
 	})
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserProfileResponse> getById(
-			@Parameter(description = "사용자 아이디") @PathVariable Long id
-	) {
+			@Parameter(description = "사용자 아이디") @PathVariable Long id) {
 		return ResponseEntity
 			.ok()
 			.body(userService.getById(id));

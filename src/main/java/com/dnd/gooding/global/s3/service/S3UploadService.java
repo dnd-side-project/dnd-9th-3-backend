@@ -16,6 +16,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.dnd.gooding.domain.file.dto.FileCreate;
 import com.dnd.gooding.domain.file.service.FileService;
+import com.dnd.gooding.domain.record.model.Record;
 import com.dnd.gooding.global.s3.exception.IllegalArgumentS3Exception;
 
 import lombok.RequiredArgsConstructor;
@@ -36,9 +37,12 @@ public class S3UploadService {
 	@Value("${spring.file-dir}")
 	private String basicDir;
 
-	public void upload(List<MultipartFile> files, String dirName, String oauthId) throws IOException {
+	public void upload(List<MultipartFile> files, String dirName, Record record) throws IOException {
 		for(MultipartFile file : files) {
-			FileCreate fileCreate = upload(file, dirName);
+			if(!file.isEmpty()) {
+				FileCreate fileCreate = upload(file, dirName);
+				fileService.upload(fileCreate, record);
+			}
 		}
 	}
 

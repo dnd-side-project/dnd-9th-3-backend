@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 import com.dnd.gooding.domain.file.model.File;
 import com.dnd.gooding.domain.record.model.Record;
-import com.dnd.gooding.global.common.domain.BaseEntity;
+import com.dnd.gooding.global.common.model.BaseEntity;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
 
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class User extends BaseEntity {
 	@Column(name = "oauth_id", nullable = false)
 	private String oauthId;
 
-	@OneToMany(mappedBy = "file")
+	@OneToMany(mappedBy = "user")
 	private List<File> files = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user")	// 주인이 아닌 쪽에 mappedBy

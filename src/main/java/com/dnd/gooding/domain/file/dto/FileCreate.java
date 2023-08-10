@@ -13,7 +13,6 @@ import lombok.Getter;
 @Getter
 public class FileCreate {
 
-	private String fileDc;
 	private Long fileSequence;
 	private String extension;
 	private String fileUrl;

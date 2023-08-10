@@ -27,6 +27,15 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 				.fetchOne());
 	}
 
+	@Override
+	public Optional<User> findByOauthId(String oauthId) {
+		return Optional.ofNullable(
+			queryFactory
+				.selectFrom(user)
+				.where(oauthIdEquals(oauthId))
+				.fetchOne());
+	}
+
 	private BooleanExpression providerEquals(String provider) {
 		return user.provider.eq(provider);
 	}

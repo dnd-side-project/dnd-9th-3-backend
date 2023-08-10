@@ -1,7 +1,8 @@
 package com.dnd.gooding.domain.file.service;
 
-import org.springframework.stereotype.Service;
+import com.dnd.gooding.domain.file.dto.FileCreate;
+import com.dnd.gooding.domain.record.model.Record;
 
-@Service
-public class FileService {
+public interface FileService {
+	void upload(FileCreate fileCreate, Record record);
 }
