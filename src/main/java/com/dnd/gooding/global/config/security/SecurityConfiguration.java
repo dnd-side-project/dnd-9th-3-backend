@@ -1,4 +1,4 @@
-package com.dnd.gooding.global.common.config.security;
+package com.dnd.gooding.global.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,7 +31,7 @@ public class SecurityConfiguration {
 			.authorizeHttpRequests()
 			.antMatchers("/", "/health-check","/api/v1/tokens/temporary").permitAll()
 			.antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-			.antMatchers("/oauth/**", "/image").permitAll()
+			.antMatchers("/oauth/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic().disable()

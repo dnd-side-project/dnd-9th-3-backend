@@ -17,10 +17,6 @@ public class GoodingApplication {
 	@Value("${spring.file-dir}")
 	private String fileDir;
 
-	public static void main(String[] args) {
-		SpringApplication.run(GoodingApplication.class, args);
-	}
-
 	@PostConstruct
 	private void init() {
 		if (environment.equals("local")) {
@@ -33,6 +29,10 @@ public class GoodingApplication {
 			String filesFolder = "/home/ec2-user/files";
 			mkdirResource(filesFolder);
 		}
+	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(GoodingApplication.class, args);
 	}
 
 	private static void mkdirResource(String fileDir) {

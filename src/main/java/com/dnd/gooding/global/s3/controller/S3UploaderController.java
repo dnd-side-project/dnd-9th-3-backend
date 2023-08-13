@@ -13,4 +13,14 @@ public class S3UploaderController {
 	public String image() {
 		return "image-upload";
 	}
+
+	@GetMapping("/video")
+	public String video() {
+		return "video-upload";
+	}
+
+	@GetMapping("/v2/video")
+	public String multipartS3() {
+		return "multipart-upload-s3";
+	}
 }

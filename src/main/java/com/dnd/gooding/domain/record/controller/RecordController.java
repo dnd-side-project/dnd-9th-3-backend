@@ -1,16 +1,30 @@
 package com.dnd.gooding.domain.record.controller;
 
+import java.io.IOException;
+import java.util.List;
+
+import com.dnd.gooding.domain.record.dto.response.MyRecordResponse;
+import com.dnd.gooding.domain.record.model.Record;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.dnd.gooding.domain.record.dto.RecordResponse;
+import com.dnd.gooding.domain.record.dto.request.UploadRequest;
 import com.dnd.gooding.domain.record.service.RecordService;
+import com.dnd.gooding.global.common.dto.ErrorResponse;
+import com.dnd.gooding.global.s3.service.S3UploadService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+
+import javax.validation.Valid;
 
 @Tag(name = "Record", description = "기록 API")
 @RestController
@@ -19,9 +33,41 @@ import lombok.RequiredArgsConstructor;
 public class RecordController {
 
 	private final RecordService recordService;
+	private final S3UploadService s3UploadService;
 
-	@GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<RecordResponse> getById() {
-		return null;
+	@Operation(summary = "나의 기록 내용을 조회한다.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "정상처리"),
+					@ApiResponse(responseCode = "404", description = "존재하지 않는 사용자입니다.",
+							content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+			})
+	@GetMapping(value = "/my-record", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<MyRecordResponse>> myRecord(
+			@RequestParam("userId") Long userId) {
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(recordService.findByUserId(userId));
+	}
+
+	@Transactional
+	@Operation(summary = "기록 내용을 업로드한다.",
+		responses = {
+			@ApiResponse(responseCode = "201", description = "정상처리"),
+			@ApiResponse(responseCode = "400", description = "파일 변환에 실패했습니다.",
+				content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+		})
+	@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Void> upload(
+		@RequestPart("images") List<MultipartFile> images,
+		@RequestPart("videos") List<MultipartFile> videos,
+		@RequestPart("oauthId") @Valid String oauthId,
+		@RequestPart("uploadRequest") UploadRequest uploadRequest
+	) throws IOException {
+		 Record record = recordService.create(oauthId, uploadRequest);
+		 s3UploadService.upload(images, "images", record);
+		 s3UploadService.upload(videos, "videos", record);
+		return ResponseEntity
+			.status(HttpStatus.CREATED)
+			.build();
 	}
 }

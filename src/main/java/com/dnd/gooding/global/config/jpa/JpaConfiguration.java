@@ -1,4 +1,4 @@
-package com.dnd.gooding.global.common.config.jpa;
+package com.dnd.gooding.global.config.jpa;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

@@ -1,4 +1,4 @@
-package com.dnd.gooding.global.common.config.docs;
+package com.dnd.gooding.global.config.docs;
 
 import static org.springframework.http.HttpHeaders.*;
 
@@ -54,17 +54,27 @@ public class SwaggerConfiguration {
 			.build();
 	}
 
-	@Bean GroupedOpenApi tokenGroup() {
+	@Bean
+	public GroupedOpenApi tokenGroup() {
 		return GroupedOpenApi.builder()
 			.group("Token")
 			.pathsToMatch("/api/v1/tokens/**")
 			.build();
 	}
 
-	@Bean GroupedOpenApi oauthGroup() {
+	@Bean
+	public GroupedOpenApi oauthGroup() {
 		return GroupedOpenApi.builder()
 			.group("OAuth")
 			.pathsToMatch("/oauth/**")
+			.build();
+	}
+
+	@Bean
+	public GroupedOpenApi recordGroup() {
+		return GroupedOpenApi.builder()
+			.group("Record")
+			.pathsToMatch("/api/v1/record/**")
 			.build();
 	}
 }

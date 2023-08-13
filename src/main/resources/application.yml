@@ -13,7 +13,6 @@ spring:
     multipart:
       max-file-size: 1GB
       max-request-size: 1GB
-  file-dir:
 
   # database 설정
   datasource:

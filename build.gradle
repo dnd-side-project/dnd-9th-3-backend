@@ -36,7 +36,7 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.9'
-    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.code.gson:gson:2.10.1'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     // Swagger
@@ -45,10 +45,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     // AWS
-    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
-    // aws-sdk-java-v2 (s3에 Multipart 업로드를 위함)
-    implementation platform('software.amazon.awssdk:bom:2.20.26')
+    implementation platform('software.amazon.awssdk:bom:2.17.53')
     implementation 'software.amazon.awssdk:s3'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -67,7 +66,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     // Embedded Redis
-    testImplementation 'it.ozimov:embedded-redis:0.7.2'
+    testImplementation 'it.ozimov:embedded-redis:0.7.3'
 }
 dependencyManagement {
     imports {

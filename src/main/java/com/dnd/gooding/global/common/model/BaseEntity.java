@@ -1,4 +1,4 @@
-package com.dnd.gooding.global.common.domain;
+package com.dnd.gooding.global.common.model;
 
 import java.time.LocalDateTime;
 

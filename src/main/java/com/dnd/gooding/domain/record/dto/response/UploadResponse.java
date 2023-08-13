@@ -1,4 +1,4 @@
-package com.dnd.gooding.domain.record.dto;
+package com.dnd.gooding.domain.record.dto.response;
 
 import java.time.LocalDateTime;
 
@@ -9,27 +9,27 @@ import lombok.Builder;
 
 @Builder
 @Schema(description = "기록 정보")
-public class RecordResponse {
+public class UploadResponse {
 
 	Long id;
 	String title;
 	String description;
 	LocalDateTime recordDate;
-	String recordPlaceTitle;
-	Double recordPlaceLatitude;
-	Double recordPlaceLongitude;
+	String placeTitle;
+	Double placeLatitude;
+	Double placeLongitude;
 	String recordOpen;
 	int recordScore;
 
-	public static RecordResponse from(Record record) {
-		return RecordResponse.builder()
+	public static UploadResponse from(Record record) {
+		return UploadResponse.builder()
 			.id(record.getId())
 			.title(record.getTitle())
 			.description(record.getDescription())
 			.recordDate(record.getRecordDate())
-			.recordPlaceTitle(record.getRecordPlaceTitle())
-			.recordPlaceLatitude(record.getRecordPlaceLatitude())
-			.recordPlaceLongitude(record.getRecordPlaceLongitude())
+			.placeTitle(record.getPlaceTitle())
+			.placeLatitude(record.getPlaceLatitude())
+			.placeLongitude(record.getPlaceLongitude())
 			.recordOpen(record.getRecordOpen().name())
 			.recordScore(record.getRecordScore())
 			.build();

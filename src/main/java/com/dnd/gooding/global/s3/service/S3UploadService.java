@@ -2,20 +2,23 @@ package com.dnd.gooding.global.s3.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.PostConstruct;
-
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.dnd.gooding.domain.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.dnd.gooding.domain.file.dto.FileCreate;
+import com.dnd.gooding.domain.file.service.FileService;
+import com.dnd.gooding.domain.record.model.Record;
+import com.dnd.gooding.global.s3.exception.IllegalArgumentS3Exception;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,44 +27,44 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class S3UploadService {
-
 	private final Logger logger = LoggerFactory.getLogger(S3UploadService.class);
 
+	private final AmazonS3Client amazonS3Client;
+	private final FileService fileService;
+	@Value("${cloud.aws.s3.bucket}")
+	private String bucket;
 	@Value("${spring.environment}")
 	private String environment;
 	@Value("${spring.file-dir}")
 	private String basicDir;
-	private String fileDir;
 
-	private final AmazonS3Client amazonS3Client;
+	public String userImageUpload(MultipartFile profileImage, User user) throws IOException {
+		if (!profileImage.isEmpty()) {
+			FileCreate fileCreate = upload(profileImage, "images");
+			return fileService.upload(fileCreate, user);
+		}
+		return null;
+	}
 
-	@PostConstruct
-	private void init() {
-		if ("local".equals(environment)) {
-			this.fileDir = System.getProperty("user.dir") + this.basicDir;
-		} else if ("development".equals(environment)) {
-			this.fileDir = basicDir;
+	public void upload(List<MultipartFile> files, String dirName, Record record) throws IOException {
+		for(MultipartFile file : files) {
+			if(!file.isEmpty()) {
+				FileCreate fileCreate = upload(file, dirName);
+				fileService.upload(fileCreate, record);
+			}
 		}
 	}
 
-	public String upload(MultipartFile multipartFile, String bucket, String dirName, String ouathId) throws IOException {
-		File uploadFile = convert(multipartFile, ouathId)
-			.orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
-		return upload(uploadFile, bucket, dirName);
-	}
+	private FileCreate upload(MultipartFile multipartFile, String dirName) throws IOException {
+		FileCreate fileCreate = new FileCreate(environment, basicDir);
 
-	/**
-	 * S3로 파일 업로드
-	 * @param uploadFile
-	 * @param bucket
-	 * @param dirName
-	 * @return
-	 */
-	private String upload(File uploadFile, String bucket, String dirName) {
-		String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName();
-		String uploadImageUrl = putS3(uploadFile, bucket, fileName);
+		File uploadFile = fileCreate.convert(multipartFile)  // 파일 변환할 수 없으면 에러
+			.orElseThrow(() -> new IllegalArgumentS3Exception(multipartFile.getName()));
+
+		String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
+		String fileUrl = putS3(uploadFile, bucket, fileName); // s3로 업로드
 		removeNewFile(uploadFile);
-		return uploadImageUrl;
+		return fileCreate.create(fileUrl);
 	}
 
 	/**
@@ -83,47 +86,5 @@ public class S3UploadService {
 			return;
 		}
 		logger.info("[S3UploadService] removeNewFile : File delete fail");
-	}
-
-	/**
-	 * 로컬에 파일 저장하기
-	 * @param multipartFile
-	 * @return
-	 */
-	private Optional<File> convert(MultipartFile multipartFile, String ouathId) throws IOException {
-		if (multipartFile.isEmpty()) {
-			return Optional.empty();
-		}
-
-		String originalFileName = multipartFile.getOriginalFilename();
-		String storeFileName = createStoreFileName(originalFileName);
-
-		File file = new File(fileDir + storeFileName);
-		multipartFile.transferTo(file);
-
-		return Optional.of(file);
-	}
-
-	/**
-	 * 파일이름 생성
-	 * @description 파일 이름이 이미 업로드된 파일들과 겹치지 않게 UUID를 사용한다.
-	 * @param originalFileName
-	 * @return
-	 */
-	private String createStoreFileName(String originalFileName) {
-		String extension = extractExtension(originalFileName);
-		String uuid = UUID.randomUUID().toString();
-		return uuid + "." + extension;
-	}
-
-	/**
-	 * 확장자 추출
-	 * @description 사용자가 업로드한 파일에서 확장자를 추출한다.
-	 * @param originalFileName
-	 * @return
-	 */
-	private String extractExtension(String originalFileName) {
-		int index = originalFileName.lastIndexOf(".");
-		return originalFileName.substring(index + 1);
 	}
 }
