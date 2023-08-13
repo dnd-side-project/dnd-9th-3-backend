@@ -6,6 +6,6 @@ cloud:
     region:
       static: ap-northeast-2
     s3:
-      bucket: dnd9th-3
+      bucket: ${S3_BUCKET_NAME}
     stack:
       auto: false

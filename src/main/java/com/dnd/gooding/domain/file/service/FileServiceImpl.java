@@ -1,5 +1,6 @@
 package com.dnd.gooding.domain.file.service;
 
+import com.dnd.gooding.domain.user.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +19,13 @@ public class FileServiceImpl implements FileService {
 
 	private final FileRepository fileRepository;
 
-	@Transactional
+	@Override
+	public String upload(FileCreate fileCreate, User user) {
+		File file = File.create(fileCreate, user);
+		fileRepository.save(file);
+		return file.getFileUrl();
+	}
+
 	@Override
 	public void upload(FileCreate fileCreate, Record record) {
 		File file = File.create(fileCreate, record);

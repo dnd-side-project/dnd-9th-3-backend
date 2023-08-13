@@ -1,6 +1,6 @@
 package com.dnd.gooding.domain.user.repository;
 
-import static com.dnd.gooding.domain.user.model.QUser.*;
+import static com.dnd.gooding.domain.user.model.QUser.user;
 
 import java.util.Optional;
 
@@ -12,9 +12,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 public class UserRepositoryImpl implements UserRepositoryCustom {
 
+	private final EntityManager em;
 	private final JPAQueryFactory queryFactory;
 
 	public UserRepositoryImpl(EntityManager em) {
+		this.em = em;
 		this.queryFactory = new JPAQueryFactory(em);
 	}
 
@@ -34,6 +36,32 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 				.selectFrom(user)
 				.where(oauthIdEquals(oauthId))
 				.fetchOne());
+	}
+
+	@Override
+	public void profileImageUpdate(User updateUser, String profileImageUrl) {
+		Long count = queryFactory
+				.update(user)
+				.set(user.profileImgUrl, profileImageUrl)
+				.where(userIdEquals(updateUser.getId()))
+				.execute();
+		em.flush();
+		em.clear();
+	}
+
+	@Override
+	public void nickNameUpdate(User updateUser, String nickName) {
+		Long count = queryFactory
+				.update(user)
+				.set(user.nickname, nickName)
+				.where(userIdEquals(updateUser.getId()))
+				.execute();
+		em.flush();
+		em.clear();
+	}
+
+	private BooleanExpression userIdEquals(Long userId) {
+		return user.id.eq(userId);
 	}
 
 	private BooleanExpression providerEquals(String provider) {

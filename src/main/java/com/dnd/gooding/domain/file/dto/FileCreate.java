@@ -12,8 +12,6 @@ import lombok.Getter;
 
 @Getter
 public class FileCreate {
-
-	private Long fileSequence;
 	private String extension;
 	private String fileUrl;
 	private String originName;

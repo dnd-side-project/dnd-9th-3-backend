@@ -1,35 +1,35 @@
 package com.dnd.gooding.domain.file.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.dnd.gooding.domain.file.dto.FileCreate;
 import com.dnd.gooding.domain.record.model.Record;
 import com.dnd.gooding.domain.user.model.User;
 import com.dnd.gooding.global.common.model.BaseEntity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "file")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class File extends BaseEntity {
 
 	@Id
 	@Column(name = "file_id")
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "extension", nullable = false, length = 20)
 	private String extension;
 
-	@Column(name = "file_url", nullable = false, length = 100)
+	@Column(name = "file_url", nullable = false)
 	private String fileUrl;
+
+	@Column(name = "file_size", nullable = false)
+	private Long fileSize;
 
 	@Column(name = "origin_name", nullable = false, length = 100)
 	private String originName;
@@ -37,11 +37,11 @@ public class File extends BaseEntity {
 	@Column(name = "new_name", nullable = false, length = 100)
 	private String newName;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "record_id")
 	private Record record;
 
@@ -55,10 +55,22 @@ public class File extends BaseEntity {
 		record.getFiles().add(this);
 	}
 
+	public static File create(FileCreate fileCreate, User user) {
+		File file = new File();
+		file.extension = fileCreate.getExtension();
+		file.fileUrl = fileCreate.getFileUrl();
+		file.fileSize = fileCreate.getFileSize();
+		file.originName = fileCreate.getOriginName();
+		file.newName = fileCreate.getNewName();
+		file.setUser(user);
+		return file;
+	}
+
 	public static File create(FileCreate fileCreate, Record record) {
 		File file = new File();
 		file.extension = fileCreate.getExtension();
 		file.fileUrl = fileCreate.getFileUrl();
+		file.fileSize = fileCreate.getFileSize();
 		file.originName = fileCreate.getOriginName();
 		file.newName = fileCreate.getNewName();
 		file.setUser(record.getUser());

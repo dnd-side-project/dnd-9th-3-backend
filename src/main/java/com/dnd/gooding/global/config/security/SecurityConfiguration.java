@@ -31,7 +31,7 @@ public class SecurityConfiguration {
 			.authorizeHttpRequests()
 			.antMatchers("/", "/health-check","/api/v1/tokens/temporary").permitAll()
 			.antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-			.antMatchers("/oauth/**", "/api/v1/record/upload").permitAll()
+			.antMatchers("/oauth/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic().disable()

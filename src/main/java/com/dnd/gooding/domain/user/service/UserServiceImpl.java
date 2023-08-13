@@ -1,9 +1,9 @@
 package com.dnd.gooding.domain.user.service;
 
+import com.dnd.gooding.global.s3.service.S3UploadService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dnd.gooding.domain.user.dto.request.UpdateUserRequest;
 import com.dnd.gooding.domain.user.dto.response.UserProfileResponse;
 import com.dnd.gooding.domain.user.exception.UserNotFoundException;
 import com.dnd.gooding.domain.user.model.User;
@@ -12,6 +12,11 @@ import com.dnd.gooding.global.oauth.dto.AuthUserInfo;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+
+import static org.springframework.util.StringUtils.hasText;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 
 	public static final String DEFAULT_ROLE = "ROLE_USER";
-
+	private final S3UploadService s3UploadService;
 	private final UserRepository userRepository;
 
 	@Transactional
@@ -31,10 +36,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserProfileResponse getById(Long userId) {
+	public UserProfileResponse getByOauthId(String oauthId) {
 		return UserProfileResponse.from(
-			userRepository.findById(userId)
-				.orElseThrow(() -> new UserNotFoundException(userId))
+			userRepository.findByOauthId(oauthId)
+				.orElseThrow(() -> new UserNotFoundException(oauthId))
 		);
 	}
 
@@ -44,13 +49,27 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
-	@Override
-	public UserProfileResponse updateUserProfile(UpdateUserRequest updateUserRequest, Long userId) {
-		return null;
-	}
-
+	@Transactional
 	@Override
 	public void delete(Long userId, String refreshToken) {
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new UserNotFoundException(userId));
+		userRepository.delete(user);
+	}
+
+	@Transactional
+	@Override
+	public void update(Long userId, String nickName, MultipartFile profileImage) throws IOException {
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new UserNotFoundException(userId));
+		if (!profileImage.isEmpty()) {
+			String profileImageUrl =
+					s3UploadService.userImageUpload(profileImage, user);
+			userRepository.profileImageUpdate(user, profileImageUrl);
+		}
+		if (hasText(nickName)) {
+			userRepository.nickNameUpdate(user, nickName);
+		}
 	}
 
 }

@@ -8,4 +8,6 @@ public interface UserRepositoryCustom {
 
 	Optional<User> findByUserIdByProviderAndOauthId(String provider, String oauthId);
 	Optional<User> findByOauthId(String oauthId);
+	void profileImageUpdate(User updateUser, String profileImageUrl);
+	void nickNameUpdate(User updateUser, String nickName);
 }
