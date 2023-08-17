@@ -1,9 +1,13 @@
 package com.dnd.gooding.global.s3.service;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+
+import javax.imageio.ImageIO;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -62,9 +66,24 @@ public class S3UploadService {
 			.orElseThrow(() -> new IllegalArgumentS3Exception(multipartFile.getName()));
 
 		String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
+
 		String fileUrl = putS3(uploadFile, bucket, fileName); // s3로 업로드
+
+		// String fileDir = "";
+		// if ("local".equals(environment)) {
+		// 	fileDir = System.getProperty("user.dir") + basicDir;
+		// } else if ("development".equals(environment)) {
+		// 	fileDir = basicDir;
+		// }
+		// String tPath = fileDir + basicDir + "thumbnail/" + uploadFile.getName();
+		// File thumbnailFile = imageThumbnail(uploadFile, tPath);
+		// tPath = dirName + "/thumbnail/" + uploadFile.getName();
+		// String thumbnailUrl = putS3(thumbnailFile, bucket, tPath);
+
 		removeNewFile(uploadFile);
-		return fileCreate.create(fileUrl);
+		// removeNewFile(thumbnailFile);
+
+		return fileCreate.create(fileUrl, null);
 	}
 
 	/**
@@ -86,5 +105,22 @@ public class S3UploadService {
 			return;
 		}
 		logger.info("[S3UploadService] removeNewFile : File delete fail");
+	}
+
+	private File imageThumbnail(File uploadFile, String tPath) throws IOException {
+		File tFile = new File(tPath);
+		double ratio = 2;
+		BufferedImage oImage = ImageIO.read(uploadFile);
+		int tWidth = (int)(oImage.getWidth() / ratio);
+		int tHeight = (int)(oImage.getHeight() / ratio);
+
+		BufferedImage tImage = new BufferedImage(tWidth, tHeight, BufferedImage.TYPE_3BYTE_BGR);
+		Graphics2D graphics2D = tImage.createGraphics();
+		Image image = oImage.getScaledInstance(tWidth, tHeight, Image.SCALE_SMOOTH);
+		graphics2D.drawImage(image, 0, 0, tWidth, tHeight, null);
+		graphics2D.dispose();
+
+		ImageIO.write(tImage, "jpg", tFile);
+		return tFile;
 	}
 }
