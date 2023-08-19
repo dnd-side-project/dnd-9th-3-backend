@@ -28,6 +28,9 @@ public class File extends BaseEntity {
 	@Column(name = "file_url", nullable = false)
 	private String fileUrl;
 
+	@Column(name = "thumbnail_url")
+	private String thumbnailUrl;
+
 	@Column(name = "file_size", nullable = false)
 	private Long fileSize;
 
@@ -59,6 +62,7 @@ public class File extends BaseEntity {
 		File file = new File();
 		file.extension = fileCreate.getExtension();
 		file.fileUrl = fileCreate.getFileUrl();
+		file.thumbnailUrl = fileCreate.getThumbnailUrl();
 		file.fileSize = fileCreate.getFileSize();
 		file.originName = fileCreate.getOriginName();
 		file.newName = fileCreate.getNewName();
@@ -70,6 +74,7 @@ public class File extends BaseEntity {
 		File file = new File();
 		file.extension = fileCreate.getExtension();
 		file.fileUrl = fileCreate.getFileUrl();
+		file.thumbnailUrl = fileCreate.getThumbnailUrl();
 		file.fileSize = fileCreate.getFileSize();
 		file.originName = fileCreate.getOriginName();
 		file.newName = fileCreate.getNewName();

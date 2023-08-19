@@ -2,7 +2,6 @@ package com.dnd.gooding.domain.file.service;
 
 import com.dnd.gooding.domain.user.model.User;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.dnd.gooding.domain.file.dto.FileCreate;
 import com.dnd.gooding.domain.file.model.File;

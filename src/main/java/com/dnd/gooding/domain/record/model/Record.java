@@ -29,19 +29,19 @@ public class Record extends BaseEntity {
 	@Column(name = "title", nullable = false, length = 20)
 	private String title;
 
-	@Column(name = "description", nullable = false, length = 100)
+	@Column(name = "description", length = 100)
 	private String description;
 
 	@Column(name = "record_date", nullable = false)
 	private LocalDateTime recordDate;
 
-	@Column(name = "place_title", nullable = false, length = 20)
+	@Column(name = "place_title", length = 20)
 	private String placeTitle;
 
-	@Column(name = "place_latitude", nullable = false)
+	@Column(name = "place_latitude")
 	private Double placeLatitude;
 
-	@Column(name = "place_longitude", nullable = false)
+	@Column(name = "place_longitude")
 	private Double placeLongitude;
 
 	@Enumerated(EnumType.STRING)

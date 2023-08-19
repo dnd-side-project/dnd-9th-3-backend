@@ -10,9 +10,11 @@ public class RecordFileResponse {
 
     private Long id;
     private String fileUrl;
+    private String thumbnailUrl;
 
     public RecordFileResponse(File file) {
         this.id = file.getId();
         this.fileUrl = file.getFileUrl();
+        this.thumbnailUrl = file.getThumbnailUrl();
     }
 }
