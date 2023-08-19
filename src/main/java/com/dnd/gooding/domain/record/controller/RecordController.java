@@ -58,12 +58,15 @@ public class RecordController {
 		})
 	@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Void> upload(
+		@RequestPart(value = "thumbnail") MultipartFile thumbnail,
+		@RequestPart("thumbnailDirectory") String thumbnailDirectory,
 		@RequestPart(value = "images", required = false) List<MultipartFile> images,
 		@RequestPart(value = "videos", required = false) List<MultipartFile> videos,
 		@RequestPart("oauthId") @Valid String oauthId,
 		@RequestPart("uploadRequest") UploadRequest uploadRequest
 	) throws IOException {
 		 Record record = recordService.create(oauthId, uploadRequest);
+		 s3UploadService.thumbnailUpload(thumbnail, thumbnailDirectory, record);
 		 s3UploadService.upload(images, "images", record);
 		 s3UploadService.upload(videos, "videos", record);
 		return ResponseEntity

@@ -10,12 +10,15 @@ import java.util.Optional;
 
 import static com.dnd.gooding.domain.file.model.QFile.file;
 import static com.dnd.gooding.domain.record.model.QRecord.record;
+import static com.dnd.gooding.domain.user.model.QUser.user;
 
 public class RecordRepositoryImpl implements RecordRepositoryCustom {
 
+    private final EntityManager em;
     private final JPAQueryFactory queryFactory;
 
     public RecordRepositoryImpl(EntityManager em) {
+        this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
     }
 
@@ -27,6 +30,21 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                 .join(record.files, file).fetchJoin()
                 .where(userIdEquals(id))
                 .fetch());
+    }
+
+    @Override
+    public void thumbnailUpdate(Long recordId, String thumbnailUrl) {
+        Long count = queryFactory
+                .update(record)
+                .set(record.thumbnailUrl, thumbnailUrl)
+                .where(recordIdEquals(recordId))
+                .execute();
+        em.flush();
+        em.clear();
+    }
+
+    private BooleanExpression recordIdEquals(Long recordId) {
+        return record.id.eq(recordId);
     }
 
     private BooleanExpression userIdEquals(Long id) {

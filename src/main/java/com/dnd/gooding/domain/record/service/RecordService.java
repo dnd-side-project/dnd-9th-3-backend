@@ -10,4 +10,6 @@ public interface RecordService {
 
 	List<MyRecordResponse> findByUserId(Long userId);
 	Record create(String oauthId, UploadRequest uploadRequest);
+
+	void thumbnailUpdate(Long recordId, String thumbnailUrl);
 }
