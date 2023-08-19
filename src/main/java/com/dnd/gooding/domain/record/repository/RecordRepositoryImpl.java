@@ -1,7 +1,10 @@
 package com.dnd.gooding.domain.record.repository;
 
 import com.dnd.gooding.domain.record.model.Record;
+import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import javax.persistence.EntityManager;
@@ -10,7 +13,6 @@ import java.util.Optional;
 
 import static com.dnd.gooding.domain.file.model.QFile.file;
 import static com.dnd.gooding.domain.record.model.QRecord.record;
-import static com.dnd.gooding.domain.user.model.QUser.user;
 
 public class RecordRepositoryImpl implements RecordRepositoryCustom {
 
@@ -33,6 +35,19 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
     }
 
     @Override
+    public Optional<List<Record>> findRecordByDate(Long userId, String recordDate) {
+        return Optional.ofNullable(queryFactory
+                .select(record).distinct()
+                .from(record)
+                .join(record.files, file).fetchJoin()
+                .where(userIdEquals(userId), recordDateEquals(recordDate))
+                .orderBy(
+                    record.recordDate.desc()
+                )
+                .fetch());
+    }
+
+    @Override
     public Record findByRecordId(Long recordId) {
         return queryFactory
                 .select(record).distinct()
@@ -51,6 +66,15 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                 .execute();
         em.flush();
         em.clear();
+    }
+
+    private BooleanExpression recordDateEquals(String recordDate) {
+        StringTemplate formatDate = Expressions.stringTemplate(
+                "DATE_FORMAT({0}, {1})",
+                record.recordDate,
+                ConstantImpl.create("%Y%m")
+        );
+        return formatDate.eq(recordDate);
     }
 
     private BooleanExpression recordIdEquals(Long recordId) {

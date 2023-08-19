@@ -35,6 +35,16 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	public List<MyRecordResponse> findRecordByDate(Long userId, String recordDate) {
+		List<Record> records = recordRepository.findRecordByDate(userId, recordDate)
+				.orElseThrow(() -> new UserNotFoundException(userId));
+		List<MyRecordResponse> myRecords = records.stream()
+				.map(record -> new MyRecordResponse(record))
+				.collect(Collectors.toList());
+		return myRecords;
+	}
+
+	@Override
 	public Record findByRecordId(Long recordId) {
 		return recordRepository.findByRecordId(recordId);
 	}

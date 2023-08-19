@@ -42,11 +42,26 @@ public class RecordController {
 							content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 			})
 	@GetMapping(value = "/my-record", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<MyRecordResponse>> myRecord(
+	public ResponseEntity<List<MyRecordResponse>> findRecordByUserId(
 			@RequestParam("userId") Long userId) {
 		return ResponseEntity
 				.status(HttpStatus.OK)
 				.body(recordService.findByUserId(userId));
+	}
+
+	@Operation(summary = "날짜별로 기록을 조회한다.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "정상처리"),
+					@ApiResponse(responseCode = "404", description = "존재하지 않는 사용자입니다.",
+							content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+			})
+	@GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<MyRecordResponse>> findRecordByDate(
+			@RequestParam Long userId,
+			@RequestParam String recordDate) {
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(recordService.findRecordByDate(userId, recordDate));
 	}
 
 	@Transactional

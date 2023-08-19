@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface RecordRepositoryCustom {
 
     Optional<List<Record>> findByUserId(Long id);
+    Optional<List<Record>> findRecordByDate(Long recordId, String recordDate);
     Record findByRecordId(Long recordId);
     void thumbnailUpdate(Long recordId, String thumbnailUrl);
 }
