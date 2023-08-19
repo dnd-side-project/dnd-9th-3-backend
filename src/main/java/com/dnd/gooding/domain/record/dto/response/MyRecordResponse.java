@@ -14,11 +14,9 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class MyRecordResponse {
-
     private Long id;
     private String title;
     private String description;
-
     private String thumbnailUrl;
     private LocalDateTime recordDate;
     private String placeTitle;
