@@ -42,4 +42,9 @@ public class RecordServiceImpl implements RecordService {
 		recordRepository.save(record);
 		return record;
 	}
+
+	@Override
+	public void thumbnailUpdate(Long recordId, String thumbnailUrl) {
+		recordRepository.thumbnailUpdate(recordId, thumbnailUrl);
+	}
 }

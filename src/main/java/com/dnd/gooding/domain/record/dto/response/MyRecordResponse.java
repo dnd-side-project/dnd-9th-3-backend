@@ -16,7 +16,10 @@ import java.util.stream.Collectors;
 public class MyRecordResponse {
 
     private Long id;
+    private String title;
     private String description;
+
+    private String thumbnailUrl;
     private LocalDateTime recordDate;
     private String placeTitle;
     private Double placeLatitude;
@@ -27,7 +30,9 @@ public class MyRecordResponse {
 
     public MyRecordResponse(Record record) {
         this.id = record.getId();
+        this.title = record.getTitle();
         this.description = record.getDescription();
+        this.thumbnailUrl = record.getThumbnailUrl();
         this.recordDate = record.getRecordDate();
         this.placeTitle = record.getPlaceTitle();
         this.placeLatitude = record.getPlaceLatitude();

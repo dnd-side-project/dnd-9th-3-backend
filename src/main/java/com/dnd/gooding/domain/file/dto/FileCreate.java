@@ -12,9 +12,9 @@ import lombok.Getter;
 
 @Getter
 public class FileCreate {
+	private Long fileId;
 	private String extension;
 	private String fileUrl;
-	private String thumbnailUrl;
 	private String originName;
 	private String newName;
 	private String fileDir;
@@ -36,7 +36,6 @@ public class FileCreate {
 		this.originName = originName;
 		this.newName = newName;
 		this.fileSize = fileSize;
-		this.thumbnailUrl = thumbnailUrl;
 	}
 
 	public Optional<File> convert(MultipartFile multipartFile) throws IOException {
@@ -59,11 +58,10 @@ public class FileCreate {
 		return Optional.of(file);
 	}
 
-	public FileCreate create(String fileUrl, String thumbnailUrl) {
+	public FileCreate create(String fileUrl) {
 		return FileCreate.builder()
 			.extension(extension)
 			.fileUrl(fileUrl)
-			.thumbnailUrl(thumbnailUrl)
 			.originName(originName)
 			.newName(newName)
 			.fileSize(fileSize)

@@ -55,6 +55,9 @@ public class Record extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private User user;
 
+	@Column(name = "thumbnail_url")
+	private String thumbnailUrl;
+
 	@OneToMany(mappedBy = "record", cascade = CascadeType.ALL)	// 주인이 아닌 쪽에 mappedBy
 	private List<File> files = new ArrayList<>();
 
@@ -67,13 +70,13 @@ public class Record extends BaseEntity {
 	public static Record create(UploadRequest uploadRequest, User user) {
 		Record record = new Record();
 		record.title = uploadRequest.getTitle();
-		 record.description = uploadRequest.getDescription();
-		 record.recordDate = uploadRequest.getRecordDate();
-		 record.placeTitle = uploadRequest.getPlaceTitle();
-		 record.placeLatitude = uploadRequest.getPlaceLatitude();
-		 record.placeLongitude = uploadRequest.getPlaceLongitude();
-		 record.recordOpen = uploadRequest.getRecordOpen();
-		 record.recordScore = uploadRequest.getRecordScore();
+		record.description = uploadRequest.getDescription();
+		record.recordDate = uploadRequest.getRecordDate();
+		record.placeTitle = uploadRequest.getPlaceTitle();
+		record.placeLatitude = uploadRequest.getPlaceLatitude();
+		record.placeLongitude = uploadRequest.getPlaceLongitude();
+		record.recordOpen = uploadRequest.getRecordOpen();
+		record.recordScore = uploadRequest.getRecordScore();
 		record.setUser(user);
 		return record;
 	}

@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.dnd.gooding.domain.record.service.RecordService;
 import com.dnd.gooding.domain.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ public class S3UploadService {
 
 	private final AmazonS3Client amazonS3Client;
 	private final FileService fileService;
+	private final RecordService recordService;
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucket;
 	@Value("${spring.environment}")
@@ -48,6 +50,14 @@ public class S3UploadService {
 			return fileService.upload(fileCreate, user);
 		}
 		return null;
+	}
+
+	public void thumbnailUpload(MultipartFile thumbnail, String thumbnailExtension, Record record) throws IOException {
+		if(!thumbnail.isEmpty()) {
+			FileCreate fileCreate = upload(thumbnail, thumbnailExtension);
+			fileService.upload(fileCreate, record);
+			recordService.thumbnailUpdate(record.getId(), fileCreate.getFileUrl());
+		}
 	}
 
 	public void upload(List<MultipartFile> files, String dirName, Record record) throws IOException {
@@ -66,24 +76,9 @@ public class S3UploadService {
 			.orElseThrow(() -> new IllegalArgumentS3Exception(multipartFile.getName()));
 
 		String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
-
 		String fileUrl = putS3(uploadFile, bucket, fileName); // s3로 업로드
-
-		// String fileDir = "";
-		// if ("local".equals(environment)) {
-		// 	fileDir = System.getProperty("user.dir") + basicDir;
-		// } else if ("development".equals(environment)) {
-		// 	fileDir = basicDir;
-		// }
-		// String tPath = fileDir + basicDir + "thumbnail/" + uploadFile.getName();
-		// File thumbnailFile = imageThumbnail(uploadFile, tPath);
-		// tPath = dirName + "/thumbnail/" + uploadFile.getName();
-		// String thumbnailUrl = putS3(thumbnailFile, bucket, tPath);
-
 		removeNewFile(uploadFile);
-		// removeNewFile(thumbnailFile);
-
-		return fileCreate.create(fileUrl, null);
+		return fileCreate.create(fileUrl);
 	}
 
 	/**
