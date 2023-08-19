@@ -10,6 +10,7 @@ import com.dnd.gooding.domain.record.model.Record;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -18,6 +19,7 @@ public class FileServiceImpl implements FileService {
 
 	private final FileRepository fileRepository;
 
+	@Transactional
 	@Override
 	public String upload(FileCreate fileCreate, User user) {
 		File file = File.create(fileCreate, user);
@@ -25,6 +27,7 @@ public class FileServiceImpl implements FileService {
 		return file.getFileUrl();
 	}
 
+	@Transactional
 	@Override
 	public void upload(FileCreate fileCreate, Record record) {
 		File file = File.create(fileCreate, record);

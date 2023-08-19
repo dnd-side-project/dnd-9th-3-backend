@@ -9,6 +9,8 @@ import java.util.List;
 public interface RecordService {
 
 	List<MyRecordResponse> findByUserId(Long userId);
+
+	Record findByRecordId(Long recordId);
 	Record create(String oauthId, UploadRequest uploadRequest);
 
 	void thumbnailUpdate(Long recordId, String thumbnailUrl);

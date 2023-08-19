@@ -35,6 +35,11 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
+	public Record findByRecordId(Long recordId) {
+		return recordRepository.findByRecordId(recordId);
+	}
+
+	@Override
 	public Record create(String oauthId, UploadRequest uploadRequest) {
 		User user = userRepository.findByOauthId(oauthId)
 			.orElseThrow(() -> new UserNotFoundException(oauthId));

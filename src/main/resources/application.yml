@@ -11,8 +11,8 @@ spring:
       - cloud
   servlet:
     multipart:
-      max-file-size: 1GB
-      max-request-size: 1GB
+      max-file-size: 5GB
+      max-request-size: 5GB
 
   # database 설정
   datasource:
