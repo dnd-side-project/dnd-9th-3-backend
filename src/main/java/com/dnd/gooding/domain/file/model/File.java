@@ -28,7 +28,7 @@ public class File extends BaseEntity {
 	@Column(name = "file_url", nullable = false)
 	private String fileUrl;
 
-	@Column(name = "thumbnail_url", nullable = false)
+	@Column(name = "thumbnail_url")
 	private String thumbnailUrl;
 
 	@Column(name = "file_size", nullable = false)

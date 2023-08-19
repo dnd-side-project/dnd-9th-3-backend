@@ -58,8 +58,8 @@ public class RecordController {
 		})
 	@PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Void> upload(
-		@RequestPart("images") List<MultipartFile> images,
-		@RequestPart("videos") List<MultipartFile> videos,
+		@RequestPart(value = "images", required = false) List<MultipartFile> images,
+		@RequestPart(value = "videos", required = false) List<MultipartFile> videos,
 		@RequestPart("oauthId") @Valid String oauthId,
 		@RequestPart("uploadRequest") UploadRequest uploadRequest
 	) throws IOException {
