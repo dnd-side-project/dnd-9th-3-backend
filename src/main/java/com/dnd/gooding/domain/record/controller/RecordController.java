@@ -67,7 +67,9 @@ public class RecordController {
 	) throws IOException {
 		 Record record = recordService.create(oauthId, uploadRequest);
 		 s3UploadService.thumbnailUpload(thumbnail, thumbnailDirectory, record);
+		 record = recordService.findByRecordId(record.getId());
 		 s3UploadService.upload(images, "images", record);
+		 record = recordService.findByRecordId(record.getId());
 		 s3UploadService.upload(videos, "videos", record);
 		return ResponseEntity
 			.status(HttpStatus.CREATED)

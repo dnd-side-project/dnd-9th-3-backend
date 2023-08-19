@@ -33,6 +33,16 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
     }
 
     @Override
+    public Record findByRecordId(Long recordId) {
+        return queryFactory
+                .select(record).distinct()
+                .from(record)
+                .join(record.files, file).fetchJoin()
+                .where(recordIdEquals(recordId))
+                .fetchOne();
+    }
+
+    @Override
     public void thumbnailUpdate(Long recordId, String thumbnailUrl) {
         Long count = queryFactory
                 .update(record)

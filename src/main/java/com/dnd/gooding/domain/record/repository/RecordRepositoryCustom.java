@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface RecordRepositoryCustom {
 
     Optional<List<Record>> findByUserId(Long id);
+    Record findByRecordId(Long recordId);
     void thumbnailUpdate(Long recordId, String thumbnailUrl);
 }
