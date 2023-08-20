@@ -10,7 +10,7 @@ public interface RecordService {
 
 	List<MyRecordResponse> findByUserId(Long userId);
 	List<MyRecordResponse> findRecordByDate(Long userId, String recordDate);
-	Record findByRecordId(Long recordId);
+	Record findByRecordId(Long userId, Long recordId);
 	Record create(String oauthId, UploadRequest uploadRequest);
-	void thumbnailUpdate(Long recordId, String thumbnailUrl);
+	void delete(Record record);
 }

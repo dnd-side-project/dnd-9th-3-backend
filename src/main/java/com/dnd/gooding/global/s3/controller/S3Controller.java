@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class S3UploaderController {
+public class S3Controller {
 
 	@GetMapping("/image")
 	public String image() {

@@ -1,5 +1,6 @@
 package com.dnd.gooding.domain.file.service;
 
+import com.dnd.gooding.domain.record.repository.RecordRepository;
 import com.dnd.gooding.domain.user.model.User;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FileServiceImpl implements FileService {
 
 	private final FileRepository fileRepository;
+	private final RecordRepository recordRepository;
 
 	@Transactional
 	@Override
@@ -32,5 +34,11 @@ public class FileServiceImpl implements FileService {
 	public void upload(FileCreate fileCreate, Record record) {
 		File file = File.create(fileCreate, record);
 		fileRepository.save(file);
+	}
+
+	@Transactional
+	@Override
+	public void thumbnailUpdate(Long recordId, String thumbnailUrl) {
+		recordRepository.thumbnailUpdate(recordId, thumbnailUrl);
 	}
 }

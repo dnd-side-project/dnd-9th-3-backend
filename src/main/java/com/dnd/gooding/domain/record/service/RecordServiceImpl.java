@@ -1,6 +1,8 @@
 package com.dnd.gooding.domain.record.service;
 
+import com.dnd.gooding.domain.file.model.File;
 import com.dnd.gooding.domain.record.dto.response.MyRecordResponse;
+import com.dnd.gooding.global.s3.service.S3Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RecordServiceImpl implements RecordService {
 
+	private final S3Service s3Service;
 	private final UserRepository userRepository;
 	private final RecordRepository recordRepository;
 
@@ -45,8 +48,8 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	public Record findByRecordId(Long recordId) {
-		return recordRepository.findByRecordId(recordId);
+	public Record findByRecordId(Long userId, Long recordId) {
+		return recordRepository.findByRecordId(userId, recordId);
 	}
 
 	@Override
@@ -58,8 +61,12 @@ public class RecordServiceImpl implements RecordService {
 		return record;
 	}
 
+	@Transactional
 	@Override
-	public void thumbnailUpdate(Long recordId, String thumbnailUrl) {
-		recordRepository.thumbnailUpdate(recordId, thumbnailUrl);
+	public void delete(Record record) {
+		for(File file : record.getFiles()) {
+			s3Service.delete(file.extractFilePath(file.getFileUrl()));
+		}
+		recordRepository.delete(record);
 	}
 }

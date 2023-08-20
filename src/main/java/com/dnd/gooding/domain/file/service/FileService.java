@@ -8,4 +8,5 @@ public interface FileService {
 
 	String upload(FileCreate fileCreate, User user);
 	void upload(FileCreate fileCreate, Record record);
+	void thumbnailUpdate(Long recordId, String thumbnailUrl);
 }

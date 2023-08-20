@@ -11,8 +11,8 @@ import javax.imageio.ImageIO;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.dnd.gooding.domain.record.service.RecordService;
 import com.dnd.gooding.domain.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,18 +31,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class S3UploadService {
-	private final Logger logger = LoggerFactory.getLogger(S3UploadService.class);
+public class S3Service {
+	private final Logger logger = LoggerFactory.getLogger(S3Service.class);
 
 	private final AmazonS3Client amazonS3Client;
 	private final FileService fileService;
-	private final RecordService recordService;
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucket;
 	@Value("${spring.environment}")
 	private String environment;
 	@Value("${spring.file-dir}")
 	private String basicDir;
+
+	public void delete(String fileKey) {
+		DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, fileKey);
+		amazonS3Client.deleteObject(deleteObjectRequest);
+	}
 
 	public String userImageUpload(MultipartFile profileImage, User user) throws IOException {
 		if (!profileImage.isEmpty()) {
@@ -56,7 +60,7 @@ public class S3UploadService {
 		if(!thumbnail.isEmpty()) {
 			FileCreate fileCreate = upload(thumbnail, thumbnailExtension);
 			fileService.upload(fileCreate, record);
-			recordService.thumbnailUpdate(record.getId(), fileCreate.getFileUrl());
+			fileService.thumbnailUpdate(record.getId(), fileCreate.getFileUrl());
 		}
 	}
 
@@ -81,13 +85,6 @@ public class S3UploadService {
 		return fileCreate.create(fileUrl);
 	}
 
-	/**
-	 * S3로 업로드
-	 * @param uploadFile
-	 * @param bucket
-	 * @param fileName
-	 * @return
-	 */
 	private String putS3(File uploadFile, String bucket, String fileName) {
 		amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(
 			CannedAccessControlList.PublicRead));

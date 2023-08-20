@@ -1,6 +1,6 @@
 package com.dnd.gooding.domain.user.service;
 
-import com.dnd.gooding.global.s3.service.S3UploadService;
+import com.dnd.gooding.global.s3.service.S3Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,7 @@ import static org.springframework.util.StringUtils.hasText;
 public class UserServiceImpl implements UserService {
 
 	public static final String DEFAULT_ROLE = "ROLE_USER";
-	private final S3UploadService s3UploadService;
+	private final S3Service s3Service;
 	private final UserRepository userRepository;
 
 	@Transactional
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 				.orElseThrow(() -> new UserNotFoundException(userId));
 		if (!profileImage.isEmpty()) {
 			String profileImageUrl =
-					s3UploadService.userImageUpload(profileImage, user);
+					s3Service.userImageUpload(profileImage, user);
 			userRepository.profileImageUpdate(user, profileImageUrl);
 		}
 		if (hasText(nickName)) {
