@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.dnd.gooding.domain.record.dto.response.MyRecordResponse;
 import com.dnd.gooding.domain.record.model.Record;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dnd.gooding.domain.record.dto.request.UploadRequest;
 import com.dnd.gooding.domain.record.service.RecordService;
 import com.dnd.gooding.global.common.dto.ErrorResponse;
-import com.dnd.gooding.global.s3.service.S3UploadService;
+import com.dnd.gooding.global.s3.service.S3Service;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,7 +34,7 @@ import javax.validation.Valid;
 public class RecordController {
 
 	private final RecordService recordService;
-	private final S3UploadService s3UploadService;
+	private final S3Service s3Service;
 
 	@Operation(summary = "나의 기록 내용을 조회한다.",
 			responses = {
@@ -58,10 +59,25 @@ public class RecordController {
 	@GetMapping(value = "/date", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<MyRecordResponse>> findRecordByDate(
 			@RequestParam Long userId,
-			@RequestParam String recordDate) {
+			@Parameter(description = "기록날짜", example = "202308") @RequestParam String recordDate) {
 		return ResponseEntity
 				.status(HttpStatus.OK)
 				.body(recordService.findRecordByDate(userId, recordDate));
+	}
+
+	@Operation(summary = "기록을 삭제한다.",
+			responses = {
+					@ApiResponse(responseCode = "201", description = "정상처리")
+			})
+	@DeleteMapping(value = "/delete")
+	public ResponseEntity<Void> delete(
+			@RequestParam Long userId,
+			@RequestParam Long recordId) {
+		Record record = recordService.findByRecordId(userId, recordId);
+		recordService.delete(record);
+		return ResponseEntity
+				.status(HttpStatus.NO_CONTENT)
+				.build();
 	}
 
 	@Transactional
@@ -81,11 +97,11 @@ public class RecordController {
 		@RequestPart("uploadRequest") UploadRequest uploadRequest
 	) throws IOException {
 		 Record record = recordService.create(oauthId, uploadRequest);
-		 s3UploadService.thumbnailUpload(thumbnail, thumbnailDirectory, record);
-		 record = recordService.findByRecordId(record.getId());
-		 s3UploadService.upload(images, "images", record);
-		 record = recordService.findByRecordId(record.getId());
-		 s3UploadService.upload(videos, "videos", record);
+		 s3Service.thumbnailUpload(thumbnail, thumbnailDirectory, record);
+		 record = recordService.findByRecordId(record.getUser().getId(), record.getId());
+		 s3Service.upload(images, "images", record);
+		 record = recordService.findByRecordId(record.getUser().getId(), record.getId());
+		 s3Service.upload(videos, "videos", record);
 		return ResponseEntity
 			.status(HttpStatus.CREATED)
 			.build();

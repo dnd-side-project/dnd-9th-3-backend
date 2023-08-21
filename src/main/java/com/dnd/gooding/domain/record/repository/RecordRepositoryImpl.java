@@ -48,12 +48,12 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
     }
 
     @Override
-    public Record findByRecordId(Long recordId) {
+    public Record findByRecordId(Long userId, Long recordId) {
         return queryFactory
                 .select(record).distinct()
                 .from(record)
                 .join(record.files, file).fetchJoin()
-                .where(recordIdEquals(recordId))
+                .where(userIdEquals(userId), recordIdEquals(recordId))
                 .fetchOne();
     }
 

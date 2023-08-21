@@ -77,4 +77,24 @@ public class File extends BaseEntity {
 		file.setRecord(record);
 		return file;
 	}
+
+	public String extractFilePath(String fileUrl) {
+		int position = fileUrl.lastIndexOf(".");
+		String extension = fileUrl.substring(position + 1);
+
+		String filePath = "";
+		int directoryPosition = -1;
+		if ("mp4".equals(extension)) {
+			directoryPosition = fileUrl.indexOf("videos");
+		} else {
+			directoryPosition = fileUrl.indexOf("images");
+		}
+		filePath = fileUrl.substring(directoryPosition);
+		return filePath;
+	}
+
+	private String extractExtension(String fileUrl) {
+		int position = fileUrl.lastIndexOf(".");
+		return fileUrl.substring(position + 1);
+	}
 }
