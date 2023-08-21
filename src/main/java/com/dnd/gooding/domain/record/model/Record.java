@@ -9,7 +9,9 @@ import javax.persistence.*;
 import com.dnd.gooding.domain.file.model.File;
 import com.dnd.gooding.domain.record.dto.request.UploadRequest;
 import com.dnd.gooding.domain.user.model.User;
+import com.dnd.gooding.global.common.converter.InterestConverter;
 import com.dnd.gooding.global.common.model.BaseEntity;
+import com.dnd.gooding.global.common.model.InterestType;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -58,6 +60,10 @@ public class Record extends BaseEntity {
 	@Column(name = "thumbnail_url")
 	private String thumbnailUrl;
 
+	@Enumerated
+	@Convert(converter = InterestConverter.class)
+	private InterestType interestType;
+
 	@OneToMany(mappedBy = "record", cascade = CascadeType.ALL)	// 주인이 아닌 쪽에 mappedBy
 	private List<File> files = new ArrayList<>();
 
@@ -77,6 +83,7 @@ public class Record extends BaseEntity {
 		record.placeLongitude = uploadRequest.getPlaceLongitude();
 		record.recordOpen = uploadRequest.getRecordOpen();
 		record.recordScore = uploadRequest.getRecordScore();
+		record.interestType = uploadRequest.getInterestType();
 		record.setUser(user);
 		return record;
 	}

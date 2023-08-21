@@ -3,7 +3,7 @@ package com.dnd.gooding.domain.record.dto.response;
 import com.dnd.gooding.domain.file.dto.response.RecordFileResponse;
 import com.dnd.gooding.domain.record.model.Record;
 import com.dnd.gooding.domain.record.model.RecordOpenStatus;
-import lombok.Builder;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +24,7 @@ public class MyRecordResponse {
     private Double placeLongitude;
     private Integer recordScore;
     private RecordOpenStatus recordOpen;
+    private String interestType;
     private List<RecordFileResponse> files;
 
     public MyRecordResponse(Record record) {
@@ -37,6 +38,7 @@ public class MyRecordResponse {
         this.placeLongitude = record.getPlaceLongitude();
         this.recordScore = record.getRecordScore();
         this.recordOpen = record.getRecordOpen();
+        this.interestType = record.getInterestType().getInterestName();
         this.files = record.getFiles().stream()
                 .map(file -> new RecordFileResponse(file))
                 .collect(Collectors.toList());

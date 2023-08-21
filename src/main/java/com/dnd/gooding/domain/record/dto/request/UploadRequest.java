@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.dnd.gooding.domain.record.model.RecordOpenStatus;
+import com.dnd.gooding.global.common.model.InterestType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,18 +21,15 @@ import lombok.Setter;
 public class UploadRequest {
 	@NotNull
 	private String title;
-	@NotNull
 	private String description;
 	@NotNull @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime recordDate;
-	@NotNull
 	private String placeTitle;
-	@NotNull
 	private Double placeLatitude;
-	@NotNull
 	private Double placeLongitude;
 	@NotNull
 	private RecordOpenStatus recordOpen;
 	@NotNull
 	private Integer recordScore;
+	private InterestType interestType;
 }
