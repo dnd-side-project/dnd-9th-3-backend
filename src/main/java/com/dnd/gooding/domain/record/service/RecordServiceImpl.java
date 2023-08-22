@@ -31,20 +31,18 @@ public class RecordServiceImpl implements RecordService {
 	public List<MyRecordResponse> findByUserId(Long userId) {
 		List<Record> records = recordRepository.findByUserId(userId)
 				.orElseThrow(() -> new UserNotFoundException(userId));
-		List<MyRecordResponse> myRecords = records.stream()
-				.map(record -> new MyRecordResponse(record))
+		return records.stream()
+				.map(MyRecordResponse::new)
 				.collect(Collectors.toList());
-		return myRecords;
 	}
 
 	@Override
 	public List<MyRecordResponse> findRecordByDate(Long userId, String recordDate) {
 		List<Record> records = recordRepository.findRecordByDate(userId, recordDate)
 				.orElseThrow(() -> new UserNotFoundException(userId));
-		List<MyRecordResponse> myRecords = records.stream()
-				.map(record -> new MyRecordResponse(record))
+		return records.stream()
+				.map(MyRecordResponse::new)
 				.collect(Collectors.toList());
-		return myRecords;
 	}
 
 	@Override

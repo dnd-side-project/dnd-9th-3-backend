@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.dnd.gooding.domain.file.model.File;
+import com.dnd.gooding.domain.feed.model.Feed;
 import com.dnd.gooding.domain.record.model.Record;
 import com.dnd.gooding.global.common.model.BaseEntity;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
@@ -42,6 +43,9 @@ public class User extends BaseEntity {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)	// 주인이 아닌 쪽에 mappedBy
 	private List<Record> records = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Feed> feeds = new ArrayList<>();
 
 	public static User from(OAuthUserInfo oAuthUserInfo) {
 		User user = new User();
