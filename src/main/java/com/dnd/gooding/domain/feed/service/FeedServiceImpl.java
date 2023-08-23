@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dnd.gooding.domain.feed.dto.response.FeedResponse;
 import com.dnd.gooding.domain.feed.repository.FeedRepository;
 import com.dnd.gooding.domain.record.model.Record;
+import com.dnd.gooding.global.common.model.InterestType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +24,7 @@ public class FeedServiceImpl implements FeedService {
 	private final FeedRepository feedRepository;
 
 	@Override
-	public Page<FeedResponse> findByRecordByInterestCodeAndIsNotUserId(Long userId, List<String> interestCodes, Pageable pageable) {
+	public Page<FeedResponse> findByRecordByInterestCodeAndIsNotUserId(Long userId, List<InterestType> interestCodes, Pageable pageable) {
 		Page<Record> records = feedRepository.findByRecordByInterestCodeAndIsNotUserId(userId, interestCodes, pageable);
 		return new PageImpl<>(records.stream()
 				.map(FeedResponse::new)
