@@ -21,7 +21,6 @@ public class Onboarding extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated
     @Column(name = "interest_type")
     @Convert(converter = InterestConverter.class)
     private InterestType interestType;
