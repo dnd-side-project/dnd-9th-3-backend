@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import com.dnd.gooding.domain.file.model.File;
 import com.dnd.gooding.domain.feed.model.Feed;
+import com.dnd.gooding.domain.onboarding.model.Onboarding;
 import com.dnd.gooding.domain.record.model.Record;
 import com.dnd.gooding.global.common.model.BaseEntity;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
@@ -16,7 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User extends BaseEntity {
@@ -38,6 +39,12 @@ public class User extends BaseEntity {
 	@Column(name = "oauth_id", nullable = false)
 	private String oauthId;
 
+	@Column(name = "onboard_yn")
+	private String onboardYn;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Onboarding> onboardings = new ArrayList<>();
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<File> files = new ArrayList<>();
 
@@ -46,6 +53,10 @@ public class User extends BaseEntity {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Feed> feeds = new ArrayList<>();
+
+	public void changeOnboardYn(String onboardYn) {
+		this.onboardYn = onboardYn;
+	}
 
 	public static User from(OAuthUserInfo oAuthUserInfo) {
 		User user = new User();

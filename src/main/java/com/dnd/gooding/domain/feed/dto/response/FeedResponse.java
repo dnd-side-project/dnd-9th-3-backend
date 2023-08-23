@@ -1,4 +1,4 @@
-package com.dnd.gooding.domain.feed.dto;
+package com.dnd.gooding.domain.feed.dto.response;
 
 import java.util.List;
 import java.util.stream.Collectors;

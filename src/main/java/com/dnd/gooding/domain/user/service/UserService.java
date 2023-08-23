@@ -13,6 +13,9 @@ public interface UserService {
 	AuthUserInfo getOrRegisterUser(OAuthUserInfo oauthUserInfo);
 	/* 회원 프로필 조회 */
 	UserProfileResponse getByOauthId(String oauthId);
+	User findByUserId(Long userId);
+	UserProfileResponse getByUserId(Long userId);
+	User findByUserIdAndOnboarding(Long userId);
 	User save(User user);
 	void delete(Long userId, String refreshToken);
 	void update(Long userId, String nickName, MultipartFile profileImage) throws IOException;
