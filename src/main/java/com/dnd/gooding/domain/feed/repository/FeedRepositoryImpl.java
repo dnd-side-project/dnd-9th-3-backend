@@ -4,6 +4,8 @@ import static com.dnd.gooding.domain.file.model.QFile.*;
 import static com.dnd.gooding.domain.record.model.QRecord.*;
 import static com.dnd.gooding.domain.user.model.QUser.*;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -19,7 +21,7 @@ public class FeedRepositoryImpl extends Querydsl4RepositorySupport implements Fe
 	}
 
 	@Override
-	public Page<Record> findByRecordIsNotUserId(Long userId, Pageable pageable) {
+	public Page<Record> findByRecordByInterestCodeAndIsNotUserId(Long userId, List<String> interestCodes, Pageable pageable) {
 		return applyPagination(pageable, contentQuery -> contentQuery
 			.select(record).distinct()
 			.from(record)

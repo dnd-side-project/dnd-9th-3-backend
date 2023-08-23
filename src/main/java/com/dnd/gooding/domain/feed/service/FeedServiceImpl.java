@@ -1,5 +1,6 @@
 package com.dnd.gooding.domain.feed.service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -22,9 +23,9 @@ public class FeedServiceImpl implements FeedService {
 	private final FeedRepository feedRepository;
 
 	@Override
-	public Page<FeedResponse> findByRecordIsNotUserId(Long userId, Pageable pageable) {
-		Page<Record> records = feedRepository.findByRecordIsNotUserId(userId, pageable);
-		return new PageImpl<FeedResponse>(records.stream()
+	public Page<FeedResponse> findByRecordByInterestCodeAndIsNotUserId(Long userId, List<String> interestCodes, Pageable pageable) {
+		Page<Record> records = feedRepository.findByRecordByInterestCodeAndIsNotUserId(userId, interestCodes, pageable);
+		return new PageImpl<>(records.stream()
 				.map(FeedResponse::new)
 				.collect(Collectors.toList()),
 				pageable, records.getTotalElements());

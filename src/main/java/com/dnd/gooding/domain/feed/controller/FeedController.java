@@ -38,10 +38,10 @@ public class FeedController {
 	@GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<FeedResponse>> feed(
 		@PathVariable Long userId,
-		@RequestParam(name = "interests") List<String> interests,
+		@RequestParam(name = "interestCodes") List<String> interestCodes,
 		@Parameter(hidden = true) Pageable pageable) {
 		return ResponseEntity
 			.ok()
-			.body(feedService.findByRecordIsNotUserId(userId, pageable));
+			.body(feedService.findByRecordByInterestCodeAndIsNotUserId(userId, interestCodes, pageable));
 	}
 }
