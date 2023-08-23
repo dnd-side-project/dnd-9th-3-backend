@@ -25,13 +25,15 @@ public class OnboardingServiceImpl implements OnboardingService {
     @Transactional
     @Override
     public UserProfileResponse findByUserIdAndUpdate(Long userId, String nickName,
-                                            MultipartFile profileImage, List<InterestType> onboardings) throws IOException {
-        userService.update(userId, nickName, profileImage);
+        List<String> interestCodes) {
         User user = userService.findByUserId(userId);
 
-        for(InterestType interestType : onboardings) {
-            onboardingRepository.save(Onboarding.from(user, interestType));
+        for(String interestCode : interestCodes) {
+            Onboarding onboarding = Onboarding.from(user, interestCode);
+            onboardingRepository.insert(onboarding);
         }
+        user.changeNickname(nickName);
+        // user.changeProfileImgUrl(profileImageUrl);
         user.changeOnboardYn("Y");
         return UserProfileResponse.from(user);
     }

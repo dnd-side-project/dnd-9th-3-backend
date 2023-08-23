@@ -1,7 +1,6 @@
 package com.dnd.gooding.domain.onboarding.dto.response;
 
 import com.dnd.gooding.domain.onboarding.model.Onboarding;
-import com.dnd.gooding.global.common.model.InterestType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -13,15 +12,20 @@ import lombok.*;
 @Schema(description = "관심사 정보")
 public class OnboardingResponse {
     private Long id;
-    private InterestType interestType;
+    private String interestCode;
+    private String interestName;
+
     public OnboardingResponse(Onboarding onboarding) {
         this.id = onboarding.getId();
-        this.interestType = onboarding.getInterestType();
+        this.interestCode = onboarding.getInterestType().getInterestCode();
+        this.interestName = onboarding.getInterestType().getInterestName();
     }
+
     public static OnboardingResponse from(Onboarding onboarding) {
         return OnboardingResponse.builder()
                 .id(onboarding.getId())
-                .interestType(onboarding.getInterestType())
+                .interestCode(onboarding.getInterestType().getInterestCode())
+                .interestName(onboarding.getInterestType().getInterestName())
                 .build();
     }
 }

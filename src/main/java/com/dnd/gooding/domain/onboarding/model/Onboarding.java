@@ -2,6 +2,7 @@ package com.dnd.gooding.domain.onboarding.model;
 
 import com.dnd.gooding.domain.user.model.User;
 import com.dnd.gooding.global.common.converter.InterestConverter;
+import com.dnd.gooding.global.common.model.BaseEntity;
 import com.dnd.gooding.global.common.model.InterestType;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "onboarding")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Onboarding {
+public class Onboarding extends BaseEntity {
 
     @Id
     @Column(name = "onboarding_id")
@@ -29,17 +30,10 @@ public class Onboarding {
     @JoinColumn(name = "user_id")
     private User user;
 
-    //==연관관계 메서드==//
-    public void setUser(User user) {
-        this.user = user;
-        user.getOnboardings().add(this);
-    }
-
-    public static Onboarding from(User user, InterestType interestType) {
+    public static Onboarding from(User user, String interestCode) {
         Onboarding onboarding = new Onboarding();
-        onboarding.interestType = interestType;
+        onboarding.interestType = InterestType.ofInterestCode(interestCode);
         onboarding.user = user;
-        onboarding.setUser(user);
         return onboarding;
     }
 }

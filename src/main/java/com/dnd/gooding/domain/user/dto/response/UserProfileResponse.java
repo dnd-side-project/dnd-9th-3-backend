@@ -31,9 +31,11 @@ public class UserProfileResponse {
 			.id(user.getId())
 			.nickname(user.getNickname())
 			.profileImgUrl(user.getProfileImgUrl())
+			.onboardYn(user.getOnboardYn())
 			.onboardings(user.getOnboardings().stream()
-					.map(OnboardingResponse::new)
-					.collect(Collectors.toList()))
+				.map(OnboardingResponse::new)
+				.distinct()
+				.collect(Collectors.toList()))
 			.build();
 	}
 }

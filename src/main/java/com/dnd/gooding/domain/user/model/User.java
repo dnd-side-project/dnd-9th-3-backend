@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User extends BaseEntity {
@@ -39,7 +39,7 @@ public class User extends BaseEntity {
 	@Column(name = "oauth_id", nullable = false)
 	private String oauthId;
 
-	@Column(name = "onboard_yn")
+	@Column(name = "onboard_yn", length = 5)
 	private String onboardYn;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -53,6 +53,14 @@ public class User extends BaseEntity {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Feed> feeds = new ArrayList<>();
+
+	public void changeNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public void changeProfileImgUrl(String profileImgUrl) {
+		this.profileImgUrl = profileImgUrl;
+	}
 
 	public void changeOnboardYn(String onboardYn) {
 		this.onboardYn = onboardYn;
