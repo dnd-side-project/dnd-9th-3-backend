@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.dnd.gooding.domain.feed.model.Feed;
 import com.dnd.gooding.domain.file.model.File;
 import com.dnd.gooding.domain.record.dto.request.UploadRequest;
 import com.dnd.gooding.domain.user.model.User;
@@ -61,11 +62,15 @@ public class Record extends BaseEntity {
 	private String thumbnailUrl;
 
 	@Enumerated
+	@Column(name = "interest_type")
 	@Convert(converter = InterestConverter.class)
 	private InterestType interestType;
 
 	@OneToMany(mappedBy = "record", cascade = CascadeType.ALL)	// 주인이 아닌 쪽에 mappedBy
 	private List<File> files = new ArrayList<>();
+
+	@OneToMany(mappedBy = "record", cascade = CascadeType.ALL)
+	private List<Feed> feeds = new ArrayList<>();
 
 	//==연관관계 메서드==//
 	public void setUser(User user) {

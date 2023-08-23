@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.dnd.gooding.domain.file.model.File;
+import com.dnd.gooding.domain.feed.model.Feed;
+import com.dnd.gooding.domain.onboarding.model.Onboarding;
 import com.dnd.gooding.domain.record.model.Record;
 import com.dnd.gooding.global.common.model.BaseEntity;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
@@ -37,11 +39,32 @@ public class User extends BaseEntity {
 	@Column(name = "oauth_id", nullable = false)
 	private String oauthId;
 
+	@Column(name = "onboard_yn", length = 5)
+	private String onboardYn;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Onboarding> onboardings = new ArrayList<>();
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<File> files = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)	// 주인이 아닌 쪽에 mappedBy
 	private List<Record> records = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Feed> feeds = new ArrayList<>();
+
+	public void changeNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public void changeProfileImgUrl(String profileImgUrl) {
+		this.profileImgUrl = profileImgUrl;
+	}
+
+	public void changeOnboardYn(String onboardYn) {
+		this.onboardYn = onboardYn;
+	}
 
 	public static User from(OAuthUserInfo oAuthUserInfo) {
 		User user = new User();

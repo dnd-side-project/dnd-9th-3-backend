@@ -43,6 +43,26 @@ public class UserServiceImpl implements UserService {
 		);
 	}
 
+	@Override
+	public User findByUserId(Long userId) {
+		return userRepository.findById(userId)
+				.orElseThrow(() -> new UserNotFoundException(userId));
+	}
+
+	@Override
+	public UserProfileResponse getByUserId(Long userId) {
+		return UserProfileResponse.from(
+				userRepository.findById(userId)
+					.orElseThrow(() -> new UserNotFoundException(userId))
+		);
+	}
+
+	@Override
+	public User findByUserIdAndOnboarding(Long userId) {
+		return userRepository.findByUserIdAndOnboarding(userId)
+						.orElseThrow(() -> new UserNotFoundException(userId));
+	}
+
 	@Transactional
 	@Override
 	public User save(User user) {

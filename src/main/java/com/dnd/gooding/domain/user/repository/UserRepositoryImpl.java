@@ -1,5 +1,6 @@
 package com.dnd.gooding.domain.user.repository;
 
+import static com.dnd.gooding.domain.onboarding.model.QOnboarding.onboarding;
 import static com.dnd.gooding.domain.user.model.QUser.user;
 
 import java.util.Optional;
@@ -36,6 +37,17 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 				.selectFrom(user)
 				.where(oauthIdEquals(oauthId))
 				.fetchOne());
+	}
+
+	@Override
+	public Optional<User> findByUserIdAndOnboarding(Long userId) {
+		return Optional.ofNullable(
+				queryFactory
+					.select(user).distinct()
+					.from(user)
+					.join(user.onboardings, onboarding).fetchJoin()
+					.where(userIdEquals(userId))
+					.fetchOne());
 	}
 
 	@Override

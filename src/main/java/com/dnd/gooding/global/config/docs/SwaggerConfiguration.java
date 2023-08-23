@@ -77,4 +77,20 @@ public class SwaggerConfiguration {
 			.pathsToMatch("/api/v1/record/**")
 			.build();
 	}
+
+	@Bean
+	public GroupedOpenApi feedGroup() {
+		return GroupedOpenApi.builder()
+			.group("Feed")
+			.pathsToMatch("/api/v1/feed/**")
+			.build();
+	}
+
+	@Bean
+	public GroupedOpenApi onboardGroup() {
+		return GroupedOpenApi.builder()
+				.group("Onboard")
+				.pathsToMatch("/api/v1/onboard/**")
+				.build();
+	}
 }
