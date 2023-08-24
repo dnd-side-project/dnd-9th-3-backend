@@ -65,6 +65,18 @@ public class RecordController {
 				.body(recordService.findRecordByDate(userId, recordDate));
 	}
 
+	@Operation(summary = "저장한 피드를 조회한다.",
+		responses = {
+			@ApiResponse(responseCode = "200", description = "정상처리")
+		})
+	@GetMapping(value = "/my-feed/{saveUserId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<MyRecordResponse>> findFeedBySave(
+		@PathVariable Long saveUserId) {
+		return ResponseEntity
+			.ok()
+			.body(recordService.findFeedBySave(saveUserId));
+	}
+
 	@Operation(summary = "기록을 삭제한다.",
 			responses = {
 					@ApiResponse(responseCode = "201", description = "정상처리")
