@@ -1,5 +1,6 @@
 package com.dnd.gooding.domain.feed.repository;
 
+import static com.dnd.gooding.domain.feed.model.QFeed.*;
 import static com.dnd.gooding.domain.file.model.QFile.*;
 import static com.dnd.gooding.domain.onboarding.model.QOnboarding.*;
 import static com.dnd.gooding.domain.record.model.QRecord.*;
@@ -39,9 +40,17 @@ public class FeedRepositoryImpl extends Querydsl4RepositorySupport implements Fe
 			.from(record)
 			.join(record.user, user).fetchJoin()
 			.join(record.files, file).fetchJoin()
-			.join(user.onboardings, onboarding).fetchJoin()
+			.join(user.onboardings, onboarding)
 			.where(userIdNotEquals(userId), interestTypeEquals(interestCodes))
 		);
+	}
+
+	@Override
+	public Feed findByUserIdAndRecordId(Long userId, Long recordId, Long saveUserId) {
+		return select(feed)
+			.from(feed)
+			.where(userIdEquals(userId), recordIdEquals(recordId), saveUserIdEquals(saveUserId))
+			.fetchOne();
 	}
 
 	private BooleanExpression userIdNotEquals(Long userId) {
@@ -53,5 +62,17 @@ public class FeedRepositoryImpl extends Querydsl4RepositorySupport implements Fe
 			return null;
 		}
 		return record.interestType.in(interestCodes);
+	}
+
+	private BooleanExpression userIdEquals(Long userId) {
+		return feed.user.id.eq(userId);
+	}
+
+	private BooleanExpression recordIdEquals(Long recordId) {
+		return feed.record.id.eq(recordId);
+	}
+
+	private BooleanExpression saveUserIdEquals(Long saveUserId) {
+		return feed.saveUserId.eq(saveUserId);
 	}
 }
