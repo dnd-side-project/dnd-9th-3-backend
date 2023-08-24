@@ -61,7 +61,6 @@ public class Record extends BaseEntity {
 	@Column(name = "thumbnail_url")
 	private String thumbnailUrl;
 
-	@Enumerated
 	@Column(name = "interest_type")
 	@Convert(converter = InterestConverter.class)
 	private InterestType interestType;

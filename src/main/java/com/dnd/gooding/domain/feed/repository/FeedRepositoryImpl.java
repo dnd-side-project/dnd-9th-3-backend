@@ -11,11 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.dnd.gooding.domain.feed.model.Feed;
-import com.dnd.gooding.domain.onboarding.model.QOnboarding;
 import com.dnd.gooding.domain.record.model.Record;
 import com.dnd.gooding.global.common.model.InterestType;
 import com.dnd.gooding.global.common.repository.Querydsl4RepositorySupport;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import org.springframework.util.ObjectUtils;
 
 public class FeedRepositoryImpl extends Querydsl4RepositorySupport implements FeedRepositoryCustom {
 
@@ -49,6 +49,9 @@ public class FeedRepositoryImpl extends Querydsl4RepositorySupport implements Fe
 	}
 
 	private BooleanExpression interestTypeEquals(List<InterestType> interestCodes) {
-		return onboarding.interestType.in(interestCodes);
+		if(ObjectUtils.isEmpty(interestCodes)) {
+			return null;
+		}
+		return record.interestType.in(interestCodes);
 	}
 }
