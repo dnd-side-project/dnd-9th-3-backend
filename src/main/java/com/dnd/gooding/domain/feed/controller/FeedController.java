@@ -13,6 +13,7 @@ import com.dnd.gooding.domain.feed.service.FeedService;
 import com.dnd.gooding.global.common.model.InterestType;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -33,13 +34,14 @@ public class FeedController {
 		})
 	@Parameters({
 		@Parameter(name = "userId", description = "로그인한 사용자 ID", required = true),
+		@Parameter(name = "interestCodes", description = "로그인한 사용자 관심사"),
 		@Parameter(name = "page", description = "페이지 번호"),
 		@Parameter(name = "size", description = "페이지 크기")
 	})
 	@GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<FeedResponse>> feed(
 		@PathVariable Long userId,
-		@RequestParam(name = "interestCodes") List<InterestType> interestCodes,
+		@Parameter(hidden = true) @RequestParam(name = "interestCodes") List<InterestType> interestCodes,
 		@Parameter(hidden = true) Pageable pageable) {
 		return ResponseEntity
 			.ok()
