@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.dnd.gooding.domain.feed.dto.response.FeedResponse;
 import com.dnd.gooding.domain.feed.service.FeedService;
+import com.dnd.gooding.global.common.model.InterestType;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,7 +39,7 @@ public class FeedController {
 	@GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<FeedResponse>> feed(
 		@PathVariable Long userId,
-		@RequestParam(name = "interestCodes") List<String> interestCodes,
+		@RequestParam(name = "interestCodes") List<InterestType> interestCodes,
 		@Parameter(hidden = true) Pageable pageable) {
 		return ResponseEntity
 			.ok()
