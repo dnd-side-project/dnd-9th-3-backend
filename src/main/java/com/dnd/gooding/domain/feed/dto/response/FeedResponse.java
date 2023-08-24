@@ -34,7 +34,7 @@ public class FeedResponse {
 		this.interestType = record.getInterestType().getInterestName();
 		this.user = UserProfileResponse.from(record.getUser());
 		this.files = record.getFiles().stream()
-			.map(file -> new RecordFileResponse(file))
+			.map(RecordFileResponse::new)
 			.collect(Collectors.toList());
 	}
 }
