@@ -5,6 +5,7 @@ import com.dnd.gooding.domain.record.dto.response.MyRecordResponse;
 import com.dnd.gooding.global.s3.service.S3Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import com.dnd.gooding.domain.record.dto.request.UploadRequest;
 import com.dnd.gooding.domain.record.model.Record;
@@ -15,6 +16,7 @@ import com.dnd.gooding.domain.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +45,19 @@ public class RecordServiceImpl implements RecordService {
 		return records.stream()
 				.map(MyRecordResponse::new)
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<MyRecordResponse> findFeedBySave(Long saveUserId) {
+		List<Record> records = recordRepository.findFeedBySave(saveUserId)
+			.orElse(null);
+		if (ObjectUtils.isEmpty(records)) {
+			return new ArrayList<>();
+		} else {
+			return records.stream()
+				.map(MyRecordResponse::new)
+				.collect(Collectors.toList());
+		}
 	}
 
 	@Override
