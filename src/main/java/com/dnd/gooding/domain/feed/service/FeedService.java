@@ -6,8 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.dnd.gooding.domain.feed.dto.response.FeedResponse;
+import com.dnd.gooding.global.common.model.InterestType;
 
 public interface FeedService {
 
-	Page<FeedResponse> findByRecordByInterestCodeAndIsNotUserId(Long userId, List<String> interestCodes, Pageable pageable);
+	Page<FeedResponse> findByRecordByInterestCodeAndIsNotUserId(Long userId, List<InterestType> interestCodes, Pageable pageable);
 }

@@ -1,6 +1,7 @@
 package com.dnd.gooding.domain.feed.repository;
 
 import static com.dnd.gooding.domain.file.model.QFile.*;
+import static com.dnd.gooding.domain.onboarding.model.QOnboarding.*;
 import static com.dnd.gooding.domain.record.model.QRecord.*;
 import static com.dnd.gooding.domain.user.model.QUser.*;
 
@@ -10,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.dnd.gooding.domain.feed.model.Feed;
+import com.dnd.gooding.domain.onboarding.model.QOnboarding;
 import com.dnd.gooding.domain.record.model.Record;
+import com.dnd.gooding.global.common.model.InterestType;
 import com.dnd.gooding.global.common.repository.Querydsl4RepositorySupport;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
@@ -21,13 +24,14 @@ public class FeedRepositoryImpl extends Querydsl4RepositorySupport implements Fe
 	}
 
 	@Override
-	public Page<Record> findByRecordByInterestCodeAndIsNotUserId(Long userId, List<String> interestCodes, Pageable pageable) {
+	public Page<Record> findByRecordByInterestCodeAndIsNotUserId(Long userId, List<InterestType> interestCodes, Pageable pageable) {
 		return applyPagination(pageable, contentQuery -> contentQuery
 			.select(record).distinct()
 			.from(record)
 			.join(record.user, user).fetchJoin()
 			.join(record.files, file).fetchJoin()
-			.where(userIdNotEquals(userId))
+			.join(user.onboardings, onboarding)
+			.where(userIdNotEquals(userId), interestTypeEquals(interestCodes))
 			.orderBy(
 				record.createdDate.desc()
 			), countQuery -> countQuery
@@ -35,14 +39,16 @@ public class FeedRepositoryImpl extends Querydsl4RepositorySupport implements Fe
 			.from(record)
 			.join(record.user, user).fetchJoin()
 			.join(record.files, file).fetchJoin()
-			.where(userIdNotEquals(userId))
-			.orderBy(
-				record.createdDate.desc()
-			)
+			.join(user.onboardings, onboarding).fetchJoin()
+			.where(userIdNotEquals(userId), interestTypeEquals(interestCodes))
 		);
 	}
 
 	private BooleanExpression userIdNotEquals(Long userId) {
 		return record.user.id.ne(userId);
+	}
+
+	private BooleanExpression interestTypeEquals(List<InterestType> interestCodes) {
+		return onboarding.interestType.in(interestCodes);
 	}
 }
