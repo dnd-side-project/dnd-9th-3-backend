@@ -60,7 +60,7 @@ jwt:
   issuer: yong7317
   secret-key: ${JWT_SECRET_KEY}
   expiry-seconds:
-    access-token: 1800
+    access-token: 100000
     refresh-token: 604800
 ---
 spring:
