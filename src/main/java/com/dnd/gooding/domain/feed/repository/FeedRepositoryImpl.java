@@ -52,6 +52,6 @@ public class FeedRepositoryImpl extends Querydsl4RepositorySupport implements Fe
 		if(ObjectUtils.isEmpty(interestCodes)) {
 			return null;
 		}
-		return onboarding.interestType.in(interestCodes);
+		return record.interestType.in(interestCodes);
 	}
 }
