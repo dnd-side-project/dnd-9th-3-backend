@@ -38,7 +38,7 @@ public class Record extends BaseEntity {
 	@Column(name = "record_date", nullable = false)
 	private LocalDateTime recordDate;
 
-	@Column(name = "place_title", length = 20)
+	@Column(name = "place_title")
 	private String placeTitle;
 
 	@Column(name = "place_latitude")

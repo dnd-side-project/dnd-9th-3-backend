@@ -60,6 +60,7 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
             .join(record.files, file).fetchJoin()
             .where(saveUserIdEquals(saveUserId), feedSaveEquals("Y"))
             .orderBy(
+                record.recordDate.asc(),
                 record.lastModifiedDate.desc()
             )
             .fetch());
