@@ -31,6 +31,9 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                 .select(record).distinct()
                 .from(record)
                 .join(record.files, file).fetchJoin()
+                .orderBy(
+                    record.lastModifiedDate.desc()
+                )
                 .where(userIdEquals(id))
                 .fetch());
     }
@@ -43,7 +46,7 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                 .join(record.files, file).fetchJoin()
                 .where(userIdEquals(userId), recordDateEquals(recordDate))
                 .orderBy(
-                    record.recordDate.desc()
+                    record.lastModifiedDate.desc()
                 )
                 .fetch());
     }
@@ -57,7 +60,7 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
             .join(record.files, file).fetchJoin()
             .where(saveUserIdEquals(saveUserId), feedSaveEquals("Y"))
             .orderBy(
-                record.recordDate.desc()
+                record.lastModifiedDate.desc()
             )
             .fetch());
     }

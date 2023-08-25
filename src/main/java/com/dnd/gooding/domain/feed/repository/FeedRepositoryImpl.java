@@ -34,7 +34,7 @@ public class FeedRepositoryImpl extends Querydsl4RepositorySupport implements Fe
 			.join(user.onboardings, onboarding)
 			.where(userIdNotEquals(userId), interestTypeEquals(interestCodes))
 			.orderBy(
-				record.createdDate.desc()
+				record.lastModifiedDate.desc()
 			), countQuery -> countQuery
 			.select(record).distinct()
 			.from(record)
