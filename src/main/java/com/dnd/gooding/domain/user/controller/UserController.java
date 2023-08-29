@@ -11,15 +11,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.dnd.gooding.domain.user.dto.response.UserProfileResponse;
-import com.dnd.gooding.domain.user.service.UserService;
+import com.dnd.gooding.domain.user.controller.port.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Builder
 @Tag(name = "User", description = "사용자 API")
 @RestController
 @RequestMapping("/api/v1/user")

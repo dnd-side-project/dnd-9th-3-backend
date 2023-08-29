@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.dnd.gooding.domain.user.service.UserService;
+import com.dnd.gooding.domain.user.controller.port.UserService;
 import com.dnd.gooding.global.oauth.dto.AuthUserInfo;
 import com.dnd.gooding.global.oauth.dto.GoogleUserInfo;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;

@@ -7,11 +7,14 @@ import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.dnd.gooding.domain.user.model.User;
+import com.dnd.gooding.domain.user.service.port.UserRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-public class UserRepositoryImpl implements UserRepositoryCustom {
+public class UserRepositoryImpl implements UserRepository {
 
 	private final EntityManager em;
 	private final JPAQueryFactory queryFactory;
@@ -70,6 +73,24 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 				.execute();
 		em.flush();
 		em.clear();
+	}
+
+	@Override
+	public Optional<User> findById(Long userId) {
+		return Optional.empty();
+	}
+
+	@Transactional
+	@Override
+	public void delete(User user) {
+		em.remove(user);
+	}
+
+	@Transactional
+	@Override
+	public User save(User user) {
+		em.persist(user);
+		return user;
 	}
 
 	private BooleanExpression userIdEquals(Long userId) {

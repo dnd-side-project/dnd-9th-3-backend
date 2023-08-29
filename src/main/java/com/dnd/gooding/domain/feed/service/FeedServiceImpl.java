@@ -18,7 +18,7 @@ import com.dnd.gooding.domain.feed.repository.FeedRepository;
 import com.dnd.gooding.domain.record.model.Record;
 import com.dnd.gooding.domain.record.service.RecordService;
 import com.dnd.gooding.domain.user.model.User;
-import com.dnd.gooding.domain.user.service.UserService;
+import com.dnd.gooding.domain.user.controller.port.UserService;
 import com.dnd.gooding.global.common.model.InterestType;
 
 import lombok.RequiredArgsConstructor;

@@ -1,5 +1,8 @@
 package com.dnd.gooding.domain.user.service;
 
+import com.dnd.gooding.domain.user.controller.port.UserService;
+import com.dnd.gooding.domain.user.repository.UserJpaRepository;
+import com.dnd.gooding.domain.user.service.port.UserRepository;
 import com.dnd.gooding.global.s3.service.S3Service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dnd.gooding.domain.user.dto.response.UserProfileResponse;
 import com.dnd.gooding.domain.user.exception.UserNotFoundException;
 import com.dnd.gooding.domain.user.model.User;
-import com.dnd.gooding.domain.user.repository.UserRepository;
 import com.dnd.gooding.global.oauth.dto.AuthUserInfo;
 import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +21,7 @@ import java.io.IOException;
 
 import static org.springframework.util.StringUtils.hasText;
 
+@Builder
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -52,7 +56,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserProfileResponse getByUserId(Long userId) {
 		return UserProfileResponse.from(
-				userRepository.findById(userId)
+			userRepository.findById(userId)
 					.orElseThrow(() -> new UserNotFoundException(userId))
 		);
 	}

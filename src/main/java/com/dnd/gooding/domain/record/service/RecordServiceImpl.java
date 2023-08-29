@@ -12,7 +12,7 @@ import com.dnd.gooding.domain.record.model.Record;
 import com.dnd.gooding.domain.record.repository.RecordRepository;
 import com.dnd.gooding.domain.user.exception.UserNotFoundException;
 import com.dnd.gooding.domain.user.model.User;
-import com.dnd.gooding.domain.user.repository.UserRepository;
+import com.dnd.gooding.domain.user.repository.UserJpaRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class RecordServiceImpl implements RecordService {
 
 	private final S3Service s3Service;
-	private final UserRepository userRepository;
+	private final UserJpaRepository userJpaRepository;
 	private final RecordRepository recordRepository;
 
 	@Override
@@ -67,7 +67,7 @@ public class RecordServiceImpl implements RecordService {
 
 	@Override
 	public Record create(String oauthId, UploadRequest uploadRequest) {
-		User user = userRepository.findByOauthId(oauthId)
+		User user = userJpaRepository.findByOauthId(oauthId)
 			.orElseThrow(() -> new UserNotFoundException(oauthId));
 		Record record = Record.create(uploadRequest, user);
 		recordRepository.save(record);
