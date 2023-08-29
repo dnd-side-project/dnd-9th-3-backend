@@ -40,9 +40,9 @@ public class TokenService {
 		String userRole = userInfo.role();
 
 		String accessToken = createAccessToken(userId, userRole);
-		// String refreshToken = createRefreshToken(userId, userRole);
+		String refreshToken = createRefreshToken(userId, userRole);
 
-		return new Tokens(accessToken, null);
+		return new Tokens(accessToken, refreshToken);
 	}
 
 	@Transactional

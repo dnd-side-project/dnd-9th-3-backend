@@ -27,7 +27,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -35,9 +35,11 @@ spring:
         default_batch_fetch_size: 1000
 
   # redis 설정
-#  redis:
-#    host: ${REDIS_HOST}
-#    port: ${REDIS_PORT}
+  redis:
+    sentinel:
+      master: ${REDIS_SENTINEL_MASTER}
+      nodes:
+        - ${REDIS_SENTINEL_NODE}
 
 logging:
   level:
