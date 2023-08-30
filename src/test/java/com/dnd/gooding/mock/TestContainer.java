@@ -10,12 +10,12 @@ public class TestContainer {
 
 	@Builder
 	public TestContainer() {
-		UserRepository userRepository = new FakeUserRepository();
-		UserServiceImpl userService = UserServiceImpl.builder()
-			.userRepository(userRepository)
-			.build();
-		UserController userController = UserController.builder()
-			.userService(userService)
-			.build();
+		// UserRepository userRepository = new FakeUserRepository();
+		// UserServiceImpl userService = UserServiceImpl.builder()
+		// 	.userRepository(userRepository)
+		// 	.build();
+		// UserController userController = UserController.builder()
+		// 	.userService(userService)
+		// 	.build();
 	}
 }

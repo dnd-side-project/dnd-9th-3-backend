@@ -2,7 +2,7 @@ package com.dnd.gooding.global.common.converter;
 
 import org.springframework.core.convert.converter.Converter;
 
-import com.dnd.gooding.global.common.model.InterestType;
+import com.dnd.gooding.global.common.enums.InterestType;
 
 public class StringToEnumConverter implements Converter<String, InterestType> {
 

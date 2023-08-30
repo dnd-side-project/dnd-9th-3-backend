@@ -2,15 +2,14 @@ package com.dnd.gooding.domain.user.service.port;
 
 import java.util.Optional;
 
-import com.dnd.gooding.domain.user.model.User;
+import com.dnd.gooding.domain.user.domain.User;
+import com.dnd.gooding.domain.user.infrastructure.UserEntity;
 
 public interface UserRepository {
-	Optional<User> findByUserIdByProviderAndOauthId(String provider, String oauthId);
+	Optional<User> findByProviderAndOauthId(String provider, String oauthId);
+	Optional<User> findByUserId(Long userId);
 	Optional<User> findByOauthId(String oauthId);
+	User save(UserEntity userEntity);
+	void delete(UserEntity userEntity);
 	Optional<User> findByUserIdAndOnboarding(Long userId);
-	void profileImageUpdate(User updateUser, String profileImageUrl);
-	void nickNameUpdate(User updateUser, String nickName);
-	Optional<User> findById(Long userId);
-	void delete(User user);
-	User save(User user);
 }

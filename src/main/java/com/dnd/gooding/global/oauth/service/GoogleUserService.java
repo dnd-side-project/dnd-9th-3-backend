@@ -8,15 +8,16 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dnd.gooding.domain.user.controller.port.UserService;
-import com.dnd.gooding.global.oauth.dto.AuthUserInfo;
-import com.dnd.gooding.global.oauth.dto.GoogleUserInfo;
-import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
-import com.dnd.gooding.global.oauth.dto.response.OAuthResponse;
+import com.dnd.gooding.domain.user.domain.User;
+import com.dnd.gooding.global.common.enums.ProviderType;
+import com.dnd.gooding.global.oauth.domain.AuthUser;
+import com.dnd.gooding.global.oauth.domain.GoogleUser;
+import com.dnd.gooding.global.oauth.domain.OAuthUser;
+import com.dnd.gooding.global.oauth.controller.response.OAuthResponse;
 import com.dnd.gooding.global.token.dto.Tokens;
 import com.dnd.gooding.global.token.service.TokenService;
 import com.dnd.gooding.global.util.CookieUtil;
@@ -28,16 +29,12 @@ public class GoogleUserService {
 	private final TokenService tokenService;
 	private final String USER_INFO_URL = "https://oauth2.googleapis.com/tokeninfo";
 
-	public GoogleUserService(
-		UserService userService,
-		TokenService tokenService) {
+	public GoogleUserService(UserService userService, TokenService tokenService) {
 		this.userService = userService;
 		this.tokenService = tokenService;
 	}
 
-	public OAuthResponse getAccessToken(
-		HttpServletResponse response,
-		String idToken) {
+	public OAuthResponse getAccessToken(HttpServletResponse response, String idToken) {
 		RestTemplate restTemplate = new RestTemplate();
 
 		HttpHeaders headers = new HttpHeaders();
@@ -46,30 +43,30 @@ public class GoogleUserService {
 		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(USER_INFO_URL)
 			.queryParam("id_token", idToken);
 
-		ResponseEntity<GoogleUserInfo> responseEntity = restTemplate.exchange(
+		ResponseEntity<GoogleUser> responseEntity = restTemplate.exchange(
 			uriComponentsBuilder.toUriString(),
 			HttpMethod.GET,
 			request,
-			GoogleUserInfo.class
+			GoogleUser.class
 		);
 
 		if(responseEntity.getStatusCode() == HttpStatus.OK) {
-			AuthUserInfo user = saveUser(responseEntity.getBody());
-			Tokens tokens = tokenService.createTokens(user);
+			AuthUser authUser = create(responseEntity.getBody());
+			Tokens tokens = tokenService.createTokens(authUser);
 			CookieUtil.addCookie(response, "refreshToken", tokens.refreshToken(), 180);
-			return new OAuthResponse(tokens.accessToken(), user.oauthId());
+			return new OAuthResponse(tokens.accessToken(), authUser.getOauthId());
 		}
 		return null;
 	}
 
-	@Transactional
-	public AuthUserInfo saveUser(GoogleUserInfo googleUserInfo) {
-		OAuthUserInfo oAuthUser = OAuthUserInfo.builder()
-			.oauthId(googleUserInfo.sub().replace("\"", ""))
-			.nickname(googleUserInfo.name().replace("\"", ""))
-			.profileImgUrl(googleUserInfo.picture().replace("\"", ""))
-			.provider("google")
+	public AuthUser create(GoogleUser googleUser) {
+		OAuthUser oAuthUser = OAuthUser.builder()
+			.oauthId(googleUser.sub().replace("\"", ""))
+			.nickname(googleUser.name().replace("\"", ""))
+			.profileImgUrl(googleUser.picture().replace("\"", ""))
+			.provider(ProviderType.google.name())
 			.build();
-		return userService.getOrRegisterUser(oAuthUser);
+		User user = userService.create(oAuthUser);
+		return AuthUser.from(user);
 	}
 }

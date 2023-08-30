@@ -1,20 +1,18 @@
 package com.dnd.gooding.domain.user.controller.port;
 
-import com.dnd.gooding.domain.user.dto.response.UserProfileResponse;
-import com.dnd.gooding.domain.user.model.User;
-import com.dnd.gooding.global.oauth.dto.AuthUserInfo;
-import com.dnd.gooding.global.oauth.dto.OAuthUserInfo;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.dnd.gooding.domain.user.domain.User;
+import com.dnd.gooding.global.oauth.domain.OAuthUser;
+
 public interface UserService {
-	AuthUserInfo getOrRegisterUser(OAuthUserInfo oauthUserInfo);
-	UserProfileResponse getByOauthId(String oauthId);
+	User create(OAuthUser oAuthUser);
+	User update(Long userId, String nickName, MultipartFile profileImage) throws IOException;
+	User findByOauthId(String oauthId);
 	User findByUserId(Long userId);
-	UserProfileResponse getByUserId(Long userId);
-	User findByUserIdAndOnboarding(Long userId);
 	User save(User user);
 	void delete(Long userId, String refreshToken);
-	void update(Long userId, String nickName, MultipartFile profileImage) throws IOException;
+	User findByUserIdAndOnboarding(Long userId);
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd.gooding.global.common.dto.ErrorResponse;
+import com.dnd.gooding.global.common.controller.response.ErrorResponse;
 import com.dnd.gooding.global.token.dto.response.TokenResponse;
 import com.dnd.gooding.global.token.service.TokenService;
 import com.dnd.gooding.global.util.CookieUtil;
