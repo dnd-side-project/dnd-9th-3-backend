@@ -52,7 +52,11 @@ public class UserEntity extends BaseEntity {
 	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	// private List<Feed> feeds = new ArrayList<>();
 
-	public void changeNickname(String nickname) {
+	public void changeImgUrl(String profileImgUrl) {
+		this.profileImgUrl = profileImgUrl;
+	}
+
+	public void changeNickName(String nickname) {
 		this.nickname = nickname;
 	}
 

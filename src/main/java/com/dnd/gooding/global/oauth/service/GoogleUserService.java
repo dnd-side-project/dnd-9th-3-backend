@@ -66,7 +66,7 @@ public class GoogleUserService {
 			.profileImgUrl(googleUser.picture().replace("\"", ""))
 			.provider(ProviderType.google.name())
 			.build();
-		User user = userService.create(oAuthUser);
+		User user = userService.create(oAuthUser).toModel();
 		return AuthUser.from(user);
 	}
 }

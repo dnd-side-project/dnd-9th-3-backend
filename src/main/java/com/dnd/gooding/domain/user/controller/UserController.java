@@ -40,7 +40,7 @@ public class UserController {
 	@GetMapping(value = "/{oauthId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserResponse> getUser(
 		@Parameter(description = "oauth 아이디") @PathVariable String oauthId) {
-		User user = userService.findByOauthId(oauthId);
+		User user = userService.findByOauthId(oauthId).toModel();
 		return ResponseEntity
 			.ok()
 			.body(UserResponse.from(user));
@@ -57,7 +57,7 @@ public class UserController {
 		@PathVariable("userId") Long userId,
 		@RequestPart("nickName") String nickName,
 		@RequestPart("profileImage") MultipartFile profileImage) throws IOException {
-		User user = userService.update(userId, nickName, profileImage);
+		User user = userService.update(userId, nickName, profileImage).toModel();
 		return ResponseEntity
 			.ok()
 			.body(UserResponse.from(user));

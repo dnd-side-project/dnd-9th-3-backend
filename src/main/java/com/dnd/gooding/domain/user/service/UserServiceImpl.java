@@ -5,6 +5,7 @@ import static org.springframework.util.StringUtils.*;
 import java.io.IOException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dnd.gooding.domain.user.controller.port.UserService;
@@ -28,47 +29,51 @@ public class UserServiceImpl implements UserService {
 	private final TokenService tokenService;
 	private final S3Service s3Service;
 
+	@Transactional
 	@Override
-	public User create(OAuthUser oAuthUser) {
+	public UserEntity create(OAuthUser oAuthUser) {
 		return userRepository.findByProviderAndOauthId(oAuthUser.provider(), oAuthUser.oauthId())
-			.orElseGet(() -> save(User.from(oAuthUser)));
+			.orElseGet(() -> save(UserEntity.from(oAuthUser)));
 	}
 
+	@Transactional
 	@Override
-	public User update(Long userId, String nickName, MultipartFile profileImage) throws IOException {
-		User user = findByUserId(userId);
+	public UserEntity update(Long userId, String nickName, MultipartFile profileImage) throws IOException {
+		UserEntity userEntity = findByUserId(userId);
 		if (!profileImage.isEmpty()) {
-			String profileImgUrl = s3Service.upload(profileImage, user);
-			user = user.profileImageUrlUpdate(profileImgUrl);
+			String profileImgUrl = s3Service.upload(profileImage, userEntity);
+			userEntity.changeImgUrl(profileImgUrl);
 		}
 		if (hasText(nickName)) {
-			user = user.nickNameUpdate(nickName);
+			userEntity.changeNickName(nickName);
 		}
-		return save(user);
+		return save(userEntity);
 	}
 
 	@Override
-	public User findByUserId(Long userId) {
+	public UserEntity findByUserId(Long userId) {
 		return userRepository.findByUserId(userId)
 			.orElseThrow(() -> new UserNotFoundException(userId));
 	}
 
 	@Override
-	public User findByOauthId(String oauthId) {
+	public UserEntity findByOauthId(String oauthId) {
 		return userRepository.findByOauthId(oauthId)
 			.orElseThrow(() -> new UserNotFoundException(oauthId));
 	}
 
+	@Transactional
 	@Override
-	public User save(User user) {
-		return userRepository.save(UserEntity.from(user));
+	public UserEntity save(UserEntity userEntity) {
+		return userRepository.save(userEntity);
 	}
 
+	@Transactional
 	@Override
 	public void delete(Long userId, String refreshToken) {
 		userRepository.findByUserId(userId)
-			.ifPresentOrElse(user -> {
-				userRepository.delete(UserEntity.from(user));
+			.ifPresentOrElse(userEntity -> {
+				userRepository.delete(userEntity);
 				tokenService.deleteRefreshToken(refreshToken);
 			}, () -> {
 				throw new UserNotFoundException(userId);
@@ -76,7 +81,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findByUserIdAndOnboarding(Long userId) {
+	public UserEntity findByUserIdAndOnboarding(Long userId) {
 		return null;
 	}
 }

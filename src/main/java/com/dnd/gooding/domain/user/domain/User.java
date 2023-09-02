@@ -1,7 +1,5 @@
 package com.dnd.gooding.domain.user.domain;
 
-import com.dnd.gooding.global.oauth.domain.OAuthUser;
-
 import lombok.Builder;
 import lombok.Getter;
 
@@ -24,36 +22,5 @@ public class User {
 		this.provider = provider;
 		this.oauthId = oauthId;
 		this.onboardYn = onboardYn;
-	}
-
-	public static User from(OAuthUser oAuthUser) {
-		return User.builder()
-			.nickname(oAuthUser.nickname())
-			.profileImgUrl(oAuthUser.profileImgUrl())
-			.provider(oAuthUser.provider())
-			.oauthId(oAuthUser.oauthId())
-			.build();
-	}
-
-	public User nickNameUpdate(String nickname) {
-		return User.builder()
-			.id(id)
-			.nickname(nickname)
-			.profileImgUrl(profileImgUrl)
-			.provider(provider)
-			.oauthId(oauthId)
-			.onboardYn(onboardYn)
-			.build();
-	}
-
-	public User profileImageUrlUpdate(String profileImgUrl) {
-		return User.builder()
-			.id(id)
-			.nickname(nickname)
-			.profileImgUrl(profileImgUrl)
-			.provider(provider)
-			.oauthId(oauthId)
-			.onboardYn(onboardYn)
-			.build();
 	}
 }

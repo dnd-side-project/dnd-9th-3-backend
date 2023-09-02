@@ -15,6 +15,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.dnd.gooding.domain.file.controller.port.FileService;
 import com.dnd.gooding.domain.file.domain.FileCreate;
 import com.dnd.gooding.domain.user.domain.User;
+import com.dnd.gooding.domain.user.infrastructure.UserEntity;
 import com.dnd.gooding.global.common.enums.FileType;
 import com.dnd.gooding.global.s3.controller.port.S3Service;
 import com.dnd.gooding.global.s3.exception.IllegalArgumentS3Exception;
@@ -43,10 +44,10 @@ public class S3ServiceImpl implements S3Service {
 	}
 
 	@Override
-	public String upload(MultipartFile profileImage, User user) throws IOException {
+	public String upload(MultipartFile profileImage, UserEntity userEntity) throws IOException {
 		if (!profileImage.isEmpty()) {
 			FileCreate fileCreate = upload(profileImage, FileType.images.name());
-			return fileService.upload(fileCreate, user);
+			return fileService.upload(fileCreate, userEntity);
 		}
 		return null;
 	}
