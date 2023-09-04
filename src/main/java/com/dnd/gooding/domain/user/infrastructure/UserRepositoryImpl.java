@@ -1,5 +1,6 @@
 package com.dnd.gooding.domain.user.infrastructure;
 
+import static com.dnd.gooding.domain.onboard.infrastructure.QOnboardEntity.*;
 import static com.dnd.gooding.domain.user.infrastructure.QUserEntity.*;
 
 import java.util.Optional;
@@ -8,6 +9,7 @@ import javax.persistence.EntityManager;
 
 import org.springframework.stereotype.Repository;
 
+import com.dnd.gooding.domain.user.domain.User;
 import com.dnd.gooding.domain.user.service.port.UserRepository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,58 +18,65 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 public class UserRepositoryImpl implements UserRepository {
 	private final EntityManager em;
 	private final JPAQueryFactory queryFactory;
-	public UserRepositoryImpl(EntityManager em) {
+	private final UserJpaRepository userJpaRepository;
+	public UserRepositoryImpl(EntityManager em, UserJpaRepository userJpaRepository) {
 		this.em = em;
 		this.queryFactory = new JPAQueryFactory(em);
+		this.userJpaRepository = userJpaRepository;
 	}
 
 	@Override
-	public Optional<UserEntity> findByProviderAndOauthId(String provider, String oauthId) {
+	public Optional<User> findByProviderAndOauthId(String provider, String oauthId) {
 		return Optional.ofNullable(
 			queryFactory
 				.selectFrom(userEntity)
 				.where(providerEquals(provider), oauthIdEquals(oauthId))
-				.fetchOne());
+				.fetchOne())
+			.map(UserEntity::toModel);
 	}
 
 	@Override
-	public Optional<UserEntity> findByUserId(Long userId) {
+	public Optional<User> findByUserId(Long userId) {
 		return Optional.ofNullable(
 			queryFactory
 				.selectFrom(userEntity)
 				.where(userIdEquals(userId))
-				.fetchOne());
+				.fetchOne())
+			.map(UserEntity::toModel);
 	}
 
 	@Override
-	public Optional<UserEntity> findByOauthId(String oauthId) {
-		return Optional.ofNullable(
-			queryFactory
-				.selectFrom(userEntity)
-				.where(oauthIdEquals(oauthId))
-				.fetchOne());
-	}
-
-	@Override
-	public Optional<UserEntity> findByUserIdAndOnboarding(Long userId) {
+	public Optional<User> findByOauthId(String oauthId) {
 		return Optional.ofNullable(
 			queryFactory
 				.select(userEntity).distinct()
 				.from(userEntity)
-				// .join(user.onboardings, onboarding).fetchJoin()
+				.leftJoin(userEntity.onboards, onboardEntity).fetchJoin()
+				.where(oauthIdEquals(oauthId))
+				.fetchOne())
+			.map(UserEntity::toModel);
+	}
+
+	@Override
+	public Optional<User> findByUserIdAndOnboarding(Long userId) {
+		return Optional.ofNullable(
+			queryFactory
+				.select(userEntity).distinct()
+				.from(userEntity)
+				.join(userEntity.onboards, onboardEntity).fetchJoin()
 				.where(userIdEquals(userId))
-				.fetchOne());
+				.fetchOne())
+			.map(UserEntity::toModel);
 	}
 
 	@Override
-	public void delete(UserEntity userEntity) {
-		em.remove(userEntity);
+	public void delete(User user) {
+		userJpaRepository.delete(UserEntity.from(user));
 	}
 
 	@Override
-	public UserEntity save(UserEntity userEntity) {
-		em.persist(userEntity);
-		return userEntity;
+	public User save(User user) {
+		return userJpaRepository.save(UserEntity.from(user)).toModel();
 	}
 
 	private BooleanExpression userIdEquals(Long userId) {

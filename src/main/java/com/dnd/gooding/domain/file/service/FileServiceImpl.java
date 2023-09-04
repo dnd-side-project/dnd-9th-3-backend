@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.dnd.gooding.domain.file.controller.port.FileService;
 import com.dnd.gooding.domain.file.domain.FileCreate;
-import com.dnd.gooding.domain.user.infrastructure.UserEntity;
+import com.dnd.gooding.domain.user.domain.User;
 
 import lombok.Builder;
 
@@ -13,7 +13,7 @@ import lombok.Builder;
 public class FileServiceImpl implements FileService {
 
 	@Override
-	public String upload(FileCreate fileCreate, UserEntity userEntity) {
+	public String upload(FileCreate fileCreate, User user) {
 		return null;
 	}
 

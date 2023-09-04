@@ -1,5 +1,10 @@
 package com.dnd.gooding.domain.onboard.infrastructure;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.dnd.gooding.domain.onboard.domain.Onboard;
 import com.dnd.gooding.domain.user.infrastructure.UserEntity;
 import com.dnd.gooding.global.common.converter.InterestConverter;
 import com.dnd.gooding.global.common.enums.InterestType;
@@ -28,10 +33,27 @@ public class OnboardEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    public static OnboardEntity from(UserEntity userEntity, String interestCode) {
+    public static OnboardEntity from(Onboard onboard) {
         OnboardEntity onboardEntity = new OnboardEntity();
-        onboardEntity.interestType = InterestType.ofInterestCode(interestCode);
-        onboardEntity.userEntity = userEntity;
+        onboardEntity.id = onboard.getId();
+        onboardEntity.interestType = onboard.getInterestType();
+        onboardEntity.userEntity = UserEntity.from(onboard.getUser());
         return onboardEntity;
+    }
+
+    public static List<OnboardEntity> from(List<Onboard> onboards) {
+        List<OnboardEntity> onboardEntity = new ArrayList<>();
+        for(Onboard onboard : onboards) {
+            onboardEntity.add(OnboardEntity.from(onboard));
+        }
+        return onboardEntity;
+    }
+
+    public Onboard toModel() {
+        return Onboard.builder()
+            .id(id)
+            .interestType(interestType)
+            .user(userEntity.toModel())
+            .build();
     }
 }

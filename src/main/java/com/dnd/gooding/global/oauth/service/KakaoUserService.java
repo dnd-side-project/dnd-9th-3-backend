@@ -64,7 +64,7 @@ public class KakaoUserService {
 			.profileImgUrl(kakaoUser.properties().get("profile_image").replace("\"", ""))
 			.provider(ProviderType.kakao.name())
 			.build();
-		User user = userService.create(oAuthUser).toModel();
+		User user = userService.create(oAuthUser);
 		return AuthUser.from(user);
 	}
 }

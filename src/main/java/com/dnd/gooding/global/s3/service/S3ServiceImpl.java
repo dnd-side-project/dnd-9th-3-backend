@@ -43,10 +43,10 @@ public class S3ServiceImpl implements S3Service {
 	}
 
 	@Override
-	public String upload(MultipartFile profileImage, UserEntity userEntity) throws IOException {
+	public String upload(MultipartFile profileImage, User user) throws IOException {
 		if (!profileImage.isEmpty()) {
 			FileCreate fileCreate = upload(profileImage, FileType.images.name());
-			return fileService.upload(fileCreate, userEntity);
+			return fileService.upload(fileCreate, user);
 		}
 		return null;
 	}

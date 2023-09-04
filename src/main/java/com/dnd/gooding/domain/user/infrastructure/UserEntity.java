@@ -2,6 +2,7 @@ package com.dnd.gooding.domain.user.infrastructure;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
@@ -41,8 +42,8 @@ public class UserEntity extends BaseEntity {
 	@Column(name = "onboard_yn", length = 5)
 	private String onboardYn;
 
-	 @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-	 private List<OnboardEntity> onboardings = new ArrayList<>();
+	@OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+	private List<OnboardEntity> onboards = new ArrayList<>();
 
 	@OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
 	private List<FileEntity> files = new ArrayList<>();
@@ -53,25 +54,20 @@ public class UserEntity extends BaseEntity {
 	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	// private List<Feed> feeds = new ArrayList<>();
 
-	public void changeImgUrl(String profileImgUrl) {
-		this.profileImgUrl = profileImgUrl;
-	}
-
-	public void changeNickName(String nickname) {
-		this.nickname = nickname;
-	}
-
 	public static UserEntity from(User user) {
 		UserEntity userEntity = new UserEntity();
+		userEntity.id = user.getId();
 		userEntity.nickname = user.getNickname();
 		userEntity.profileImgUrl = user.getProfileImgUrl();
 		userEntity.provider = user.getProvider();
 		userEntity.oauthId = user.getOauthId();
+		userEntity.onboardYn = user.getOnboardYn();
 		return userEntity;
 	}
 
 	public static UserEntity from(OAuthUser oAuthUser) {
 		UserEntity userEntity = new UserEntity();
+		userEntity.id = oAuthUser.id();
 		userEntity.nickname = oAuthUser.nickname();
 		userEntity.profileImgUrl = oAuthUser.profileImgUrl();
 		userEntity.provider = oAuthUser.provider();
@@ -87,6 +83,7 @@ public class UserEntity extends BaseEntity {
 			.provider(provider)
 			.oauthId(oauthId)
 			.onboardYn(onboardYn)
+			.onboards(onboards.stream().map(OnboardEntity::toModel).collect(Collectors.toList()))
 			.build();
 	}
 }

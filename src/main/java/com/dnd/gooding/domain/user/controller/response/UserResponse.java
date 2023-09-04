@@ -1,5 +1,9 @@
 package com.dnd.gooding.domain.user.controller.response;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.dnd.gooding.domain.onboard.controller.response.OnboardResponse;
 import com.dnd.gooding.domain.user.domain.User;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,6 +22,7 @@ public class UserResponse {
 	private String profileImgUrl;
 	@Schema(description = "온보딩 여부")
 	private String onboardYn;
+	private List<OnboardResponse> onboards;
 
 	public static UserResponse from(User user) {
 		return UserResponse.builder()
@@ -25,6 +30,9 @@ public class UserResponse {
 			.nickname(user.getNickname())
 			.profileImgUrl(user.getProfileImgUrl())
 			.onboardYn(user.getOnboardYn())
+			.onboards(user.getOnboards().stream()
+				.map(OnboardResponse::from)
+				.collect(Collectors.toList()))
 			.build();
 	}
 }
