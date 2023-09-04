@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.dnd.gooding.domain.file.infrastructure.FileEntity;
+import com.dnd.gooding.domain.onboard.infrastructure.OnboardEntity;
 import com.dnd.gooding.domain.user.domain.User;
 import com.dnd.gooding.global.common.domain.BaseEntity;
 import com.dnd.gooding.global.oauth.domain.OAuthUser;
@@ -40,8 +41,8 @@ public class UserEntity extends BaseEntity {
 	@Column(name = "onboard_yn", length = 5)
 	private String onboardYn;
 
-	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	// private List<Onboarding> onboardings = new ArrayList<>();
+	 @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+	 private List<OnboardEntity> onboardings = new ArrayList<>();
 
 	@OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
 	private List<FileEntity> files = new ArrayList<>();

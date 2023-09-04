@@ -27,7 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class S3ServiceImpl implements S3Service {
-
 	private final AmazonS3Client amazonS3Client;
 	private final FileService fileService;
 	@Value("${cloud.aws.s3.bucket}")

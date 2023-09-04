@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dnd.gooding.domain.user.controller.port.UserService;
-import com.dnd.gooding.domain.user.domain.User;
 import com.dnd.gooding.domain.user.exception.UserNotFoundException;
 import com.dnd.gooding.domain.user.infrastructure.UserEntity;
 import com.dnd.gooding.domain.user.service.port.UserRepository;
