@@ -37,15 +37,6 @@ public class OnboardEntity {
         OnboardEntity onboardEntity = new OnboardEntity();
         onboardEntity.id = onboard.getId();
         onboardEntity.interestType = onboard.getInterestType();
-        onboardEntity.userEntity = UserEntity.from(onboard.getUser());
-        return onboardEntity;
-    }
-
-    public static List<OnboardEntity> from(List<Onboard> onboards) {
-        List<OnboardEntity> onboardEntity = new ArrayList<>();
-        for(Onboard onboard : onboards) {
-            onboardEntity.add(OnboardEntity.from(onboard));
-        }
         return onboardEntity;
     }
 
@@ -53,7 +44,6 @@ public class OnboardEntity {
         return Onboard.builder()
             .id(id)
             .interestType(interestType)
-            .user(userEntity.toModel())
             .build();
     }
 }

@@ -1,6 +1,5 @@
 package com.dnd.gooding.domain.user.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.dnd.gooding.domain.onboard.domain.Onboard;
@@ -31,7 +30,12 @@ public class User {
 		this.onboards = onboards;
 	}
 
-	public User changeOnboards(List<Onboard> onboards) {
+	public List<Onboard> addOnboard(Onboard onboard) {
+		onboards.add(onboard);
+		return onboards;
+	}
+
+	public User changeOnboard(Onboard onboard) {
 		return User.builder()
 			.id(id)
 			.nickname(nickname)
@@ -39,7 +43,7 @@ public class User {
 			.provider(provider)
 			.oauthId(oauthId)
 			.onboardYn(onboardYn)
-			.onboards(onboards)
+			.onboards(addOnboard(onboard))
 			.build();
 	}
 

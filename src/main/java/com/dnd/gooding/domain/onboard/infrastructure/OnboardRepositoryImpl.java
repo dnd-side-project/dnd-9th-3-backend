@@ -1,7 +1,5 @@
 package com.dnd.gooding.domain.onboard.infrastructure;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.stereotype.Repository;
 
 import com.dnd.gooding.domain.onboard.domain.Onboard;

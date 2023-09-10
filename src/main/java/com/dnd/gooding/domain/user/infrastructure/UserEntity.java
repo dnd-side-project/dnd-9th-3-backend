@@ -62,6 +62,7 @@ public class UserEntity extends BaseEntity {
 		userEntity.provider = user.getProvider();
 		userEntity.oauthId = user.getOauthId();
 		userEntity.onboardYn = user.getOnboardYn();
+		userEntity.onboards = user.getOnboards().stream().map(OnboardEntity::from).collect(Collectors.toList());
 		return userEntity;
 	}
 

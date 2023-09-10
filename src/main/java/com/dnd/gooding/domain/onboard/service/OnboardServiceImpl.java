@@ -1,6 +1,5 @@
 package com.dnd.gooding.domain.onboard.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -29,6 +28,7 @@ public class OnboardServiceImpl implements OnboardService {
 
 		for(String interestCode : interestCodes) {
 			Onboard onboard = onboardRepository.save(Onboard.create(user, interestCode));
+			user = user.changeOnboard(onboard);
 		}
 		user = user.changeNickName(nickName);
 		user = user.changeOnboardYn("Y");
