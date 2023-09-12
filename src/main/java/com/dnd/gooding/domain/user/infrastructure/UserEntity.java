@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import com.dnd.gooding.domain.file.infrastructure.FileEntity;
 import com.dnd.gooding.domain.onboard.infrastructure.OnboardEntity;
+import com.dnd.gooding.domain.record.infrastructure.RecordEntity;
 import com.dnd.gooding.domain.user.domain.User;
 import com.dnd.gooding.global.common.domain.BaseEntity;
 import com.dnd.gooding.global.oauth.domain.OAuthUser;
@@ -47,9 +48,9 @@ public class UserEntity extends BaseEntity {
 
 	@OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
 	private List<FileEntity> files = new ArrayList<>();
-	//
-	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)	// 주인이 아닌 쪽에 mappedBy
-	// private List<Record> records = new ArrayList<>();
+
+	@OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+	private List<RecordEntity> records = new ArrayList<>();
 	//
 	// @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	// private List<Feed> feeds = new ArrayList<>();
@@ -68,7 +69,6 @@ public class UserEntity extends BaseEntity {
 
 	public static UserEntity from(OAuthUser oAuthUser) {
 		UserEntity userEntity = new UserEntity();
-		userEntity.id = oAuthUser.id();
 		userEntity.nickname = oAuthUser.nickname();
 		userEntity.profileImgUrl = oAuthUser.profileImgUrl();
 		userEntity.provider = oAuthUser.provider();

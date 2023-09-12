@@ -10,6 +10,7 @@ import com.dnd.gooding.global.oauth.domain.OAuthUser;
 public interface UserService {
 	User create(OAuthUser oAuthUser);
 	User update(Long userId, String nickName, MultipartFile profileImage) throws IOException;
+	String upload(MultipartFile profileImage, User user) throws IOException;
 	User findByOauthId(String oauthId);
 	User findByUserId(Long userId);
 	User save(User user);

@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.dnd.gooding.domain.file.domain.File;
+import com.dnd.gooding.domain.record.infrastructure.RecordEntity;
 import com.dnd.gooding.domain.user.infrastructure.UserEntity;
 import com.dnd.gooding.global.common.domain.BaseEntity;
 
@@ -46,4 +48,29 @@ public class FileEntity extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private UserEntity userEntity;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "record_id")
+	private RecordEntity recordEntity;
+
+	public static FileEntity from(File file) {
+		FileEntity fileEntity = new FileEntity();
+		fileEntity.extension = file.getExtension();
+		fileEntity.fileUrl = file.getFileUrl();
+		fileEntity.fileSize = file.getFileSize();
+		fileEntity.originName = file.getOriginName();
+		fileEntity.newName = file.getNewName();
+		return fileEntity;
+	}
+
+	public File toModel() {
+		return File.builder()
+			.id(id)
+			.extension(extension)
+			.fileUrl(fileUrl)
+			.fileSize(fileSize)
+			.originName(originName)
+			.newName(newName)
+			.build();
+	}
 }

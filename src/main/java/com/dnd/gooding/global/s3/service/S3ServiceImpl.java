@@ -12,11 +12,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.dnd.gooding.domain.file.controller.port.FileService;
 import com.dnd.gooding.domain.file.domain.FileCreate;
-import com.dnd.gooding.domain.user.domain.User;
-import com.dnd.gooding.domain.user.infrastructure.UserEntity;
-import com.dnd.gooding.global.common.enums.FileType;
 import com.dnd.gooding.global.s3.controller.port.S3Service;
 import com.dnd.gooding.global.s3.exception.IllegalArgumentS3Exception;
 
@@ -28,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class S3ServiceImpl implements S3Service {
 	private final AmazonS3Client amazonS3Client;
-	private final FileService fileService;
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucket;
 	@Value("${spring.environment}")
@@ -43,21 +38,12 @@ public class S3ServiceImpl implements S3Service {
 	}
 
 	@Override
-	public String upload(MultipartFile profileImage, User user) throws IOException {
-		if (!profileImage.isEmpty()) {
-			FileCreate fileCreate = upload(profileImage, FileType.images.name());
-			return fileService.upload(fileCreate, user);
-		}
-		return null;
-	}
-
-	private FileCreate upload(MultipartFile multipartFile, String dirName) throws IOException {
+	public FileCreate upload(MultipartFile multipartFile) throws IOException {
 		FileCreate fileCreate = new FileCreate(environment, basicDir);
-
 		File uploadFile = fileCreate.convert(multipartFile)  // 파일 변환할 수 없으면 에러
 			.orElseThrow(() -> new IllegalArgumentS3Exception(multipartFile.getName()));
 
-		String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
+		String fileName = UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
 		String fileUrl = putS3(uploadFile, bucket, fileName); // s3로 업로드
 		removeNewFile(uploadFile);
 		return fileCreate.create(fileUrl);

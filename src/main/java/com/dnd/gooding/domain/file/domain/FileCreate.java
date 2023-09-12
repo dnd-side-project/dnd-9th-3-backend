@@ -20,7 +20,7 @@ public class FileCreate {
 	private Long fileSize;
 
 	@Builder
-	public FileCreate(String extension, String fileUrl, String thumbnailUrl,
+	public FileCreate(String extension, String fileUrl,
 		String originName, String newName, Long fileSize) {
 		this.extension = extension;
 		this.fileUrl = fileUrl;
@@ -48,23 +48,13 @@ public class FileCreate {
 	}
 
 	public void update(String extension) {
-		FileCreate.builder()
-			.extension(extension)
-			.fileUrl(fileUrl)
-			.originName(originName)
-			.newName(newName)
-			.fileSize(fileSize)
-			.build();
+		this.extension = extension;
 	}
 
-	public void update(String originalFilename, String newFileName, Long fileSize) {
-		FileCreate.builder()
-			.extension(extension)
-			.fileUrl(fileUrl)
-			.originName(originalFilename)
-			.newName(newFileName)
-			.fileSize(fileSize)
-			.build();
+	public void update(String originName, String newName, Long fileSize) {
+		this.originName = originName;
+		this.newName = newName;
+		this.fileSize = fileSize;
 	}
 
 	public Optional<File> convert(MultipartFile multipartFile) throws IOException {
@@ -74,7 +64,6 @@ public class FileCreate {
 		String originalFilename = multipartFile.getOriginalFilename();
 		String newFileName = createStoreFileName(originalFilename);
 
-		//파일 업로드
 		File file = new File(fileDir + newFileName);
 		multipartFile.transferTo(file);
 
