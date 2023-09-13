@@ -60,6 +60,8 @@ public class FileEntity extends BaseEntity {
 		fileEntity.fileSize = file.getFileSize();
 		fileEntity.originName = file.getOriginName();
 		fileEntity.newName = file.getNewName();
+		fileEntity.userEntity = UserEntity.from(file.getUser());
+		fileEntity.recordEntity = RecordEntity.from(file.getRecord());
 		return fileEntity;
 	}
 

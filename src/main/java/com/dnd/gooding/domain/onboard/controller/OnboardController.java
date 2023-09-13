@@ -1,5 +1,6 @@
 package com.dnd.gooding.domain.onboard.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,12 +39,12 @@ public class OnboardController {
 	@PostMapping(value = "/update/{userId}",
 		consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserResponse> update(
+	public ResponseEntity<Void> update(
 		@PathVariable("userId") Long userId,
 		OnboardRequest onboardRequest) {
+		onboardService.create(userId, onboardRequest.getNickName(), onboardRequest.getInterestCodes());
 		return ResponseEntity
-			.ok()
-			.body(onboardService.findByUserIdAndUpdate(userId,
-				onboardRequest.getNickName(), onboardRequest.getInterestCodes()));
+			.status(HttpStatus.NO_CONTENT)
+			.build();
 	}
 }

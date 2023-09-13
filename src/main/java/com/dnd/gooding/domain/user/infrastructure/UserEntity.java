@@ -1,8 +1,9 @@
 package com.dnd.gooding.domain.user.infrastructure;
 
+import static java.util.stream.Collectors.*;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
@@ -63,7 +64,6 @@ public class UserEntity extends BaseEntity {
 		userEntity.provider = user.getProvider();
 		userEntity.oauthId = user.getOauthId();
 		userEntity.onboardYn = user.getOnboardYn();
-		userEntity.onboards = user.getOnboards().stream().map(OnboardEntity::from).collect(Collectors.toList());
 		return userEntity;
 	}
 
@@ -84,7 +84,7 @@ public class UserEntity extends BaseEntity {
 			.provider(provider)
 			.oauthId(oauthId)
 			.onboardYn(onboardYn)
-			.onboards(onboards.stream().map(OnboardEntity::toModel).collect(Collectors.toList()))
+			.onboards(onboards.stream().map(OnboardEntity::toModel).collect(toList()))
 			.build();
 	}
 }

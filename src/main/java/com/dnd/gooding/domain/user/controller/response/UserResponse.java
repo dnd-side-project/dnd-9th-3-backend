@@ -1,7 +1,8 @@
 package com.dnd.gooding.domain.user.controller.response;
 
+import static java.util.stream.Collectors.*;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.dnd.gooding.domain.onboard.controller.response.OnboardResponse;
 import com.dnd.gooding.domain.user.domain.User;
@@ -32,7 +33,7 @@ public class UserResponse {
 			.onboardYn(user.getOnboardYn())
 			.onboards(user.getOnboards().stream()
 				.map(OnboardResponse::from)
-				.collect(Collectors.toList()))
+				.collect(toList()))
 			.build();
 	}
 }

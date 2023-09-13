@@ -1,8 +1,11 @@
 package com.dnd.gooding.domain.record.infrastructure;
 
+import static java.util.stream.Collectors.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,8 +22,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.dnd.gooding.domain.file.domain.File;
 import com.dnd.gooding.domain.file.infrastructure.FileEntity;
+import com.dnd.gooding.domain.onboard.infrastructure.OnboardEntity;
 import com.dnd.gooding.domain.record.domain.Record;
 import com.dnd.gooding.domain.record.domain.RecordOpenStatus;
 import com.dnd.gooding.domain.user.infrastructure.UserEntity;
@@ -99,6 +102,8 @@ public class RecordEntity extends BaseEntity {
 		recordEntity.userEntity = UserEntity.from(record.getUser());
 		recordEntity.thumbnailUrl = record.getThumbnailUrl();
 		recordEntity.interestType = record.getInterestType();
+		recordEntity.files = Optional.ofNullable(record.getFiles()).orElseGet(ArrayList::new)
+			.stream().map(FileEntity::from).collect(toList());
 		return recordEntity;
 	}
 
@@ -115,7 +120,7 @@ public class RecordEntity extends BaseEntity {
 			.recordScore(recordScore)
 			.interestType(interestType)
 			.user(userEntity.toModel())
-			.files(files.stream().map(FileEntity::toModel).toList())
+			.files(files.stream().map(FileEntity::toModel).collect(toList()))
 			.build();
 	}
 }

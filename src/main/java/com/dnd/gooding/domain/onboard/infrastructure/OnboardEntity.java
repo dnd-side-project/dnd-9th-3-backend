@@ -37,6 +37,7 @@ public class OnboardEntity {
         OnboardEntity onboardEntity = new OnboardEntity();
         onboardEntity.id = onboard.getId();
         onboardEntity.interestType = onboard.getInterestType();
+        onboardEntity.userEntity = UserEntity.from(onboard.getUser());
         return onboardEntity;
     }
 

@@ -25,7 +25,7 @@ public class Record {
 	private final User user;
 	private final String thumbnailUrl;
 	private final InterestType interestType;
-	private List<File> files;
+	private final List<File> files;
 
 	@Builder
 	public Record(Long id, String title, String description, LocalDateTime recordDate, String placeTitle,

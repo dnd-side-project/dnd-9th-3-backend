@@ -1,5 +1,7 @@
 package com.dnd.gooding.domain.record.controller;
 
+import static java.util.stream.Collectors.*;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,7 +60,7 @@ public class RecordController {
 			.status(HttpStatus.OK)
 			.body(recordService.findByUserId(userId).stream()
 				.map(MyRecordResponse::from)
-				.collect(Collectors.toList()));
+				.collect(toList()));
 	}
 
 	@Operation(summary = "날짜별로 기록을 조회한다.",
@@ -73,9 +75,9 @@ public class RecordController {
 		@Parameter(description = "기록날짜", example = "202308") @RequestParam String recordDate) {
 		return ResponseEntity
 			.status(HttpStatus.OK)
-			.body(recordService.findByUserIdAndDate(userId, recordDate).stream()
+			.body(recordService.findByUserIdAndRecordDate(userId, recordDate).stream()
 				.map(MyRecordResponse::from)
-				.collect(Collectors.toList()));
+				.collect(toList()));
 	}
 
 	@Operation(summary = "기록 내용을 업로드한다.",

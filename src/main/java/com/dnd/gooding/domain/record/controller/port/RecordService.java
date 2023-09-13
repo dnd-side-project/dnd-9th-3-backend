@@ -11,7 +11,7 @@ import com.dnd.gooding.domain.record.domain.Record;
 public interface RecordService {
 
 	List<Record> findByUserId(Long userId);
-	List<Record> findByUserIdAndDate(Long userId, String recordDate);
+	List<Record> findByUserIdAndRecordDate(Long userId, String recordDate);
 	Record create(String oauthId, UploadRequest uploadRequest);
 	Record findByUserIdAndRecordId(Long userId, Long recordId);
 	void upload(List<MultipartFile> files, Record record) throws IOException;

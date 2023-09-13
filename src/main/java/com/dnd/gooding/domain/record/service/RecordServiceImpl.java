@@ -32,14 +32,16 @@ public class RecordServiceImpl implements RecordService {
 	private final FileService fileService;
 	private final S3Service s3Service;
 
+	@Transactional(readOnly = true)
 	@Override
 	public List<Record> findByUserId(Long userId) {
 		return recordRepository.findByUserId(userId);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
-	public List<Record> findByUserIdAndDate(Long userId, String recordDate) {
-		return null;
+	public List<Record> findByUserIdAndRecordDate(Long userId, String recordDate) {
+		return recordRepository.findByUserIdAndRecordDate(userId, recordDate);
 	}
 
 	@Transactional
@@ -52,6 +54,7 @@ public class RecordServiceImpl implements RecordService {
 		return record;
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public Record findByUserIdAndRecordId(Long userId, Long recordId) {
 		return recordRepository.findByUserIdAndRecordId(userId, recordId);

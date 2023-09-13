@@ -1,8 +1,9 @@
 package com.dnd.gooding.domain.record.controller.response;
 
+import static java.util.stream.Collectors.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.dnd.gooding.domain.file.controller.response.RecordFileResponse;
 import com.dnd.gooding.domain.record.domain.Record;
@@ -40,10 +41,11 @@ public class MyRecordResponse {
 			.placeLatitude(record.getPlaceLatitude())
 			.placeLongitude(record.getPlaceLongitude())
 			.recordScore(record.getRecordScore())
+			.recordOpen(record.getRecordOpen())
 			.interestType(record.getInterestType().getInterestName())
 			.files(record.getFiles().stream()
 				.map(RecordFileResponse::from)
-				.collect(Collectors.toList()))
+				.collect(toList()))
 			.build();
 	}
 }

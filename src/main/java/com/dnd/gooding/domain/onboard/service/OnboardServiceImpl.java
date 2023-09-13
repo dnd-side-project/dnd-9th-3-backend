@@ -9,7 +9,6 @@ import com.dnd.gooding.domain.onboard.controller.port.OnboardService;
 import com.dnd.gooding.domain.onboard.domain.Onboard;
 import com.dnd.gooding.domain.onboard.service.port.OnboardRepository;
 import com.dnd.gooding.domain.user.controller.port.UserService;
-import com.dnd.gooding.domain.user.controller.response.UserResponse;
 import com.dnd.gooding.domain.user.domain.User;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ public class OnboardServiceImpl implements OnboardService {
 
 	@Transactional
 	@Override
-	public UserResponse findByUserIdAndUpdate(Long userId, String nickName, List<String> interestCodes) {
+	public void create(Long userId, String nickName, List<String> interestCodes) {
 		User user = userService.findByUserId(userId);
 
 		for(String interestCode : interestCodes) {
@@ -32,7 +31,6 @@ public class OnboardServiceImpl implements OnboardService {
 		}
 		user = user.changeNickName(nickName);
 		user = user.changeOnboardYn("Y");
-		user = userService.save(user);
-		return UserResponse.from(user);
+		userService.save(user);
 	}
 }

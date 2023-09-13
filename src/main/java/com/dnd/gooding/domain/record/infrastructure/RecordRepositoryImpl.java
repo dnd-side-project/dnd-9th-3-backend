@@ -1,11 +1,13 @@
 package com.dnd.gooding.domain.record.infrastructure;
 
 import static com.dnd.gooding.domain.file.infrastructure.QFileEntity.*;
+import static com.dnd.gooding.domain.onboard.infrastructure.QOnboardEntity.*;
 import static com.dnd.gooding.domain.record.infrastructure.QRecordEntity.*;
+import static com.dnd.gooding.domain.user.infrastructure.QUserEntity.*;
+import static java.util.stream.Collectors.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -39,14 +41,33 @@ public class RecordRepositoryImpl implements RecordRepository {
 		List<RecordEntity> recordEntities = Optional.ofNullable(queryFactory
 			.select(recordEntity).distinct()
 			.from(recordEntity)
-			.join(recordEntity.files, fileEntity).fetchJoin()
+			.join(recordEntity.userEntity, userEntity).fetchJoin()
+			.join(fileEntity)
+				.on(recordEntity.id.eq(fileEntity.recordEntity.id)
+				.and(recordEntity.userEntity.id.eq(fileEntity.userEntity.id))).fetchJoin()
+			.leftJoin(userEntity.onboards, onboardEntity)
 			.orderBy(
 				recordEntity.lastModifiedDate.desc()
 			)
 			.where(userIdEquals(userId))
 			.fetch())
 			.orElseGet(ArrayList::new);
-		return recordEntities.stream().map(RecordEntity::toModel).toList();
+		return recordEntities.stream().map(RecordEntity::toModel).collect(toList());
+	}
+
+	@Override
+	public List<Record> findByUserIdAndRecordDate(Long userId, String recordDate) {
+		List<RecordEntity> recordEntities = Optional.ofNullable(queryFactory
+			.select(recordEntity).distinct()
+			.from(recordEntity)
+			.join(recordEntity.files, fileEntity).fetchJoin()
+			.where(userIdEquals(userId), recordDateEquals(recordDate))
+			.orderBy(
+				recordEntity.lastModifiedDate.desc()
+			)
+			.fetch())
+			.orElseGet(ArrayList::new);
+		return recordEntities.stream().map(RecordEntity::toModel).collect(toList());
 	}
 
 	@Override
@@ -54,7 +75,11 @@ public class RecordRepositoryImpl implements RecordRepository {
 		return Optional.ofNullable(queryFactory
 			.select(recordEntity).distinct()
 			.from(recordEntity)
-			.join(recordEntity.files, fileEntity).fetchJoin()
+			.join(recordEntity.userEntity, userEntity).fetchJoin()
+			.join(fileEntity)
+				.on(recordEntity.id.eq(fileEntity.recordEntity.id)
+				.and(recordEntity.userEntity.id.eq(fileEntity.userEntity.id))).fetchJoin()
+			.leftJoin(userEntity.onboards, onboardEntity)
 			.where(userIdEquals(userId), recordIdEquals(recordId))
 			.fetchOne())
 			.orElseThrow(() -> new RecordNotFoundException(recordId)).toModel();

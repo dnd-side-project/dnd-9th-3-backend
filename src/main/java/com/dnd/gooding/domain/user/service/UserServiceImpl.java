@@ -74,6 +74,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
 	public User findByOauthId(String oauthId) {
 		return userRepository.findByOauthId(oauthId)
