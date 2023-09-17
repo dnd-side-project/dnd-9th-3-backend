@@ -8,6 +8,7 @@ import java.util.List;
 import com.dnd.gooding.domain.file.controller.response.RecordFileResponse;
 import com.dnd.gooding.domain.record.domain.Record;
 import com.dnd.gooding.domain.record.domain.RecordOpenStatus;
+import com.dnd.gooding.domain.user.controller.response.UserResponse;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -28,6 +29,7 @@ public class MyRecordResponse {
 	private Integer recordScore;
 	private RecordOpenStatus recordOpen;
 	private String interestType;
+	private UserResponse user;
 	private List<RecordFileResponse> files;
 
 	public static MyRecordResponse from(Record record) {
@@ -43,6 +45,7 @@ public class MyRecordResponse {
 			.recordScore(record.getRecordScore())
 			.recordOpen(record.getRecordOpen())
 			.interestType(record.getInterestType().getInterestName())
+			.user(UserResponse.from(record.getUser()))
 			.files(record.getFiles().stream()
 				.map(RecordFileResponse::from)
 				.collect(toList()))

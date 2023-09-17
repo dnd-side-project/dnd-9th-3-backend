@@ -3,6 +3,8 @@ package com.dnd.gooding.domain.record.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.util.ObjectUtils;
+
 import com.dnd.gooding.domain.file.domain.File;
 import com.dnd.gooding.domain.record.controller.request.UploadRequest;
 import com.dnd.gooding.domain.user.domain.User;

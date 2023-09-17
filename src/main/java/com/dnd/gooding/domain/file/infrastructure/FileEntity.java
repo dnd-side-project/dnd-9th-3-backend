@@ -73,6 +73,20 @@ public class FileEntity extends BaseEntity {
 			.fileSize(fileSize)
 			.originName(originName)
 			.newName(newName)
+			.user(userEntity.toModel())
+			.record(recordEntity.toModel())
+			.build();
+	}
+
+	public File toDomain() {
+		return File.builder()
+			.id(id)
+			.extension(extension)
+			.fileUrl(fileUrl)
+			.fileSize(fileSize)
+			.originName(originName)
+			.newName(newName)
+			.user(userEntity.toModel())
 			.build();
 	}
 }
