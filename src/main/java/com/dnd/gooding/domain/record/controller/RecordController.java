@@ -110,7 +110,7 @@ public class RecordController {
 		@RequestParam Long recordId) {
 		Record record = recordService.findByUserIdAndRecordId(userId, recordId);
 		for(File file : record.getFiles()) {
-			s3Service.delete(file.extractExtension(file.getFileUrl()));
+			s3Service.delete(file.getNewName());
 		}
 		recordService.delete(record);
 		return ResponseEntity

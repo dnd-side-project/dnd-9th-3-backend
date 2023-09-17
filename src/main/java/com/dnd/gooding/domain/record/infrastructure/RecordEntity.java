@@ -103,6 +103,24 @@ public class RecordEntity extends BaseEntity {
 		return recordEntity;
 	}
 
+	public static RecordEntity delete(Record record) {
+		RecordEntity recordEntity = new RecordEntity();
+		recordEntity.id = record.getId();
+		recordEntity.title = record.getTitle();
+		recordEntity.description = record.getDescription();
+		recordEntity.recordDate = record.getRecordDate();
+		recordEntity.placeTitle = record.getPlaceTitle();
+		recordEntity.placeLatitude = record.getPlaceLatitude();
+		recordEntity.placeLongitude = record.getPlaceLongitude();
+		recordEntity.recordOpen = record.getRecordOpen();
+		recordEntity.recordScore = record.getRecordScore();
+		recordEntity.userEntity = UserEntity.from(record.getUser());
+		recordEntity.thumbnailUrl = record.getThumbnailUrl();
+		recordEntity.interestType = record.getInterestType();
+		recordEntity.files = record.getFiles().stream().map(FileEntity::delete).collect(toList());
+		return recordEntity;
+	}
+
 	public Record toModel() {
 		return Record.builder()
 			.id(id)

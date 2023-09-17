@@ -42,9 +42,8 @@ public class S3ServiceImpl implements S3Service {
 		FileCreate fileCreate = new FileCreate(environment, basicDir);
 		File uploadFile = fileCreate.convert(multipartFile)  // 파일 변환할 수 없으면 에러
 			.orElseThrow(() -> new IllegalArgumentS3Exception(multipartFile.getName()));
-
-		String fileName = UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
-		String fileUrl = putS3(uploadFile, bucket, fileName); // s3로 업로드
+  // S3에 저장된 파일 이름
+		String fileUrl = putS3(uploadFile, bucket, uploadFile.getName()); // s3로 업로드
 		removeNewFile(uploadFile);
 		return fileCreate.create(fileUrl);
 	}

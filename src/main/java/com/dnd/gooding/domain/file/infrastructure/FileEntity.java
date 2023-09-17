@@ -65,6 +65,18 @@ public class FileEntity extends BaseEntity {
 		return fileEntity;
 	}
 
+	public static FileEntity delete(File file) {
+		FileEntity fileEntity = new FileEntity();
+		fileEntity.id = file.getId();
+		fileEntity.extension = file.getExtension();
+		fileEntity.fileUrl = file.getFileUrl();
+		fileEntity.fileSize = file.getFileSize();
+		fileEntity.originName = file.getOriginName();
+		fileEntity.newName = file.getNewName();
+		fileEntity.userEntity = UserEntity.from(file.getUser());
+		return fileEntity;
+	}
+
 	public File toModel() {
 		return File.builder()
 			.id(id)

@@ -92,7 +92,7 @@ public class RecordRepositoryImpl implements RecordRepository {
 
 	@Override
 	public void delete(Record record) {
-		recordJpaRepository.delete(RecordEntity.from(record));
+		recordJpaRepository.delete(RecordEntity.delete(record));
 	}
 
 	private BooleanExpression recordDateEquals(String recordDate) {
