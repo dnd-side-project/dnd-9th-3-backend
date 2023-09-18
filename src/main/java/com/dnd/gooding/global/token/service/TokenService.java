@@ -11,7 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dnd.gooding.global.oauth.dto.AuthUserInfo;
+import com.dnd.gooding.global.oauth.domain.AuthUser;
 import com.dnd.gooding.global.token.dto.Tokens;
 import com.dnd.gooding.global.token.dto.jwt.JwtAuthentication;
 import com.dnd.gooding.global.token.dto.jwt.JwtAuthenticationToken;
@@ -35,14 +35,14 @@ public class TokenService {
 	@Value("${jwt.expiry-seconds.refresh-token:36000}")
 	private int refreshTokenExpirySeconds;
 
-	public Tokens createTokens(AuthUserInfo userInfo) {
-		Long userId = userInfo.id();
-		String userRole = userInfo.role();
+	public Tokens createTokens(AuthUser authUser) {
+		Long userId = authUser.getId();
+		String userRole = authUser.getRole();
 
 		String accessToken = createAccessToken(userId, userRole);
-		String refreshToken = createRefreshToken(userId, userRole);
+		// String refreshToken = createRefreshToken(userId, userRole);
 
-		return new Tokens(accessToken, refreshToken);
+		return new Tokens(accessToken, null);
 	}
 
 	@Transactional

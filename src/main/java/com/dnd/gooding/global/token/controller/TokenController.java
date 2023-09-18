@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd.gooding.global.common.dto.ErrorResponse;
+import com.dnd.gooding.global.common.controller.response.ErrorResponse;
 import com.dnd.gooding.global.token.dto.response.TokenResponse;
 import com.dnd.gooding.global.token.service.TokenService;
 import com.dnd.gooding.global.util.CookieUtil;
@@ -58,10 +58,8 @@ public class TokenController {
 	})
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TokenResponse> refreshAccessToken(
-		@CookieValue("refreshToken") String refreshToken
-	) {
+		@CookieValue("refreshToken") String refreshToken) {
 		String accessToken = tokenService.getAccessTokensByRefreshToken(refreshToken);
-
 		return ResponseEntity
 			.ok()
 			.body(new TokenResponse(accessToken));
@@ -75,12 +73,9 @@ public class TokenController {
 	})
 	@DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> expireRefreshToken(
-		@CookieValue("refreshToken") String refreshToken
-	) {
+		@CookieValue("refreshToken") String refreshToken) {
 		tokenService.deleteRefreshToken(refreshToken);
-
 		ResponseCookie emptyCookie = CookieUtil.getEmptyCookie("refreshToken");
-
 		return ResponseEntity
 			.noContent()
 			.header(SET_COOKIE, emptyCookie.toString()).build();

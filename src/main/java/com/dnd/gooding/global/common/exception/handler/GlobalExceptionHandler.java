@@ -1,6 +1,6 @@
 package com.dnd.gooding.global.common.exception.handler;
 
-import com.dnd.gooding.global.common.dto.ErrorResponse;
+import com.dnd.gooding.global.common.controller.response.ErrorResponse;
 import com.dnd.gooding.global.common.exception.ErrorCode;
 import com.dnd.gooding.global.common.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;

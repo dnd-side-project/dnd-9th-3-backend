@@ -1,44 +1,37 @@
 package com.dnd.gooding.domain.file.service;
 
-import com.dnd.gooding.domain.record.repository.RecordRepository;
-import com.dnd.gooding.domain.user.model.User;
 import org.springframework.stereotype.Service;
-
-import com.dnd.gooding.domain.file.dto.FileCreate;
-import com.dnd.gooding.domain.file.model.File;
-import com.dnd.gooding.domain.file.repository.FileRepository;
-import com.dnd.gooding.domain.record.model.Record;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
+import com.dnd.gooding.domain.file.controller.port.FileService;
+import com.dnd.gooding.domain.file.domain.File;
+import com.dnd.gooding.domain.file.domain.FileCreate;
+import com.dnd.gooding.domain.file.service.port.FileRepository;
+import com.dnd.gooding.domain.record.domain.Record;
+import com.dnd.gooding.domain.user.domain.User;
+
+import lombok.Builder;
+import lombok.RequiredArgsConstructor;
+
+@Builder
 @Service
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
 
 	private final FileRepository fileRepository;
-	private final RecordRepository recordRepository;
 
-	@Transactional
 	@Override
 	public String upload(FileCreate fileCreate, User user) {
 		File file = File.create(fileCreate, user);
-		fileRepository.save(file);
-		return file.getFileUrl();
+		return null;
 	}
 
 	@Transactional
 	@Override
-	public void upload(FileCreate fileCreate, Record record) {
+	public Record upload(FileCreate fileCreate, Record record) {
 		File file = File.create(fileCreate, record);
-		fileRepository.save(file);
-	}
-
-	@Transactional
-	@Override
-	public void thumbnailUpdate(Long recordId, String thumbnailUrl) {
-		recordRepository.thumbnailUpdate(recordId, thumbnailUrl);
+		file = fileRepository.save(file);
+		record = record.changeFile(file);
+		return record;
 	}
 }

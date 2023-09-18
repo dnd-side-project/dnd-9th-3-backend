@@ -1,85 +1,103 @@
 package com.dnd.gooding.domain.record.service;
 
-import com.dnd.gooding.domain.file.model.File;
-import com.dnd.gooding.domain.record.dto.response.MyRecordResponse;
-import com.dnd.gooding.global.s3.service.S3Service;
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.dnd.gooding.domain.record.dto.request.UploadRequest;
-import com.dnd.gooding.domain.record.model.Record;
-import com.dnd.gooding.domain.record.repository.RecordRepository;
+import com.dnd.gooding.domain.file.controller.port.FileService;
+import com.dnd.gooding.domain.file.domain.FileCreate;
+import com.dnd.gooding.domain.record.controller.port.RecordService;
+import com.dnd.gooding.domain.record.controller.request.UploadRequest;
+import com.dnd.gooding.domain.record.controller.response.MyRecordResponse;
+import com.dnd.gooding.domain.record.domain.Record;
+import com.dnd.gooding.domain.record.service.port.RecordRepository;
+import com.dnd.gooding.domain.user.domain.User;
 import com.dnd.gooding.domain.user.exception.UserNotFoundException;
-import com.dnd.gooding.domain.user.model.User;
-import com.dnd.gooding.domain.user.repository.UserRepository;
+import com.dnd.gooding.domain.user.service.port.UserRepository;
+import com.dnd.gooding.global.s3.controller.port.S3Service;
 
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
+@Builder
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RecordServiceImpl implements RecordService {
 
-	private final S3Service s3Service;
-	private final UserRepository userRepository;
 	private final RecordRepository recordRepository;
+	private final UserRepository userRepository;
+	private final FileService fileService;
+	private final S3Service s3Service;
 
+	@Transactional(readOnly = true)
 	@Override
-	public List<MyRecordResponse> findByUserId(Long userId) {
-		List<Record> records = recordRepository.findByUserId(userId)
-				.orElseThrow(() -> new UserNotFoundException(userId));
-		return records.stream()
-				.map(MyRecordResponse::new)
-				.collect(Collectors.toList());
+	public List<Record> findByUserId(Long userId) {
+		return recordRepository.findByUserId(userId);
 	}
 
+	@Transactional(readOnly = true)
 	@Override
-	public List<MyRecordResponse> findRecordByDate(Long userId, String recordDate) {
-		List<Record> records = recordRepository.findRecordByDate(userId, recordDate)
-				.orElseThrow(() -> new UserNotFoundException(userId));
-		return records.stream()
-				.map(MyRecordResponse::new)
-				.collect(Collectors.toList());
+	public List<Record> findByUserIdAndRecordDate(Long userId, String recordDate) {
+		return recordRepository.findByUserIdAndRecordDate(userId, recordDate);
 	}
 
-	@Override
-	public List<MyRecordResponse> findFeedBySave(Long saveUserId) {
-		List<Record> records = recordRepository.findFeedBySave(saveUserId)
-			.orElse(null);
-		if (ObjectUtils.isEmpty(records)) {
-			return new ArrayList<>();
-		} else {
-			return records.stream()
-				.map(MyRecordResponse::new)
-				.collect(Collectors.toList());
-		}
-	}
-
-	@Override
-	public Record findByRecordId(Long userId, Long recordId) {
-		return recordRepository.findByRecordId(userId, recordId);
-	}
-
+	@Transactional
 	@Override
 	public Record create(String oauthId, UploadRequest uploadRequest) {
 		User user = userRepository.findByOauthId(oauthId)
 			.orElseThrow(() -> new UserNotFoundException(oauthId));
 		Record record = Record.create(uploadRequest, user);
-		recordRepository.save(record);
+		record = recordRepository.save(record);
+		return record;
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public Record findByUserIdAndRecordId(Long userId, Long recordId) {
+		return recordRepository.findByUserIdAndRecordId(userId, recordId);
+	}
+
+	@Transactional
+	@Override
+	public void upload(List<MultipartFile> files, Record record) throws IOException {
+		for(MultipartFile file : files) {
+			if (!file.isEmpty()) {
+				FileCreate fileCreate = s3Service.upload(file);
+				fileService.upload(fileCreate, record);
+			}
+		}
+	}
+
+	@Transactional
+	@Override
+	public Record updateThumbnailUrl(MultipartFile thumbnail, Record record) throws IOException {
+		if (!thumbnail.isEmpty()) {
+			FileCreate fileCreate = s3Service.upload(thumbnail);
+			record = fileService.upload(fileCreate, record);
+			record = record.changeThumbnailUrl(fileCreate.getFileUrl());
+			record = recordRepository.save(record);
+		}
 		return record;
 	}
 
 	@Transactional
 	@Override
+	public Record save(Record record) {
+		return recordRepository.save(record);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public List<Record> findByFeedSave(Long saveUserId) {
+		return recordRepository.findByFeedSave(saveUserId);
+	}
+
+	@Transactional
+	@Override
 	public void delete(Record record) {
-		for(File file : record.getFiles()) {
-			s3Service.delete(file.extractFilePath(file.getFileUrl()));
-		}
 		recordRepository.delete(record);
 	}
 }

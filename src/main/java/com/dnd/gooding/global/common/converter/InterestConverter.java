@@ -3,7 +3,7 @@ package com.dnd.gooding.global.common.converter;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import com.dnd.gooding.global.common.model.InterestType;
+import com.dnd.gooding.global.common.enums.InterestType;
 
 @Converter
 public class InterestConverter implements AttributeConverter<InterestType, String> {

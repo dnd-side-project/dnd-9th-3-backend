@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd.gooding.global.oauth.dto.response.OAuthResponse;
+import com.dnd.gooding.global.oauth.controller.response.OAuthResponse;
 import com.dnd.gooding.global.oauth.service.GoogleUserService;
 import com.dnd.gooding.global.oauth.service.KakaoUserService;
 
