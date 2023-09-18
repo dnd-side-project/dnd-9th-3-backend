@@ -1,5 +1,6 @@
 package com.dnd.gooding.domain.record.infrastructure;
 
+import static com.dnd.gooding.domain.feed.infrastructure.QFeedEntity.*;
 import static com.dnd.gooding.domain.file.infrastructure.QFileEntity.*;
 import static com.dnd.gooding.domain.onboard.infrastructure.QOnboardEntity.*;
 import static com.dnd.gooding.domain.record.infrastructure.QRecordEntity.*;
@@ -46,10 +47,10 @@ public class RecordRepositoryImpl implements RecordRepository {
 				.on(recordEntity.id.eq(fileEntity.recordEntity.id)
 				.and(recordEntity.userEntity.id.eq(fileEntity.userEntity.id))).fetchJoin()
 			.leftJoin(userEntity.onboards, onboardEntity)
+			.where(userIdEquals(userId))
 			.orderBy(
 				recordEntity.lastModifiedDate.desc()
 			)
-			.where(userIdEquals(userId))
 			.fetch())
 			.orElseGet(ArrayList::new);
 		return recordEntities.stream().map(RecordEntity::toModel).collect(toList());
@@ -60,7 +61,11 @@ public class RecordRepositoryImpl implements RecordRepository {
 		List<RecordEntity> recordEntities = Optional.ofNullable(queryFactory
 			.select(recordEntity).distinct()
 			.from(recordEntity)
-			.join(recordEntity.files, fileEntity).fetchJoin()
+			.join(recordEntity.userEntity, userEntity).fetchJoin()
+			.join(fileEntity)
+				.on(recordEntity.id.eq(fileEntity.recordEntity.id)
+				.and(recordEntity.userEntity.id.eq(fileEntity.userEntity.id))).fetchJoin()
+			.leftJoin(userEntity.onboards, onboardEntity)
 			.where(userIdEquals(userId), recordDateEquals(recordDate))
 			.orderBy(
 				recordEntity.lastModifiedDate.desc()
@@ -81,6 +86,9 @@ public class RecordRepositoryImpl implements RecordRepository {
 				.and(recordEntity.userEntity.id.eq(fileEntity.userEntity.id))).fetchJoin()
 			.leftJoin(userEntity.onboards, onboardEntity)
 			.where(userIdEquals(userId), recordIdEquals(recordId))
+			.orderBy(
+				recordEntity.lastModifiedDate.desc()
+			)
 			.fetchOne())
 			.orElseThrow(() -> new RecordNotFoundException(recordId)).toModel();
 	}
@@ -88,6 +96,25 @@ public class RecordRepositoryImpl implements RecordRepository {
 	@Override
 	public Record save(Record record) {
 		return recordJpaRepository.save(RecordEntity.from(record)).toModel();
+	}
+
+	@Override
+	public List<Record> findByFeedSave(Long saveUserId) {
+		List<RecordEntity> recordEntities = Optional.ofNullable(queryFactory
+			.select(recordEntity).distinct()
+			.from(feedEntity)
+			.join(recordEntity)
+				.on(feedEntity.recordEntity.id.eq(recordEntity.id)
+				.and(feedEntity.userEntity.id.eq(recordEntity.userEntity.id))).fetchJoin()
+			.join(recordEntity.files, fileEntity).fetchJoin()
+			.where(saveUserIdEquals(saveUserId), feedSaveEquals("Y"))
+			.orderBy(
+				recordEntity.recordDate.asc(),
+				recordEntity.lastModifiedDate.desc()
+			)
+			.fetch())
+			.orElseGet(ArrayList::new);
+		return recordEntities.stream().map(RecordEntity::toModel).collect(toList());
 	}
 
 	@Override
@@ -110,5 +137,13 @@ public class RecordRepositoryImpl implements RecordRepository {
 
 	private BooleanExpression recordIdEquals(Long recordId) {
 		return recordEntity.id.eq(recordId);
+	}
+
+	private BooleanExpression feedSaveEquals(String feedSave) {
+		return feedEntity.feedSave.eq(feedSave);
+	}
+
+	private BooleanExpression saveUserIdEquals(Long saveUserId) {
+		return feedEntity.saveUserId.eq(saveUserId);
 	}
 }

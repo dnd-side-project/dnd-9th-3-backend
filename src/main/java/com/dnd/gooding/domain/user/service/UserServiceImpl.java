@@ -92,9 +92,4 @@ public class UserServiceImpl implements UserService {
 				throw new UserNotFoundException(userId);
 			});
 	}
-
-	@Override
-	public User findByUserIdAndOnboarding(Long userId) {
-		return null;
-	}
 }

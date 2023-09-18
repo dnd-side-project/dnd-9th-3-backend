@@ -17,5 +17,6 @@ public interface RecordService {
 	void upload(List<MultipartFile> files, Record record) throws IOException;
 	Record updateThumbnailUrl(MultipartFile thumbnail, Record record) throws IOException;
 	Record save(Record record);
+	List<Record> findByFeedSave(Long saveUserId);
 	void delete(Record record);
 }

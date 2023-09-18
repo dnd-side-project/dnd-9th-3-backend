@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dnd.gooding.domain.file.controller.port.FileService;
-import com.dnd.gooding.domain.file.domain.File;
 import com.dnd.gooding.domain.file.domain.FileCreate;
 import com.dnd.gooding.domain.record.controller.port.RecordService;
 import com.dnd.gooding.domain.record.controller.request.UploadRequest;
+import com.dnd.gooding.domain.record.controller.response.MyRecordResponse;
 import com.dnd.gooding.domain.record.domain.Record;
 import com.dnd.gooding.domain.record.service.port.RecordRepository;
 import com.dnd.gooding.domain.user.domain.User;
@@ -87,6 +87,12 @@ public class RecordServiceImpl implements RecordService {
 	@Override
 	public Record save(Record record) {
 		return recordRepository.save(record);
+	}
+
+	@Transactional(readOnly = true)
+	@Override
+	public List<Record> findByFeedSave(Long saveUserId) {
+		return recordRepository.findByFeedSave(saveUserId);
 	}
 
 	@Transactional

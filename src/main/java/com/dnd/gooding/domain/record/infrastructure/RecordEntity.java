@@ -132,6 +132,7 @@ public class RecordEntity extends BaseEntity {
 			.placeLongitude(placeLongitude)
 			.recordOpen(recordOpen)
 			.recordScore(recordScore)
+			.thumbnailUrl(thumbnailUrl)
 			.interestType(interestType)
 			.user(userEntity.toModel())
 			.files(files.stream().map(FileEntity::toDomain).collect(toList()))

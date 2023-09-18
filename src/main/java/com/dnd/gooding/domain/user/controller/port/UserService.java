@@ -15,5 +15,4 @@ public interface UserService {
 	User findByUserId(Long userId);
 	User save(User user);
 	void delete(Long userId, String refreshToken);
-	User findByUserIdAndOnboarding(Long userId);
 }

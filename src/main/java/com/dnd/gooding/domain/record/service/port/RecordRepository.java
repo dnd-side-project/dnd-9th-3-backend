@@ -10,5 +10,6 @@ public interface RecordRepository {
 	List<Record> findByUserIdAndRecordDate(Long userId, String recordDate);
 	Record findByUserIdAndRecordId(Long userId, Long recordId);
 	Record save(Record record);
+	List<Record> findByFeedSave(Long saveUserId);
 	void delete(Record record);
 }
