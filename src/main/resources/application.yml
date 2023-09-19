@@ -38,6 +38,7 @@ spring:
   redis:
     sentinel:
       master: ${REDIS_SENTINEL_MASTER}
+      password: ${REDIS_PASSWORD}
       nodes:
         - ${REDIS_SENTINEL_NODE0}
         - ${REDIS_SENTINEL_NODE1}
