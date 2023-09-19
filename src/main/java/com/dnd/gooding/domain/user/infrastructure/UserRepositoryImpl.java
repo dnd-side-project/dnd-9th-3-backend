@@ -58,18 +58,6 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	@Override
-	public Optional<User> findByUserIdAndOnboarding(Long userId) {
-		return Optional.ofNullable(
-			queryFactory
-				.select(userEntity).distinct()
-				.from(userEntity)
-				.join(userEntity.onboards, onboardEntity).fetchJoin()
-				.where(userIdEquals(userId))
-				.fetchOne())
-			.map(UserEntity::toModel);
-	}
-
-	@Override
 	public void delete(User user) {
 		userJpaRepository.delete(UserEntity.from(user));
 	}
