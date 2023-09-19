@@ -27,7 +27,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: true
@@ -39,7 +39,9 @@ spring:
     sentinel:
       master: ${REDIS_SENTINEL_MASTER}
       nodes:
-        - ${REDIS_SENTINEL_NODE}
+        - ${REDIS_SENTINEL_NODE0}
+        - ${REDIS_SENTINEL_NODE1}
+        - ${REDIS_SENTINEL_NODE2}
 
 logging:
   level:

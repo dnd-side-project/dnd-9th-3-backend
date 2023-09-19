@@ -40,7 +40,7 @@ public class TokenController {
 
 	@Operation(summary = "임시 토큰을 발급 받는다.")
 	@SecurityRequirements()
-	@GetMapping(value = "temporary", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/temporary", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TokenResponse> tempAccessToken() {
 		String tempAccessToken = tokenService.createAccessToken(1L, "ROLE_USER");
 		logger.info("[TokenController] tempAccessToken : " + tempAccessToken);
@@ -56,7 +56,7 @@ public class TokenController {
 			@ApiResponse(responseCode = "401", description = "유효하지 않은 리프레쉬 토큰입니다.",
 				content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/reissue", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TokenResponse> refreshAccessToken(
 		@CookieValue("refreshToken") String refreshToken) {
 		String accessToken = tokenService.getAccessTokensByRefreshToken(refreshToken);
@@ -71,7 +71,7 @@ public class TokenController {
 			@ApiResponse(responseCode = "401", description = "쿠키를 찾을 수 없습니다.",
 				content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 	})
-	@DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> expireRefreshToken(
 		@CookieValue("refreshToken") String refreshToken) {
 		tokenService.deleteRefreshToken(refreshToken);
