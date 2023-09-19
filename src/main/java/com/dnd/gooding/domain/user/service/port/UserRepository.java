@@ -10,5 +10,4 @@ public interface UserRepository {
 	Optional<User> findByOauthId(String oauthId);
 	User save(User user);
 	void delete(User user);
-	Optional<User> findByUserIdAndOnboarding(Long userId);
 }

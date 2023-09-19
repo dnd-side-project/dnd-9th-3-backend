@@ -8,14 +8,17 @@ import lombok.Builder;
 
 public class TestContainer {
 
+	public final UserRepository userRepository;
+	public final UserController userController;
+
 	@Builder
 	public TestContainer() {
-		// UserRepository userRepository = new FakeUserRepository();
-		// UserServiceImpl userService = UserServiceImpl.builder()
-		// 	.userRepository(userRepository)
-		// 	.build();
-		// UserController userController = UserController.builder()
-		// 	.userService(userService)
-		// 	.build();
+		this.userRepository = new FakeUserRepository();
+		UserServiceImpl userService = UserServiceImpl.builder()
+			.userRepository(userRepository)
+			.build();
+		this.userController = UserController.builder()
+			.userService(userService)
+			.build();
 	}
 }
