@@ -2,8 +2,6 @@ package com.dnd.gooding.global.token.controller;
 
 import static org.springframework.http.HttpHeaders.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/v1/tokens")
 public class TokenController {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final TokenService tokenService;
 
 	@Operation(summary = "임시 토큰을 발급 받는다.")
@@ -43,7 +40,7 @@ public class TokenController {
 	@GetMapping(value = "/temporary", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TokenResponse> tempAccessToken() {
 		String tempAccessToken = tokenService.createAccessToken(1L, "ROLE_USER");
-		logger.info("[TokenController] tempAccessToken : " + tempAccessToken);
+		log.info("[TokenController] tempAccessToken : " + tempAccessToken);
 		return ResponseEntity
 			.ok()
 			.body(new TokenResponse(tempAccessToken));
