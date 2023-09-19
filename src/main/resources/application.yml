@@ -36,6 +36,7 @@ spring:
 
   # redis 설정
   redis:
+    password: ${REDIS_PASSWORD}
     sentinel:
       master: ${REDIS_SENTINEL_MASTER}
       password: ${REDIS_PASSWORD}
