@@ -48,7 +48,7 @@ jobs:
         uses: madrapps/jacoco-report@v1.2
         with:
           title: 📝 테스트 커버리지 리포트
-          paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
+          paths: ${{ github.workspace }}/build/reports/jacoco/test/index.xml
           token: ${{ github.token }}
           min-coverage-overall: 50        # 프로젝트 전체 테스트 커버리지에 대한 기준
           min-coverage-changed-files: 50  # 변경이 일어난 파일의 테스트 커버리지 기준
