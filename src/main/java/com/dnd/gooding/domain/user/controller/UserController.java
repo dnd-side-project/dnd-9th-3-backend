@@ -2,22 +2,29 @@ package com.dnd.gooding.domain.user.controller;
 
 import java.io.IOException;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.dnd.gooding.domain.user.controller.port.UserService;
+import com.dnd.gooding.domain.user.controller.response.UserResponse;
 import com.dnd.gooding.domain.user.domain.User;
 import com.dnd.gooding.global.common.controller.response.ErrorResponse;
+
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.dnd.gooding.domain.user.controller.response.UserResponse;
-import com.dnd.gooding.domain.user.controller.port.UserService;
-
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +43,7 @@ public class UserController {
 			@ApiResponse(responseCode = "200", description = "정상처리"),
 			@ApiResponse(responseCode = "404", description = "존재하지 않는 사용자입니다.",
 				content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-	})
+		})
 	@GetMapping(value = "/{oauthId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserResponse> getUser(
 		@Parameter(description = "oauth 아이디") @PathVariable String oauthId) {
@@ -51,7 +58,7 @@ public class UserController {
 			@ApiResponse(responseCode = "204", description = "정상처리"),
 			@ApiResponse(responseCode = "404", description = "존재하지 않는 사용자입니다.",
 				content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-	})
+		})
 	@PatchMapping(value = "/update/{userId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<UserResponse> update(
 		@PathVariable("userId") Long userId,
@@ -68,7 +75,7 @@ public class UserController {
 			@ApiResponse(responseCode = "204", description = "정상처리"),
 			@ApiResponse(responseCode = "404", description = "존재하지 않는 사용자입니다.",
 				content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-	})
+		})
 	@DeleteMapping(value = "/delete/{userId}")
 	public ResponseEntity<Void> delete(
 		@PathVariable("userId") Long userId,
