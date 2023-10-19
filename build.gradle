@@ -6,10 +6,13 @@ buildscript {
 }
 
 plugins {
+    id "org.openapi.generator" version "6.6.0"
+    id 'java'
+    id 'java-library'
     id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'idea'
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
-    id 'java'
     id 'jacoco'
     id 'checkstyle'
 }
@@ -42,6 +45,8 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+    implementation "org.openapitools:openapi-generator:6.6.0"
+    compileOnly 'io.swagger:swagger-annotations:1.6.2'
     // DB
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -186,3 +191,37 @@ configurations {
     }
     querydsl.extendsFrom compileClasspath
 }
+
+def swaggerRoot = "$projectDir/src/main/codegen-config".toString()
+def swaggerAPIOutput = "$projectDir/src/main".toString()
+
+openApiValidate {
+    inputSpec="$swaggerRoot/api-order-contract.yml".toString()
+    recommend=true
+}
+
+openApiGenerate {
+    inputSpec="$swaggerRoot/api-order-contract.yml".toString()
+    generatorName = "spring"
+    configFile= "$swaggerRoot/config.json".toString()
+    outputDir= "$swaggerAPIOutput".toString()
+    configOptions = [
+        "sourceFolder" : "openapi-generated"
+    ]
+}
+
+tasks.named("openApiGenerate") {
+    it.doLast {
+        delete "$projectDir/src/main/pom.xml"
+        delete "$projectDir/src/main/README.md"
+        delete "$projectDir/src/main/.openapi-generator-ignore"
+        delete "$projectDir/src/main/.openapi-generator"
+        delete "$projectDir/src/main/resources" + "/" + "swagger"
+
+    }
+}
+
+tasks.openApiGenerate.dependsOn  tasks.openApiValidate
+tasks.compileJava.dependsOn tasks.openApiGenerate
+sourceSets.main.java.srcDir "${openApiGenerate.outputDir.get()}/${openApiGenerate.configOptions['sourceFolder'].get()}"
+sourceSets.main.resources.srcDir "${openApiGenerate.outputDir.get()}/src/main/resources"
