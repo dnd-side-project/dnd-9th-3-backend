@@ -1,4 +1,4 @@
-package com.dnd.gooding.user.command.application.oauthmember;
+package com.dnd.gooding.oauth.command.application;
 
 public class KakaoConnectionException extends RuntimeException {
 }

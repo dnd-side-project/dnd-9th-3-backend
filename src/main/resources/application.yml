@@ -1,11 +1,9 @@
 server:
-  port: 8080
+  port: 8083
 
 spring:
   config:
     import: optional:file:.env[.properties]
-  include:
-    - oauth
   servlet:
     multipart:
       max-file-size: 5GB
@@ -30,6 +28,9 @@ spring:
         format_sql: true
         use_sql_comments: true
         default_batch_fetch_size: 1000
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
 
 logging:
   level:
@@ -42,3 +43,9 @@ jwt:
   expiry-seconds:
     access-token: 100000
     refresh-token: 604800
+
+oauth:
+  kakao:
+    client-id: ${KAKAO_CLIENT_ID}
+    client-secret: ${KAKAO_CLIENT_SECRET}
+    redirect-url: ${KAKAO_REDIRECT_URI}

@@ -2,7 +2,7 @@ package com.dnd.gooding.user.query;
 
 import org.springframework.stereotype.Service;
 
-import com.dnd.gooding.user.command.application.member.NoMemberException;
+import com.dnd.gooding.user.command.application.NoMemberException;
 
 @Service
 public class MemberQueryService {

@@ -1,4 +1,4 @@
-package com.dnd.gooding.user.command.model;
+package com.dnd.gooding.oauth.command.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,6 +17,9 @@ public class KakaoInfo {
 	private String scope;
 	@JsonProperty("refresh_token_expires_in")
 	private int refreshTokenExpiresIn;
+
+	public KakaoInfo() {
+	}
 
 	public KakaoInfo(String accessToken, String tokenType, String refreshToken, String idToken, int expiresIn,
 		String scope,

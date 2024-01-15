@@ -9,8 +9,7 @@ import com.dnd.gooding.common.model.Token;
 import com.dnd.gooding.common.model.UserRole;
 import com.dnd.gooding.token.command.domain.RefreshToken;
 import com.dnd.gooding.token.command.domain.RefreshTokenRepository;
-import com.dnd.gooding.user.command.domain.oauthmember.OAuthMember;
-import com.dnd.gooding.user.command.domain.oauthmember.OAuthMemberId;
+import com.dnd.gooding.oauth.command.domain.OAuth;
 
 @Service
 public class TokenService {
@@ -27,14 +26,13 @@ public class TokenService {
 		this.refreshTokenRepository = refreshTokenRepository;
 	}
 
-	public Token createTokens(OAuthMember oAuthMember) {
-		OAuthMemberId oAuthMemberId = oAuthMember.getoAuthMemberId();
+	public Token createTokens(OAuth oAuth) {
 		String userRole = UserRole.ROLE_USER.name();
 
-		String accessToken = createAccessToken(oAuthMemberId.getId(), userRole);
-		String refreshToken = createRefreshToken(oAuthMemberId.getId(), userRole);
+		String accessToken = createAccessToken(oAuth.getoAuthId(), userRole);
+		String refreshToken = createRefreshToken(oAuth.getoAuthId(), userRole);
 
-		return new Token(oAuthMemberId.getId(), accessToken, refreshToken);
+		return new Token(oAuth.getoAuthId(), accessToken, refreshToken);
 	}
 
 	public String createAccessToken(String oauthId, String userRole) {

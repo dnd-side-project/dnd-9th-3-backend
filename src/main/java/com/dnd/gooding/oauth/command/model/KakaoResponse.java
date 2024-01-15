@@ -1,4 +1,4 @@
-package com.dnd.gooding.user.command.model;
+package com.dnd.gooding.oauth.command.model;
 
 import java.util.Map;
 
@@ -6,6 +6,9 @@ public class KakaoResponse {
 
 	private String id;
 	private Map<String, String> properties;
+
+	public KakaoResponse() {
+	}
 
 	public KakaoResponse(String id, Map<String, String> properties) {
 		this.id = id;

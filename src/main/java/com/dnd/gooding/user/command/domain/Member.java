@@ -1,21 +1,16 @@
-package com.dnd.gooding.user.command.domain.member;
+package com.dnd.gooding.user.command.domain;
 
 import java.util.Random;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Embedded;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.dnd.gooding.common.jpa.EmailSetConverter;
 import com.dnd.gooding.common.jpa.InterestConverter;
 import com.dnd.gooding.common.model.Email;
 import com.dnd.gooding.common.model.EmailSet;
 import com.dnd.gooding.common.model.InterestSet;
-import com.dnd.gooding.user.command.domain.oauthmember.OAuthMember;
+import com.dnd.gooding.oauth.command.domain.OAuth;
 
 @Entity
 @Table(name = "member")
@@ -31,8 +26,9 @@ public class Member {
 	@Column(name = "interests")
 	@Convert(converter = InterestConverter.class)
 	private InterestSet interests;
-	@Embedded
-	private OAuthMember oAuthMember;
+	@OneToOne
+	@Column(name = "oauth_id")
+	private OAuth oAuth;
 
 	protected Member() {
 	}
@@ -84,7 +80,7 @@ public class Member {
 		return interests;
 	}
 
-	public OAuthMember getoAuthMember() {
-		return oAuthMember;
+	public OAuth getoAuth() {
+		return oAuth;
 	}
 }

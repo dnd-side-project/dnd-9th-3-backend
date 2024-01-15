@@ -1,4 +1,4 @@
-package com.dnd.gooding.record.domain;
+package com.dnd.gooding.record.command.domain;
 
 import java.util.Objects;
 
@@ -7,7 +7,7 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import com.dnd.gooding.user.command.domain.member.MemberId;
+import com.dnd.gooding.user.command.domain.MemberId;
 
 @Embeddable
 public class Recorder {

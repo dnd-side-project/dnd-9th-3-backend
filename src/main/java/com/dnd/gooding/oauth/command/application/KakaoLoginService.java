@@ -1,4 +1,4 @@
-package com.dnd.gooding.user.command.application.oauthmember;
+package com.dnd.gooding.oauth.command.application;
 
 import java.util.Objects;
 
@@ -18,11 +18,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dnd.gooding.common.model.Token;
 import com.dnd.gooding.token.command.application.TokenService;
-import com.dnd.gooding.user.command.domain.oauthmember.OAuthMember;
-import com.dnd.gooding.user.command.domain.oauthmember.OAuthMemberId;
-import com.dnd.gooding.user.command.model.KakaoInfo;
-import com.dnd.gooding.user.command.model.KakaoMember;
-import com.dnd.gooding.user.command.model.KakaoResponse;
+import com.dnd.gooding.oauth.command.domain.OAuth;
+import com.dnd.gooding.oauth.command.model.KakaoInfo;
+import com.dnd.gooding.oauth.command.model.KakaoMember;
+import com.dnd.gooding.oauth.command.model.KakaoResponse;
 
 @Service
 public class KakaoLoginService {
@@ -49,7 +48,6 @@ public class KakaoLoginService {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		headers.add("Accept", "application/json");
 
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
@@ -69,7 +67,7 @@ public class KakaoLoginService {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", "Bearer " + kakaoOauthToken);
-		HttpEntity requestEntity = new HttpEntity(headers);
+		HttpEntity<?> requestEntity = new HttpEntity<>(headers);
 
 		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromHttpUrl(KAKAO_USER_INFO_URL);
 		ResponseEntity<KakaoResponse> responseEntity = restTemplate.exchange(
@@ -83,12 +81,11 @@ public class KakaoLoginService {
 			KakaoMember kakaoMember = new KakaoMember(
 				Objects.requireNonNull(responseEntity.getBody()).getId(),
 				responseEntity.getBody().getProperties());
-			OAuthMemberId oAuthMemberId = new OAuthMemberId(kakaoMember.getOauthId());
-			OAuthMember oAuthMember = new OAuthMember(oAuthMemberId, kakaoMember.getImageUrl(),
+			OAuth oAuth = new OAuth(kakaoMember.getOauthId(), kakaoMember.getImageUrl(),
 				kakaoMember.getProvider());
 
-			Token token = tokenService.createTokens(oAuthMember);
-			return new Token(oAuthMemberId.getId(), token.getAccessToken(), token.getRefreshToken());
+			Token token = tokenService.createTokens(oAuth);
+			return new Token(kakaoMember.getOauthId(), token.getAccessToken(), token.getRefreshToken());
 		} else {
 			throw new KakaoConnectionException();
 		}

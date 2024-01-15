@@ -1,4 +1,4 @@
-package com.dnd.gooding.user.command.model;
+package com.dnd.gooding.oauth.command.model;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package com.dnd.gooding.user.command.application.member;
+package com.dnd.gooding.user.command.application;
 
 public class NoMemberException extends RuntimeException {
 }

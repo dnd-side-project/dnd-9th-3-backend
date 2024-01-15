@@ -1,4 +1,4 @@
-package com.dnd.gooding.user.command.domain.member;
+package com.dnd.gooding.user.command.domain;
 
 public class PasswordChangedEvent {
 
