@@ -27,7 +27,6 @@ public class Member {
 	@Convert(converter = InterestConverter.class)
 	private InterestSet interests;
 	@OneToOne
-	@Column(name = "oauth_id")
 	private OAuth oAuth;
 
 	protected Member() {

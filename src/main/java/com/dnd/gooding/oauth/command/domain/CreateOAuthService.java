@@ -1,6 +1,7 @@
 package com.dnd.gooding.oauth.command.domain;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CreateOAuthService {
@@ -11,6 +12,12 @@ public class CreateOAuthService {
         this.oAuthRepository = oAuthRepository;
     }
 
+    @Transactional
     public void createOAuth(OAuth oAuth) {
+        oAuthRepository.findById(oAuth.getoAuthId()).ifPresentOrElse(
+            x -> {}, () -> {
+                oAuthRepository.save(oAuth);
+            }
+        );
     }
 }

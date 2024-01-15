@@ -2,6 +2,7 @@ package com.dnd.gooding.oauth.command.application;
 
 import java.util.Objects;
 
+import com.dnd.gooding.oauth.command.domain.CreateOAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -37,6 +38,8 @@ public class KakaoLoginService {
 
 	@Autowired
 	private TokenService tokenService;
+	@Autowired
+	private CreateOAuthService createOAuthService;
 
 	public Token getAccessToken(String code) {
 		String kakaoOauthToken = getKakaoOauthToken(code);
@@ -84,6 +87,7 @@ public class KakaoLoginService {
 			OAuth oAuth = new OAuth(kakaoMember.getOauthId(), kakaoMember.getImageUrl(),
 				kakaoMember.getProvider());
 
+			createOAuthService.createOAuth(oAuth);
 			Token token = tokenService.createTokens(oAuth);
 			return new Token(kakaoMember.getOauthId(), token.getAccessToken(), token.getRefreshToken());
 		} else {
