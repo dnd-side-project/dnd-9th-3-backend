@@ -23,15 +23,16 @@ public class MemberService {
 	@Transactional
 	public void createMember(MemberRequest memberRequest) {
 		MemberId memberId = new MemberId(memberRequest.getMemberId());
-		EmailSet emailSet = new EmailSet(memberRequest.getEmails());
-		InterestSet interestSet = new InterestSet(memberRequest.getInterests());
-		OAuthId oAuthId = new OAuthId(memberRequest.getoAuthId());
 		memberRepository.findById(memberId).ifPresentOrElse(
 			x -> {
 			},
 			() -> {
-				memberRepository.save(new Member(memberId, memberRequest.getName(),
-					emailSet, interestSet, UserRole.ROLE_USER.name(), oAuthId));
+				memberRepository.save(new Member(memberId,
+					memberRequest.getName(),
+					new EmailSet(memberRequest.getEmails()),
+					new InterestSet(memberRequest.getInterests()),
+					UserRole.ROLE_USER.name(),
+					new OAuthId(memberRequest.getoAuthId())));
 			}
 		);
 	}
