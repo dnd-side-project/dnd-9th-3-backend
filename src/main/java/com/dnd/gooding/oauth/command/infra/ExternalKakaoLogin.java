@@ -15,7 +15,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.dnd.gooding.oauth.command.application.KakaoConnectionException;
+import com.dnd.gooding.oauth.command.application.ConnectionException;
 import com.dnd.gooding.oauth.command.domain.ExternalLogin;
 import com.dnd.gooding.oauth.command.model.KakaoInfo;
 import com.dnd.gooding.oauth.command.model.KakaoMember;
@@ -75,7 +75,7 @@ public class ExternalKakaoLogin implements ExternalLogin {
 				Objects.requireNonNull(responseEntity.getBody()).getId(),
 				responseEntity.getBody().getProperties());
 		} else {
-			throw new KakaoConnectionException();
+			throw new ConnectionException();
 		}
 	}
 }
