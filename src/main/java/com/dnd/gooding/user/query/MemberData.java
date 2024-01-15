@@ -22,10 +22,13 @@ public class MemberData {
 	private String name;
 	@Column(name = "emails")
 	@Convert(converter = EmailSetConverter.class)
-	private EmailSet emails;
+	private EmailSet emailSet;
 	@Column(name = "interests")
 	@Convert(converter = InterestConverter.class)
-	private InterestSet interests;
+	private InterestSet interestSet;
+	private String userRole;
+	@Column(name = "oauth_id")
+	private String oauthId;
 
 	protected MemberData() {
 	}
@@ -43,11 +46,19 @@ public class MemberData {
 		return name;
 	}
 
-	public EmailSet getEmails() {
-		return emails;
+	public EmailSet getEmailSet() {
+		return emailSet;
 	}
 
-	public InterestSet getInterests() {
-		return interests;
+	public InterestSet getInterestSet() {
+		return interestSet;
+	}
+
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public String getOauthId() {
+		return oauthId;
 	}
 }

@@ -3,14 +3,19 @@ package com.dnd.gooding.user.command.domain;
 import java.util.Random;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import com.dnd.gooding.common.jpa.EmailSetConverter;
 import com.dnd.gooding.common.jpa.InterestConverter;
 import com.dnd.gooding.common.model.Email;
 import com.dnd.gooding.common.model.EmailSet;
 import com.dnd.gooding.common.model.InterestSet;
-import com.dnd.gooding.oauth.command.domain.OAuth;
+import com.dnd.gooding.oauth.command.domain.OAuthId;
 
 @Entity
 @Table(name = "member")
@@ -26,15 +31,21 @@ public class Member {
 	@Column(name = "interests")
 	@Convert(converter = InterestConverter.class)
 	private InterestSet interests;
-	@OneToOne
-	private OAuth oAuth;
+	private String userRole;
+	@Embedded
+	private OAuthId oAuthId;
 
 	protected Member() {
 	}
 
-	public Member(MemberId id, String name) {
+	public Member(MemberId id, String name, EmailSet emails,
+		InterestSet interests, String userRole, OAuthId oAuthId) {
 		this.id = id;
 		this.name = name;
+		this.emails = emails;
+		this.interests = interests;
+		this.userRole = userRole;
+		this.oAuthId = oAuthId;
 	}
 
 	public void initializePassword() {
@@ -79,7 +90,11 @@ public class Member {
 		return interests;
 	}
 
-	public OAuth getoAuth() {
-		return oAuth;
+	public String getUserRole() {
+		return userRole;
+	}
+
+	public OAuthId getoAuthId() {
+		return oAuthId;
 	}
 }

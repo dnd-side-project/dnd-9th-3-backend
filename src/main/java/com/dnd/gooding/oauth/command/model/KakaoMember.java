@@ -2,33 +2,32 @@ package com.dnd.gooding.oauth.command.model;
 
 import java.util.Map;
 
-public class KakaoMember {
+public class KakaoMember extends OAuthMember {
 
-	private String oauthId;
-	private String name;
-	private String imageUrl;
-	private String provider;
+	private String oAuthId;
+	private Map<String, String> properties;
 
-	public KakaoMember(String oauthId, Map<String, String> properties) {
-		this.oauthId = oauthId;
-		this.name = properties.get("nickname").replace("\"", "");
-		this.imageUrl = properties.get("profile_image").replace("\"", "");
-		this.provider = "kakao";
+	public KakaoMember(String oAuthId, Map<String, String> properties) {
+		this.oAuthId = oAuthId;
+		this.properties = properties;
 	}
 
-	public String getOauthId() {
-		return oauthId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
+	@Override
 	public String getImageUrl() {
-		return imageUrl;
+		return properties.get("profile_image").replace("\"", "");
 	}
 
+	@Override
 	public String getProvider() {
-		return provider;
+		return "kakao";
+	}
+
+	@Override
+	public String getoAuthId() {
+		return oAuthId;
+	}
+
+	public Map<String, String> getProperties() {
+		return properties;
 	}
 }

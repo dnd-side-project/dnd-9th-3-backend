@@ -4,6 +4,9 @@ public class Email {
 
 	private String address;
 
+	public Email() {
+	}
+
 	public Email(String address) {
 		this.address = address;
 	}

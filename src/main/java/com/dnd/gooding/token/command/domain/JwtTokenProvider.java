@@ -1,4 +1,4 @@
-package com.dnd.gooding.token.command.application;
+package com.dnd.gooding.token.command.domain;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -6,6 +6,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.dnd.gooding.token.command.application.ExpiredTokenException;
+import com.dnd.gooding.token.command.application.InvalidTokenException;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -25,8 +28,8 @@ public class JwtTokenProvider {
 	@Value("${jwt.expiry-seconds.access-token}")
 	private long accessTokenExpirySeconds;
 
-	public String createAccessToken(String oauthId, String role) {
-		Map<String, Object> claims = Map.of("oauthId", oauthId, "role", role);
+	public String createAccessToken(String oauthId) {
+		Map<String, Object> claims = Map.of("oauthId", oauthId);
 		return this.createAccessToken(claims);
 	}
 

@@ -12,17 +12,15 @@ public class RefreshToken {
 	@Id
 	private String refreshToken;
 	private String oauthId;
-	private String userRole;
 	@TimeToLive
 	private long expiration;
 
 	protected RefreshToken() {
 	}
 
-	public RefreshToken(String refreshToken, String oauthId, String useRole, long expiration) {
+	public RefreshToken(String refreshToken, String oauthId, long expiration) {
 		this.refreshToken = checkRefreshToken(refreshToken);
 		this.oauthId = checkUserId(oauthId);
-		this.userRole = checkRole(useRole);
 		this.expiration = checkExpiration(expiration);
 	}
 
@@ -32,10 +30,6 @@ public class RefreshToken {
 
 	public String getOauthId() {
 		return oauthId;
-	}
-
-	public String getUserRole() {
-		return userRole;
 	}
 
 	public long getExpiration() {
@@ -54,13 +48,6 @@ public class RefreshToken {
 			throw new IllegalArgumentException("올바르지 않은 oauthId");
 		}
 		return oauthId;
-	}
-
-	private String checkRole(String role) {
-		if (!Objects.nonNull(role) || role.isBlank()) {
-			throw new IllegalArgumentException("올바르지 않은 권한");
-		}
-		return role;
 	}
 
 	private long checkExpiration(long expiration) {

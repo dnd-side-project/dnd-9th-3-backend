@@ -6,20 +6,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.dnd.gooding.common.model.Token;
-import com.dnd.gooding.common.model.UserRole;
+import com.dnd.gooding.oauth.command.domain.OAuth;
+import com.dnd.gooding.token.command.domain.JwtTokenProvider;
 import com.dnd.gooding.token.command.domain.RefreshToken;
 import com.dnd.gooding.token.command.domain.RefreshTokenRepository;
-import com.dnd.gooding.oauth.command.domain.OAuth;
 
 @Service
-public class TokenService {
+public class CreateTokenService {
 
-	private RefreshTokenRepository refreshTokenRepository;
 	private JwtTokenProvider jwtTokenProvider;
+	private RefreshTokenRepository refreshTokenRepository;
 	@Value("${jwt.expiry-seconds.refresh-token:36000}")
 	private int refreshTokenExpirySeconds;
 
-	public TokenService(
+	public CreateTokenService(
 		JwtTokenProvider jwtTokenProvider,
 		RefreshTokenRepository refreshTokenRepository) {
 		this.jwtTokenProvider = jwtTokenProvider;
@@ -27,22 +27,18 @@ public class TokenService {
 	}
 
 	public Token createTokens(OAuth oAuth) {
-		String userRole = UserRole.ROLE_USER.name();
-
-		String accessToken = createAccessToken(oAuth.getoAuthId(), userRole);
-		String refreshToken = createRefreshToken(oAuth.getoAuthId(), userRole);
-
-		return new Token(oAuth.getoAuthId(), accessToken, refreshToken);
+		String accessToken = createAccessToken(oAuth.getoAuthId().getId());
+		String refreshToken = createRefreshToken(oAuth.getoAuthId().getId());
+		return new Token(oAuth.getoAuthId().getId(), accessToken, refreshToken);
 	}
 
-	public String createAccessToken(String oauthId, String userRole) {
-		return jwtTokenProvider.createAccessToken(oauthId, userRole);
+	public String createAccessToken(String oauthId) {
+		return jwtTokenProvider.createAccessToken(oauthId);
 	}
 
-	public String createRefreshToken(String oauthId, String userRole) {
+	public String createRefreshToken(String oauthId) {
 		String uuid = UUID.randomUUID().toString();
-		RefreshToken refreshToken = new RefreshToken(uuid, oauthId, userRole, refreshTokenExpirySeconds);
-
+		RefreshToken refreshToken = new RefreshToken(uuid, oauthId, refreshTokenExpirySeconds);
 		return refreshTokenRepository.save(refreshToken).getRefreshToken();
 	}
 }

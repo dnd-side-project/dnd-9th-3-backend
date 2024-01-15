@@ -1,12 +1,12 @@
 package com.dnd.gooding.oauth.command.domain;
 
-import org.springframework.data.repository.Repository;
-
 import java.util.Optional;
 
-public interface OAuthRepository extends Repository<OAuth, String> {
+import org.springframework.data.repository.Repository;
 
-    Optional<OAuth> findById(String oauthId);
+public interface OAuthRepository extends Repository<OAuth, OAuthId> {
 
-    void save(OAuth oAuth);
+	Optional<OAuth> findByoAuthId(OAuthId oAuthId);
+
+	void save(OAuth oAuth);
 }

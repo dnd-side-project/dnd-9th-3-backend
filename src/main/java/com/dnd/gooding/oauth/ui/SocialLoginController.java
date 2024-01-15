@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dnd.gooding.common.model.Token;
-import com.dnd.gooding.oauth.command.application.KakaoLoginService;
+import com.dnd.gooding.oauth.command.application.OAuthLoginService;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 public class SocialLoginController {
 
-	private KakaoLoginService kakaoLoginService;
+	private OAuthLoginService OAuthLoginService;
 
-	public SocialLoginController(KakaoLoginService kakaoLoginService) {
-		this.kakaoLoginService = kakaoLoginService;
+	public SocialLoginController(OAuthLoginService OAuthLoginService) {
+		this.OAuthLoginService = OAuthLoginService;
 	}
 
 	@GetMapping
@@ -24,6 +24,6 @@ public class SocialLoginController {
 		@RequestParam String code) {
 		return ResponseEntity
 			.ok()
-			.body(kakaoLoginService.getAccessToken(code));
+			.body(OAuthLoginService.getAccessToken(code));
 	}
 }
