@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dnd.gooding.common.model.Token;
 import com.dnd.gooding.oauth.command.domain.OAuth;
@@ -36,6 +37,7 @@ public class CreateTokenService {
 		return jwtTokenProvider.createAccessToken(oauthId);
 	}
 
+	@Transactional
 	public String createRefreshToken(String oauthId) {
 		String uuid = UUID.randomUUID().toString();
 		RefreshToken refreshToken = new RefreshToken(uuid, oauthId, refreshTokenExpirySeconds);

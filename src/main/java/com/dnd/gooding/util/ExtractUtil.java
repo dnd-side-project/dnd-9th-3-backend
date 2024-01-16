@@ -1,4 +1,4 @@
-package com.dnd.gooding.common.util;
+package com.dnd.gooding.util;
 
 import static lombok.AccessLevel.*;
 import static org.springframework.http.HttpHeaders.*;
