@@ -16,32 +16,35 @@ public class Recorder {
 		@AttributeOverride(name = "id", column = @Column(name = "recorder_id"))
 	)
 	private MemberId memberId;
-	private String name;
+	@Column(name = "recorder_name")
+	private String memberName;
 
 	protected Recorder() {
 	}
 
-	public Recorder(MemberId memberId, String name) {
+	public Recorder(MemberId memberId, String memberName) {
 		this.memberId = memberId;
-		this.name = name;
+		this.memberName = memberName;
 	}
 
 	public MemberId getMemberId() {
 		return memberId;
 	}
 
+	public String getMemberName() {
+		return memberName;
+	}
+
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		Recorder recorder = (Recorder)o;
-		return Objects.equals(memberId, recorder.memberId) && Objects.equals(name, recorder.name);
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Recorder recorder = (Recorder) o;
+		return Objects.equals(memberId, recorder.memberId) && Objects.equals(memberName, recorder.memberName);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(memberId, name);
+		return Objects.hash(memberId, memberName);
 	}
 }

@@ -1,4 +1,4 @@
-package com.dnd.gooding.oauth.command.infra;
+package com.dnd.gooding.oauth.infra;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

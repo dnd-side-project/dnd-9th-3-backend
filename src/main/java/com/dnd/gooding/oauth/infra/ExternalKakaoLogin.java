@@ -1,4 +1,4 @@
-package com.dnd.gooding.oauth.command.infra;
+package com.dnd.gooding.oauth.infra;
 
 import java.util.Objects;
 
