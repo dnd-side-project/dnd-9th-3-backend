@@ -1,15 +1,13 @@
 package com.dnd.gooding.user.ui;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd.gooding.user.command.application.MemberRequest;
 import com.dnd.gooding.user.command.application.MemberService;
 import com.dnd.gooding.user.query.MemberData;
 import com.dnd.gooding.user.query.MemberQueryService;
@@ -34,14 +32,5 @@ public class MemberController {
 		return ResponseEntity
 			.ok()
 			.body(memberQueryService.getMember(memberId));
-	}
-
-	@PostMapping
-	public ResponseEntity<Void> member(
-		@RequestBody MemberRequest memberRequest) {
-		memberService.createMember(memberRequest);
-		return ResponseEntity
-			.status(HttpStatus.NO_CONTENT)
-			.build();
 	}
 }

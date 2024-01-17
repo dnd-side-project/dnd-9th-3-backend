@@ -2,6 +2,7 @@ package com.dnd.gooding.token.command.application;
 
 import java.util.UUID;
 
+import com.dnd.gooding.user.command.domain.Member;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,20 +28,20 @@ public class CreateTokenService {
 		this.refreshTokenRepository = refreshTokenRepository;
 	}
 
-	public Token createTokens(OAuth oAuth) {
-		String accessToken = createAccessToken(oAuth.getoAuthId().getId());
-		String refreshToken = createRefreshToken(oAuth.getoAuthId().getId());
-		return new Token(oAuth.getoAuthId().getId(), accessToken, refreshToken);
+	public Token createTokens(Member member) {
+		String accessToken = createAccessToken(member.getId().getId());
+		String refreshToken = createRefreshToken(member.getId().getId());
+		return new Token(member.getId().getId(), accessToken, refreshToken);
 	}
 
-	public String createAccessToken(String oauthId) {
-		return jwtTokenProvider.createAccessToken(oauthId);
+	public String createAccessToken(String memberId) {
+		return jwtTokenProvider.createAccessToken(memberId);
 	}
 
 	@Transactional
-	public String createRefreshToken(String oauthId) {
+	public String createRefreshToken(String memberId) {
 		String uuid = UUID.randomUUID().toString();
-		RefreshToken refreshToken = new RefreshToken(uuid, oauthId, refreshTokenExpirySeconds);
+		RefreshToken refreshToken = new RefreshToken(uuid, memberId, refreshTokenExpirySeconds);
 		return refreshTokenRepository.save(refreshToken).getRefreshToken();
 	}
 }

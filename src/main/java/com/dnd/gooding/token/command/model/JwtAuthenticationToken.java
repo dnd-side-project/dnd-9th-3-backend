@@ -1,4 +1,4 @@
-package com.dnd.gooding.token.command.domain;
+package com.dnd.gooding.token.command.model;
 
 import java.util.Collection;
 

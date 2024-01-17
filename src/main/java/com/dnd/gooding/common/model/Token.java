@@ -2,18 +2,18 @@ package com.dnd.gooding.common.model;
 
 public class Token {
 
-	private String oauthId;
+	private String memberId;
 	private String accessToken;
 	private String refreshToken;
 
-	public Token(String oauthId, String accessToken, String refreshToken) {
-		this.oauthId = oauthId;
+	public Token(String memberId, String accessToken, String refreshToken) {
+		this.memberId = memberId;
 		this.accessToken = accessToken;
 		this.refreshToken = refreshToken;
 	}
 
-	public String getOauthId() {
-		return oauthId;
+	public String getMemberId() {
+		return memberId;
 	}
 
 	public String getAccessToken() {

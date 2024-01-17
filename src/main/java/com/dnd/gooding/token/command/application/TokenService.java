@@ -2,8 +2,8 @@ package com.dnd.gooding.token.command.application;
 
 import org.springframework.stereotype.Service;
 
-import com.dnd.gooding.token.command.domain.JwtAuthentication;
-import com.dnd.gooding.token.command.domain.JwtAuthenticationToken;
+import com.dnd.gooding.token.command.model.JwtAuthentication;
+import com.dnd.gooding.token.command.model.JwtAuthenticationToken;
 import com.dnd.gooding.token.command.domain.JwtTokenProvider;
 
 import io.jsonwebtoken.Claims;
@@ -20,8 +20,8 @@ public class TokenService {
 	public JwtAuthenticationToken getAuthenticationByAccessToken(String accessToken) {
 		jwtTokenProvider.validateToken(accessToken);
 		Claims claims = jwtTokenProvider.getClaims(accessToken);
-		String oauthId = claims.get("oauthId", String.class);
-		JwtAuthentication principal = new JwtAuthentication(oauthId, accessToken);
+		String memberId = claims.get("memberId", String.class);
+		JwtAuthentication principal = new JwtAuthentication(memberId, accessToken);
 		return new JwtAuthenticationToken(principal, null);
 	}
 }

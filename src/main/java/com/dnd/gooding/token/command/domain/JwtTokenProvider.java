@@ -28,8 +28,8 @@ public class JwtTokenProvider {
 	@Value("${jwt.expiry-seconds.access-token}")
 	private long accessTokenExpirySeconds;
 
-	public String createAccessToken(String oauthId) {
-		Map<String, Object> claims = Map.of("oauthId", oauthId);
+	public String createAccessToken(String memberId) {
+		Map<String, Object> claims = Map.of("memberId", memberId);
 		return this.createAccessToken(claims);
 	}
 

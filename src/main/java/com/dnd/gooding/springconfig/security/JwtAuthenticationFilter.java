@@ -7,13 +7,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.dnd.gooding.token.command.application.TokenService;
-import com.dnd.gooding.token.command.domain.JwtAuthenticationToken;
+import com.dnd.gooding.token.command.model.JwtAuthenticationToken;
 import com.dnd.gooding.util.ExtractUtil;
 
 @Component
@@ -21,6 +23,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private TokenService tokenService;
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -30,6 +34,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (accessToken != null) {
 			JwtAuthenticationToken authentication = tokenService.getAuthenticationByAccessToken(accessToken);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+		} else {
+			logger.info("url {} : 유효한 JWT 토큰이 없습니다. ", request.getRequestURI());
 		}
 		filterChain.doFilter(request, response);
 	}

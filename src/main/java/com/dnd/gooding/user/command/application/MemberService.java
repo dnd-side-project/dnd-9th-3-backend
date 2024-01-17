@@ -20,19 +20,21 @@ public class MemberService {
 		this.memberRepository = memberRepository;
 	}
 
+	public Member createMember(String id, OAuthId oAuthId) {
+		MemberId memberId = MemberId.of(id);
+		Member member = new Member(memberId, null, null, null,
+				UserRole.ROLE_USER.name(), oAuthId);
+		save(member);
+		return member;
+	}
+
 	@Transactional
-	public void createMember(MemberRequest memberRequest) {
-		MemberId memberId = new MemberId(memberRequest.getMemberId());
-		memberRepository.findById(memberId).ifPresentOrElse(
+	public void save(Member member) {
+		memberRepository.findById(member.getId()).ifPresentOrElse(
 			x -> {
 			},
 			() -> {
-				memberRepository.save(new Member(memberId,
-					memberRequest.getName(),
-					new EmailSet(memberRequest.getEmails()),
-					new InterestSet(memberRequest.getInterests()),
-					UserRole.ROLE_USER.name(),
-					new OAuthId(memberRequest.getoAuthId())));
+				memberRepository.save(member);
 			}
 		);
 	}

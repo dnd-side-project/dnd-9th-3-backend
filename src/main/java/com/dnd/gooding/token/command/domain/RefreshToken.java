@@ -11,16 +11,16 @@ public class RefreshToken {
 
 	@Id
 	private String refreshToken;
-	private String oauthId;
+	private String memberId;
 	@TimeToLive
 	private long expiration;
 
 	protected RefreshToken() {
 	}
 
-	public RefreshToken(String refreshToken, String oauthId, long expiration) {
+	public RefreshToken(String refreshToken, String memberId, long expiration) {
 		this.refreshToken = checkRefreshToken(refreshToken);
-		this.oauthId = checkUserId(oauthId);
+		this.memberId = checkUserId(memberId);
 		this.expiration = checkExpiration(expiration);
 	}
 
@@ -28,8 +28,8 @@ public class RefreshToken {
 		return refreshToken;
 	}
 
-	public String getOauthId() {
-		return oauthId;
+	public String getMemberId() {
+		return memberId;
 	}
 
 	public long getExpiration() {
@@ -43,11 +43,11 @@ public class RefreshToken {
 		return refreshToken;
 	}
 
-	private String checkUserId(String oauthId) {
-		if (!Objects.nonNull(oauthId) || oauthId.isBlank()) {
-			throw new IllegalArgumentException("올바르지 않은 oauthId");
+	private String checkUserId(String memberId) {
+		if (!Objects.nonNull(memberId) || memberId.isBlank()) {
+			throw new IllegalArgumentException("올바르지 않은 memberId");
 		}
-		return oauthId;
+		return memberId;
 	}
 
 	private long checkExpiration(long expiration) {

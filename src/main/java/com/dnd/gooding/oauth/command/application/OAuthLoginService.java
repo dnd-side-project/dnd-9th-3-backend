@@ -24,11 +24,14 @@ public class OAuthLoginService {
 		this.externalLogin = externalLogin;
 	}
 
-	public Token getAccessToken(String code) {
+	public OAuth getOauthMember(String code) {
 		OAuthMember oAuthMember = externalLogin.getOauthToken(code);
-		OAuth oAuth = new OAuth(new OAuthId(oAuthMember.getoAuthId()), oAuthMember.getImageUrl(),
+		OAuth oAuth = new OAuth(new OAuthId(
+			oAuthMember.getoAuthId()),
+			oAuthMember.getImageUrl(),
 			oAuthMember.getProvider());
+
 		createOAuthService.createOAuth(oAuth);
-		return createTokenService.createTokens(oAuth);
+		return oAuth;
 	}
 }

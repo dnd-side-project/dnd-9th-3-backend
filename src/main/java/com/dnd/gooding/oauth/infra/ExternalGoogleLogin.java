@@ -9,15 +9,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.dnd.gooding.oauth.command.application.ConnectionException;
-import com.dnd.gooding.oauth.command.domain.ExternalLogin;
 import com.dnd.gooding.oauth.command.model.GoogleMember;
 import com.dnd.gooding.oauth.command.model.OAuthMember;
 
-public class ExternalGoogleLogin implements ExternalLogin {
+public class ExternalGoogleLogin {
 
 	private final String USER_INFO_URL = "https://oauth2.googleapis.com/tokeninfo";
 
-	@Override
 	public OAuthMember getOauthToken(String code) {
 		RestTemplate restTemplate = new RestTemplate();
 

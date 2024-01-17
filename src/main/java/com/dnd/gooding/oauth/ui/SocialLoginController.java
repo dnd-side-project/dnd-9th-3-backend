@@ -1,13 +1,13 @@
 package com.dnd.gooding.oauth.ui;
 
-import com.dnd.gooding.oauth.infra.ExternalGoogleLogin;
-import com.dnd.gooding.oauth.infra.ExternalKakaoLogin;
+import com.dnd.gooding.oauth.command.application.SocialLoginRequest;
+import com.dnd.gooding.oauth.command.domain.OAuth;
+import com.dnd.gooding.token.command.application.CreateTokenService;
+import com.dnd.gooding.user.command.application.MemberService;
+import com.dnd.gooding.user.command.domain.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.dnd.gooding.common.model.Token;
 import com.dnd.gooding.oauth.command.application.OAuthLoginService;
@@ -17,27 +17,19 @@ import com.dnd.gooding.oauth.command.application.OAuthLoginService;
 public class SocialLoginController {
 
 	@Autowired
-	private OAuthLoginService OAuthLoginService;
+	private OAuthLoginService oAuthLoginService;
+	@Autowired
+	private MemberService memberService;
+	@Autowired
+	private CreateTokenService createTokenService;
 
-	@GetMapping(value = "/kakao")
-	public ResponseEntity<Token> kakao(
-		@RequestParam String code) {
-		OAuthLoginService OAuthLoginService =
-				new OAuthLoginService(new ExternalKakaoLogin());
-
+	@PostMapping
+	public ResponseEntity<Token> auth(
+			@RequestBody SocialLoginRequest socialLoginRequest){
+		OAuth oAuth = oAuthLoginService.getOauthMember(socialLoginRequest.getCode());
+		Member member = memberService.createMember(socialLoginRequest.getMemberId(), oAuth.getoAuthId());
 		return ResponseEntity
 			.ok()
-			.body(OAuthLoginService.getAccessToken(code));
-	}
-
-	@GetMapping(value = "/google")
-	public ResponseEntity<Token> google(
-			@RequestParam String code) {
-		OAuthLoginService OAuthLoginService =
-				new OAuthLoginService(new ExternalGoogleLogin());
-
-		return ResponseEntity
-				.ok()
-				.body(OAuthLoginService.getAccessToken(code));
+			.body(createTokenService.createTokens(member));
 	}
 }
