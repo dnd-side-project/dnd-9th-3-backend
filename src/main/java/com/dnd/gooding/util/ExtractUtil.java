@@ -1,16 +1,15 @@
 package com.dnd.gooding.util;
 
-import static lombok.AccessLevel.*;
 import static org.springframework.http.HttpHeaders.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor(access = PRIVATE)
 public class ExtractUtil {
 
 	private static final String BEARER_TYPE = "Bearer";
+
+	public ExtractUtil() {
+	}
 
 	public static String extractTokenFromRequest(HttpServletRequest request) {
 		String authHeaderValue = request.getHeader(AUTHORIZATION);

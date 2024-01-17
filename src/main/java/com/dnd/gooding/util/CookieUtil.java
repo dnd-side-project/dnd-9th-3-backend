@@ -1,7 +1,5 @@
 package com.dnd.gooding.util;
 
-import static lombok.AccessLevel.*;
-
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Optional;
@@ -13,11 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseCookie;
 import org.springframework.util.SerializationUtils;
 
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-@NoArgsConstructor(access = PRIVATE)
 public class CookieUtil {
 
 	public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
@@ -29,8 +22,6 @@ public class CookieUtil {
 				.filter(cookie -> cookie.getName().equals(name))
 				.findFirst();
 		}
-
-		log.info("[CookieUtil] getCookie cookies : " + cookies);
 		return Optional.empty();
 	}
 

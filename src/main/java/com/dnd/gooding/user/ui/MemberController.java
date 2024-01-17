@@ -15,13 +15,11 @@ import com.dnd.gooding.user.query.MemberQueryService;
 public class MemberController {
 
 	private MemberQueryService memberQueryService;
-	private CreateMemberService createMemberService;
 
 	public MemberController(
 		MemberQueryService memberQueryService,
 		CreateMemberService createMemberService) {
 		this.memberQueryService = memberQueryService;
-		this.createMemberService = createMemberService;
 	}
 
 	@GetMapping(value = "/{memberId}")

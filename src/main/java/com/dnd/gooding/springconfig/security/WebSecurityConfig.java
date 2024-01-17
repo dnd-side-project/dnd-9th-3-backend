@@ -1,6 +1,5 @@
 package com.dnd.gooding.springconfig.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,7 +7,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.savedrequest.NullRequestCache;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -31,7 +29,7 @@ public class WebSecurityConfig {
 			.and()
 			.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
 				.antMatchers("/oauth/**").permitAll()
-				.antMatchers("/api/v1/auth/**").permitAll()
+				.antMatchers("/api/v1/oauth/**").permitAll()
 				.anyRequest().authenticated()
 			)
 			.httpBasic().disable()

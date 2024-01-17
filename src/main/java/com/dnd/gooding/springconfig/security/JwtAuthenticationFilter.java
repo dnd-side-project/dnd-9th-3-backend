@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			JwtAuthenticationToken authentication = tokenService.getAuthenticationByAccessToken(accessToken);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} else {
-			logger.info("url {} : 유효한 JWT 토큰이 없습니다. ", request.getRequestURI());
+			logger.info("url {} => There is no valid JWT token.", request.getRequestURI());
 		}
 		filterChain.doFilter(request, response);
 	}
