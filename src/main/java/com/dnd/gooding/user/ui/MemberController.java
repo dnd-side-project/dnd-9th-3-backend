@@ -1,14 +1,12 @@
 package com.dnd.gooding.user.ui;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dnd.gooding.user.command.application.MemberService;
+import com.dnd.gooding.user.command.application.CreateMemberService;
 import com.dnd.gooding.user.query.MemberData;
 import com.dnd.gooding.user.query.MemberQueryService;
 
@@ -17,13 +15,13 @@ import com.dnd.gooding.user.query.MemberQueryService;
 public class MemberController {
 
 	private MemberQueryService memberQueryService;
-	private MemberService memberService;
+	private CreateMemberService createMemberService;
 
 	public MemberController(
 		MemberQueryService memberQueryService,
-		MemberService memberService) {
+		CreateMemberService createMemberService) {
 		this.memberQueryService = memberQueryService;
-		this.memberService = memberService;
+		this.createMemberService = createMemberService;
 	}
 
 	@GetMapping(value = "/{memberId}")
