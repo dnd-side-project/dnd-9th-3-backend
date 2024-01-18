@@ -14,10 +14,7 @@ public class MemberQueryService {
 	}
 
 	public MemberData getMember(String id) {
-		MemberData memberData = memberDataDao.findById(id);
-		if (memberData == null) {
-			throw new NoMemberException();
-		}
-		return memberData;
+		return memberDataDao.findById(id)
+			.orElseThrow(NoMemberException::new);
 	}
 }

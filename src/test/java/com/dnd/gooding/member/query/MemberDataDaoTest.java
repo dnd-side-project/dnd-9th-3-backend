@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.jdbc.Sql;
 
+import com.dnd.gooding.user.command.application.NoMemberException;
 import com.dnd.gooding.user.query.MemberData;
 import com.dnd.gooding.user.query.MemberDataDao;
 import com.dnd.gooding.user.query.MemberDataSpecs;
@@ -25,7 +26,8 @@ public class MemberDataDaoTest {
 
 	@Test
 	void findById() {
-		MemberData result = memberDataDao.findById("yonog7317");
+		MemberData result = memberDataDao.findById("yonog7317")
+			.orElseThrow(NoMemberException::new);
 		logger.info("spec result: {}, {}", result.getId(), result.getName());
 	}
 
