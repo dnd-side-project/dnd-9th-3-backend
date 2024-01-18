@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,13 +32,12 @@ public class OAuthLoginController {
 	@Autowired
 	private TokenService tokenService;
 
-	@PostMapping(value = "/login")
-	public ResponseEntity<Token> oauthLogin(
-		HttpServletRequest request,
-		HttpServletResponse response,
-		@RequestBody SocialLoginRequest socialLoginRequest) {
-		OAuth oAuth = createOAuthService.createOAuth(socialLoginRequest.getCode());
-		Token token = tokenService.createTokens(oAuth.getoAuthId().getId());
+	@GetMapping(value = "/login/{code}")
+	public ResponseEntity<Token> login(
+		@PathVariable String code) {
+		OAuth oAuth = createOAuthService.createOAuth(code);
+		createMemberService.createMember(oAuth.getEmail(), oAuth.getoAuthId().getId());
+		Token token = tokenService.createTokens(oAuth.getEmail());
 		return ResponseEntity
 			.ok()
 			.body(token);

@@ -59,7 +59,7 @@ public class TokenService {
 	@Transactional
 	public String getAccessTokensByRefreshToken(String refreshToken) {
 		return refreshTokenRepository.findById(refreshToken)
-			.map(token -> createAccessToken(token.getMemberId()))
+			.map(token -> createAccessToken(token.getId()))
 			.orElseThrow(RefreshTokenNotFoundException::new);
 	}
 

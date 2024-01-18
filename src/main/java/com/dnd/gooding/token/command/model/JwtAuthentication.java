@@ -5,6 +5,9 @@ public class JwtAuthentication {
 	private String id;
 	private String accessToken;
 
+	public JwtAuthentication() {
+	}
+
 	public JwtAuthentication(String id, String accessToken) {
 		this.id = id;
 		this.accessToken = accessToken;

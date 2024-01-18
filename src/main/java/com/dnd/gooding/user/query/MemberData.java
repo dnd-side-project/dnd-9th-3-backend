@@ -26,9 +26,6 @@ public class MemberData {
 	@Column(name = "interests")
 	@Convert(converter = InterestConverter.class)
 	private InterestSet interestSet;
-	private String userRole;
-	@Column(name = "oauth_id")
-	private String oauthId;
 
 	protected MemberData() {
 	}
@@ -52,13 +49,5 @@ public class MemberData {
 
 	public InterestSet getInterestSet() {
 		return interestSet;
-	}
-
-	public String getUserRole() {
-		return userRole;
-	}
-
-	public String getOauthId() {
-		return oauthId;
 	}
 }

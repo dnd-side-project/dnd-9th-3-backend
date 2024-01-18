@@ -22,11 +22,11 @@ public class MemberController {
 		this.memberQueryService = memberQueryService;
 	}
 
-	@GetMapping(value = "/{memberId}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<MemberData> member(
-		@PathVariable String memberId) {
+		@PathVariable String id) {
 		return ResponseEntity
 			.ok()
-			.body(memberQueryService.getMember(memberId));
+			.body(memberQueryService.getMember(id));
 	}
 }

@@ -13,8 +13,8 @@ public class MemberQueryService {
 		this.memberDataDao = memberDataDao;
 	}
 
-	public MemberData getMember(String memberId) {
-		MemberData memberData = memberDataDao.findById(memberId);
+	public MemberData getMember(String id) {
+		MemberData memberData = memberDataDao.findById(id);
 		if (memberData == null) {
 			throw new NoMemberException();
 		}

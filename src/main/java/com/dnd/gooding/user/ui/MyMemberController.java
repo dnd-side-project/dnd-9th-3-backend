@@ -25,6 +25,6 @@ public class MyMemberController {
         JwtAuthentication jwtAuthentication = (JwtAuthentication) authentication.getPrincipal();
         return ResponseEntity
             .ok()
-            .body(memberQueryService.getMember(jwtAuthentication.getMemberId()));
+            .body(memberQueryService.getMember(jwtAuthentication.getId()));
     }
 }
