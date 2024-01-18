@@ -36,8 +36,7 @@ public class OAuthLoginController {
 		HttpServletResponse response,
 		@RequestBody SocialLoginRequest socialLoginRequest) {
 		OAuth oAuth = createOAuthService.createOAuth(socialLoginRequest.getCode());
-		Member member = createMemberService.createMember(socialLoginRequest.getMemberId(), oAuth.getoAuthId());
-		Token token = tokenService.createTokens(member);
+		Token token = tokenService.createTokens(oAuth.getoAuthId().getId());
 		return ResponseEntity
 			.ok()
 			.body(token);
