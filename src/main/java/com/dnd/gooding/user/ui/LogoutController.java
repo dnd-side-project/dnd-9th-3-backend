@@ -1,8 +1,10 @@
 package com.dnd.gooding.user.ui;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dnd.gooding.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +28,10 @@ public class LogoutController {
 	public ResponseEntity<Void> logout(
 		HttpServletRequest request,
 		HttpServletResponse response,
-		@CookieValue("refreshToken") String refreshToken,
 		Authentication authentication) {
+		String refreshToken = CookieUtil.getCookie(request, "refreshToken")
+				.map(Cookie::getValue)
+				.orElseThrow();
 		tokenService.deleteRefreshToken(refreshToken);
 		SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 		logoutHandler.logout(request, response, authentication);

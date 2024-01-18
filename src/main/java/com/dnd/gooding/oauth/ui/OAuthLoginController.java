@@ -30,8 +30,6 @@ public class OAuthLoginController {
 	@Autowired
 	private TokenService tokenService;
 
-	private final int COOKIE_EXPIRE_SECONDS = 180;
-
 	@PostMapping(value = "/login")
 	public ResponseEntity<Token> oauthLogin(
 		HttpServletRequest request,
@@ -40,10 +38,6 @@ public class OAuthLoginController {
 		OAuth oAuth = createOAuthService.createOAuth(socialLoginRequest.getCode());
 		Member member = createMemberService.createMember(socialLoginRequest.getMemberId(), oAuth.getoAuthId());
 		Token token = tokenService.createTokens(member);
-
-		CookieUtil.addCookie(response, "refreshToken",
-			token.getRefreshToken(),
-			COOKIE_EXPIRE_SECONDS);
 		return ResponseEntity
 			.ok()
 			.body(token);

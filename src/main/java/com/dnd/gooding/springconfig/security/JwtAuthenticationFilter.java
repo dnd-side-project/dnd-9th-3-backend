@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.dnd.gooding.util.CookieUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			JwtAuthenticationToken authentication = tokenService.getAuthenticationByAccessToken(accessToken);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} else {
-			logger.info("url {} => There is no valid JWT token.", request.getRequestURI());
+			logger.info("api call info {} => There is no valid JWT token.", request.getRequestURI());
 		}
 		filterChain.doFilter(request, response);
 	}

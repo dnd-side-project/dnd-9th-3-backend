@@ -9,6 +9,7 @@ import com.dnd.gooding.common.jpa.EmailSetConverter;
 import com.dnd.gooding.common.jpa.InterestConverter;
 import com.dnd.gooding.common.model.Email;
 import com.dnd.gooding.common.model.EmailSet;
+import com.dnd.gooding.common.model.Interest;
 import com.dnd.gooding.common.model.InterestSet;
 import com.dnd.gooding.oauth.command.domain.OAuthId;
 
@@ -57,6 +58,10 @@ public class Member {
 
 	public void changeEmails(Set<Email> emails) {
 		this.emails = new EmailSet(emails);
+	}
+
+	public void changeInterests(Set<Interest> interests) {
+		this.interests = new InterestSet(interests);
 	}
 
 	public void changePassword(String oldPw, String newPw) {

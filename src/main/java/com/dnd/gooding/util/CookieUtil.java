@@ -13,6 +13,8 @@ import org.springframework.util.SerializationUtils;
 
 public class CookieUtil {
 
+	private static final int COOKIE_EXPIRE_SECONDS = 180;
+
 	public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
 
 		Cookie[] cookies = request.getCookies();
@@ -25,12 +27,12 @@ public class CookieUtil {
 		return Optional.empty();
 	}
 
-	public static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
+	public static void addCookie(HttpServletResponse response, String name, String value) {
 		Cookie cookie = new Cookie(name, value);
 		cookie.setPath("/");
 		cookie.setHttpOnly(true);
 		cookie.setSecure(true);
-		cookie.setMaxAge(maxAge);
+		cookie.setMaxAge(COOKIE_EXPIRE_SECONDS);
 		response.addCookie(cookie);
 	}
 

@@ -82,6 +82,11 @@ public class Record {
         return Collections.unmodifiableList(images);
     }
 
+    public void changeImages(List<Image> newImages) {
+        images.clear();
+        images.addAll(newImages);
+    }
+
     private void setNumber(RecordNo number) {
         if (number == null) {
             throw new IllegalArgumentException("no number");
