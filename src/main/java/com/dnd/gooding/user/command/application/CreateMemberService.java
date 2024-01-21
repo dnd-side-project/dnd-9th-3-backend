@@ -26,6 +26,14 @@ public class CreateMemberService {
 	}
 
 	@Transactional
+	public void updateMember(MemberRequest memberRequest) {
+		Member member = memberRepository.findById(new MemberId(memberRequest.getId()))
+			.orElseThrow(NoMemberException::new);
+		member.changeName(memberRequest.getName());
+		member.changeInterests(memberRequest.getInterestSet());
+	}
+
+	@Transactional
 	public void save(Member member) {
 		memberRepository.findById(member.getId()).ifPresentOrElse(
 			x -> {

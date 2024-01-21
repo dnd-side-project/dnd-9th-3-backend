@@ -71,6 +71,10 @@ public class Member {
 		this.password = new Password(newPw);
 	}
 
+	public void changeName(String name) {
+		this.name = name;
+	}
+
 	public MemberId getId() {
 		return id;
 	}
