@@ -19,13 +19,10 @@ import com.dnd.gooding.user.query.MemberQueryService;
 public class MemberController {
 
 	private MemberQueryService memberQueryService;
-	private CreateMemberService createMemberService;
 
 	public MemberController(
-		MemberQueryService memberQueryService,
-		CreateMemberService createMemberService) {
+		MemberQueryService memberQueryService) {
 		this.memberQueryService = memberQueryService;
-		this.createMemberService = createMemberService;
 	}
 
 	@GetMapping(value = "/{id}")
@@ -36,12 +33,5 @@ public class MemberController {
 			.body(memberQueryService.getMember(id));
 	}
 
-	@PostMapping
-	public ResponseEntity<Void> member(
-		@RequestBody MemberRequest memberRequest) {
-		createMemberService.updateMember(memberRequest);
-		return ResponseEntity
-			.status(HttpStatus.NO_CONTENT)
-			.build();
-	}
+
 }

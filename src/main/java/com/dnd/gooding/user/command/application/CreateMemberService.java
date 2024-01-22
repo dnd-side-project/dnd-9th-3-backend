@@ -30,7 +30,7 @@ public class CreateMemberService {
 		Member member = memberRepository.findById(new MemberId(memberRequest.getId()))
 			.orElseThrow(NoMemberException::new);
 		member.changeName(memberRequest.getName());
-		member.changeInterests(memberRequest.getInterestSet());
+		member.changeInterests(memberRequest.getInterests());
 	}
 
 	@Transactional

@@ -11,19 +11,18 @@ public class MemberRequest {
 	private String id;
 	private String name;
 	private String password;
-	private Set<Email> emailSet = new HashSet<>();
-	private Set<Interest> interestSet = new HashSet<>();
+	private Set<Email> emails = new HashSet<>();
+	private Set<Interest> interests = new HashSet<>();
 
 	public MemberRequest() {
 	}
 
-	public MemberRequest(String id, String name, String password,
-		Set<Email> emailSet, Set<Interest> interestSet) {
+	public MemberRequest(String id, String name, String password, Set<Email> emails, Set<Interest> interests) {
 		this.id = id;
 		this.name = name;
 		this.password = password;
-		this.emailSet = emailSet;
-		this.interestSet = interestSet;
+		this.emails = emails;
+		this.interests = interests;
 	}
 
 	public String getId() {
@@ -38,11 +37,11 @@ public class MemberRequest {
 		return password;
 	}
 
-	public Set<Email> getEmailSet() {
-		return emailSet;
+	public Set<Email> getEmails() {
+		return emails;
 	}
 
-	public Set<Interest> getInterestSet() {
-		return interestSet;
+	public Set<Interest> getInterests() {
+		return interests;
 	}
 }
