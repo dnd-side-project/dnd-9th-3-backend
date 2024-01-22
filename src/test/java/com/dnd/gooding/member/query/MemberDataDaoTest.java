@@ -12,9 +12,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.dnd.gooding.user.command.application.NoMemberException;
-import com.dnd.gooding.user.query.dto.MemberData;
 import com.dnd.gooding.user.query.dao.MemberDataDao;
 import com.dnd.gooding.user.query.dao.MemberDataSpecs;
+import com.dnd.gooding.user.query.dto.MemberData;
 
 @SpringBootTest
 @Sql("classpath:init-test.sql")
@@ -26,9 +26,10 @@ public class MemberDataDaoTest {
 
 	@Test
 	void findById() {
-		MemberData result = memberDataDao.findById("yonog7317")
+		MemberData result = memberDataDao.findById("youg1322@naver.com")
 			.orElseThrow(NoMemberException::new);
-		logger.info("spec result: {}, {}", result.getId(), result.getName());
+		logger.info("spec result: {}, {}, {}, {}", result.getId(), result.getName(),
+			result.getoAuthId(), result.getImageUrl());
 	}
 
 	@Test
