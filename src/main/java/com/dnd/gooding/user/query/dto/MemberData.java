@@ -1,4 +1,4 @@
-package com.dnd.gooding.user.query;
+package com.dnd.gooding.user.query.dto;
 
 import javax.persistence.*;
 
@@ -9,12 +9,31 @@ import com.dnd.gooding.common.model.EmailSet;
 import com.dnd.gooding.common.model.Interest;
 import com.dnd.gooding.common.model.InterestSet;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Subselect;
+import org.hibernate.annotations.Synchronize;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Immutable
 @Table(name = "member")
+@Subselect(
+		"""
+		select
+			m.member_id as id,
+			m.name,
+			m.emails as emailSet,
+			m.interests as interestSet,
+			m.oauth_id as oAuthId,
+			o.image_url
+		  from member m
+		  left join oauth o
+			on m.oauth_id = o.oauth_id
+		"""
+)
+@Synchronize({"member", "oauth"})
 public class MemberData {
 
 	@Id
