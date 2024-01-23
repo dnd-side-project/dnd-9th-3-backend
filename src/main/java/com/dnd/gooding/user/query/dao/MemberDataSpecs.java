@@ -1,6 +1,8 @@
-package com.dnd.gooding.user.query;
+package com.dnd.gooding.user.query.dao;
 
 import org.springframework.data.jpa.domain.Specification;
+
+import com.dnd.gooding.user.query.dto.MemberData;
 
 public class MemberDataSpecs {
 

@@ -12,14 +12,16 @@ public class OAuth {
 	private OAuthId oAuthId;
 	private String imageUrl;
 	private String provider;
+	private String email;
 
 	protected OAuth() {
 	}
 
-	public OAuth(OAuthId oAuthId, String imageUrl, String provider) {
+	public OAuth(OAuthId oAuthId, String imageUrl, String provider, String email) {
 		this.oAuthId = oAuthId;
 		this.imageUrl = imageUrl;
 		this.provider = provider;
+		this.email = email;
 	}
 
 	public OAuthId getoAuthId() {
@@ -32,5 +34,9 @@ public class OAuth {
 
 	public String getProvider() {
 		return provider;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 }

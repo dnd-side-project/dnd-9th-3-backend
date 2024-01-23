@@ -8,49 +8,40 @@ import com.dnd.gooding.common.model.Interest;
 
 public class MemberRequest {
 
-	private String memberId;
+	private String id;
+	private String name;
+	private String password;
 	private Set<Email> emails = new HashSet<>();
 	private Set<Interest> interests = new HashSet<>();
-	private String name;
-	private String oAuthId;
 
-	public String getMemberId() {
-		return memberId;
+	public MemberRequest() {
 	}
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
-	}
-
-	public Set<Email> getEmails() {
-		return emails;
-	}
-
-	public void setEmails(Set<Email> emails) {
+	public MemberRequest(String id, String name, String password, Set<Email> emails, Set<Interest> interests) {
+		this.id = id;
+		this.name = name;
+		this.password = password;
 		this.emails = emails;
-	}
-
-	public Set<Interest> getInterests() {
-		return interests;
-	}
-
-	public void setInterests(Set<Interest> interests) {
 		this.interests = interests;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public String getPassword() {
+		return password;
 	}
 
-	public String getoAuthId() {
-		return oAuthId;
+	public Set<Email> getEmails() {
+		return emails;
 	}
 
-	public void setoAuthId(String oAuthId) {
-		this.oAuthId = oAuthId;
+	public Set<Interest> getInterests() {
+		return interests;
 	}
 }

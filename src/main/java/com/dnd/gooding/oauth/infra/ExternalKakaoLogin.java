@@ -72,7 +72,8 @@ public class ExternalKakaoLogin implements ExternalLogin {
 
 		if (responseEntity.getStatusCode() == HttpStatus.OK) {
 			return new KakaoMember(
-				Objects.requireNonNull(responseEntity.getBody()).getId(),
+				responseEntity.getBody().getId(),
+				responseEntity.getBody().getKakao_account().getEmail(),
 				responseEntity.getBody().getProperties());
 		} else {
 			throw new ConnectionException();

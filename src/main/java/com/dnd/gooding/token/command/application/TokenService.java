@@ -31,35 +31,35 @@ public class TokenService {
 		this.refreshTokenRepository = refreshTokenRepository;
 	}
 
-	public Token createTokens(Member member) {
-		String accessToken = createAccessToken(member.getId().getId());
-		String refreshToken = createRefreshToken(member.getId().getId());
-		return new Token(member.getId().getId(), accessToken, refreshToken);
+	public Token createTokens(String id) {
+		String accessToken = createAccessToken(id);
+		String refreshToken = createRefreshToken(id);
+		return new Token(id, accessToken, refreshToken);
 	}
 
 	public JwtAuthenticationToken getAuthenticationByAccessToken(String accessToken) {
 		jwtTokenProvider.validateToken(accessToken);
 		Claims claims = jwtTokenProvider.getClaims(accessToken);
-		String memberId = claims.get("memberId", String.class);
-		JwtAuthentication principal = new JwtAuthentication(memberId, accessToken);
+		String id = claims.get("id", String.class);
+		JwtAuthentication principal = new JwtAuthentication(id, accessToken);
 		return new JwtAuthenticationToken(principal, null);
 	}
 
-	private String createAccessToken(String memberId) {
-		return jwtTokenProvider.createAccessToken(memberId);
+	private String createAccessToken(String id) {
+		return jwtTokenProvider.createAccessToken(id);
 	}
 
 	@Transactional
-	public String createRefreshToken(String memberId) {
+	public String createRefreshToken(String id) {
 		String uuid = UUID.randomUUID().toString();
-		RefreshToken refreshToken = new RefreshToken(uuid, memberId, refreshTokenExpirySeconds);
+		RefreshToken refreshToken = new RefreshToken(uuid, id, refreshTokenExpirySeconds);
 		return refreshTokenRepository.save(refreshToken).getRefreshToken();
 	}
 
 	@Transactional
 	public String getAccessTokensByRefreshToken(String refreshToken) {
 		return refreshTokenRepository.findById(refreshToken)
-			.map(token -> createAccessToken(token.getMemberId()))
+			.map(token -> createAccessToken(token.getId()))
 			.orElseThrow(RefreshTokenNotFoundException::new);
 	}
 

@@ -18,12 +18,19 @@ public class CreateMemberService {
 		this.memberRepository = memberRepository;
 	}
 
-	public Member createMember(String id, OAuthId oAuthId) {
+	public void createMember(String id, String oAuthId) {
 		MemberId memberId = MemberId.of(id);
 		Member member = new Member(memberId, null, null, null,
-				UserRole.ROLE_USER.name(), oAuthId);
+				UserRole.ROLE_USER.name(), new OAuthId(oAuthId));
 		save(member);
-		return member;
+	}
+
+	@Transactional
+	public void updateMember(MemberRequest memberRequest) {
+		Member member = memberRepository.findById(new MemberId(memberRequest.getId()))
+			.orElseThrow(NoMemberException::new);
+		member.changeName(memberRequest.getName());
+		member.changeInterests(memberRequest.getInterests());
 	}
 
 	@Transactional

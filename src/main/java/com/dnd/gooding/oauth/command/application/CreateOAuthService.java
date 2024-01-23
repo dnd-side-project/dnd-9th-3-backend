@@ -26,7 +26,8 @@ public class CreateOAuthService {
 		OAuth oAuth = new OAuth(new OAuthId(
 			oAuthMember.getoAuthId()),
 			oAuthMember.getImageUrl(),
-			oAuthMember.getProvider());
+			oAuthMember.getProvider(),
+			oAuthMember.getEmail());
 		createOAuth(oAuth);
 		return oAuth;
 	}
