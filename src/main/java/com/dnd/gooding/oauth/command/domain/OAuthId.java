@@ -23,6 +23,10 @@ public class OAuthId implements Serializable {
 		return id;
 	}
 
+	public static OAuthId of(String id) {
+		return new OAuthId(id);
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

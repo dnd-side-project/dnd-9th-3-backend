@@ -12,7 +12,7 @@ import com.dnd.gooding.user.command.domain.MemberRepository;
 @Service
 public class CreateMemberService {
 
-	public MemberRepository memberRepository;
+	private MemberRepository memberRepository;
 
 	public CreateMemberService(MemberRepository memberRepository) {
 		this.memberRepository = memberRepository;
@@ -21,7 +21,7 @@ public class CreateMemberService {
 	public void createMember(String id, String oAuthId) {
 		MemberId memberId = MemberId.of(id);
 		Member member = new Member(memberId, null, null, null,
-				UserRole.ROLE_USER.name(), new OAuthId(oAuthId));
+			UserRole.ROLE_USER.name(), new OAuthId(oAuthId));
 		save(member);
 	}
 

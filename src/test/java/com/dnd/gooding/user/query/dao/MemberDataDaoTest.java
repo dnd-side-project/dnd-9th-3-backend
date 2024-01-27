@@ -1,4 +1,4 @@
-package com.dnd.gooding.member.query;
+package com.dnd.gooding.user.query.dao;
 
 import java.util.List;
 
@@ -12,8 +12,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.dnd.gooding.user.command.application.NoMemberException;
-import com.dnd.gooding.user.query.dao.MemberDataDao;
-import com.dnd.gooding.user.query.dao.MemberDataSpecs;
 import com.dnd.gooding.user.query.dto.MemberData;
 
 @SpringBootTest

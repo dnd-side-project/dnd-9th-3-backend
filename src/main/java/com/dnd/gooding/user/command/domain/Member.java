@@ -3,7 +3,14 @@ package com.dnd.gooding.user.command.domain;
 import java.util.Random;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import com.dnd.gooding.common.jpa.EmailSetConverter;
 import com.dnd.gooding.common.jpa.InterestConverter;
@@ -12,6 +19,8 @@ import com.dnd.gooding.common.model.EmailSet;
 import com.dnd.gooding.common.model.Interest;
 import com.dnd.gooding.common.model.InterestSet;
 import com.dnd.gooding.oauth.command.domain.OAuthId;
+
+import lombok.Builder;
 
 @Entity
 @Table(name = "member")
@@ -35,6 +44,7 @@ public class Member {
 	protected Member() {
 	}
 
+	@Builder
 	public Member(MemberId id, String name, EmailSet emails,
 		InterestSet interests, String userRole, OAuthId oAuthId) {
 		this.id = id;
