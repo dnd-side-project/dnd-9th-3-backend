@@ -1,4 +1,4 @@
-package com.dnd.gooding.user.fixture;
+package com.dnd.gooding.fixture;
 
 import com.dnd.gooding.user.query.dto.MemberData;
 

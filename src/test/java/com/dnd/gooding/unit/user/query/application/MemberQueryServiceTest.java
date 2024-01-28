@@ -1,4 +1,4 @@
-package com.dnd.gooding.user.query.application;
+package com.dnd.gooding.unit.user.query.application;
 
 import java.util.Optional;
 
@@ -8,7 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import com.dnd.gooding.user.fixture.MemberDataFixture;
+import com.dnd.gooding.fixture.MemberDataFixture;
+import com.dnd.gooding.user.query.application.MemberQueryService;
 import com.dnd.gooding.user.query.dao.MemberDataDao;
 import com.dnd.gooding.user.query.dto.MemberData;
 

@@ -1,10 +1,11 @@
-package com.dnd.gooding.user.command.application;
+package com.dnd.gooding.unit.user.command.application;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import com.dnd.gooding.user.command.application.CreateMemberService;
 import com.dnd.gooding.user.command.domain.MemberRepository;
 
 public class CreateMemberServiceTest {
