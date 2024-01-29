@@ -1,4 +1,4 @@
-package com.dnd.gooding.member.query;
+package com.dnd.gooding.unit.user.query.dao;
 
 import java.util.List;
 

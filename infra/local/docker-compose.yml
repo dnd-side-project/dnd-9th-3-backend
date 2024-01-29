@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  local-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: gooding
+      MYSQL_ROOT_PASSWORD: test1357
+    ports:
+      - 3306:3306
+    volumes:
+      - ./dbdata:/var/lib/mysql
+  local-db-migrate:
+    image: flyway/flyway:7
+    restart: always
+    environment:
+      - FLYWAY_DB_URL=jdbc:mysql://local-db/gooding
+      - FLYWAY_DB_USER=root
+      - FLYWAY_DB_PASSWORD=test1357
+    command: migrate
+    volumes:
+      - ../../db/flyway.conf:/flyway/conf/flyway.conf
+      - ../../db/migration:/flyway/sql

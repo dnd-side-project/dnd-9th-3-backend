@@ -22,6 +22,8 @@ import com.dnd.gooding.common.model.Interest;
 import com.dnd.gooding.common.model.InterestSet;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Builder;
+
 @Entity
 @Immutable
 @Table(name = "member")
@@ -67,6 +69,7 @@ public class MemberData {
 	protected MemberData() {
 	}
 
+	@Builder
 	public MemberData(String id, String name) {
 		this.id = id;
 		this.name = name;
