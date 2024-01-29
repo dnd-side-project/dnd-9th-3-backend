@@ -29,13 +29,13 @@ public class IntegrationTest {
 				"local-db",
 				3306,
 				Wait.forLogMessage(".*ready for connections.*", 1)
-					.withStartupTimeout(Duration.ofSeconds(300))
+					.withStartupTimeout(Duration.ofSeconds(180L))
 			)
 			.withExposedService(
 				"local-db-migrate",
 				0,
 				Wait.forLogMessage("(.*Successfully applied.*)|(.*Successfully validated.*)", 1)
-					.withStartupTimeout(Duration.ofSeconds(300))
+					.withStartupTimeout(Duration.ofSeconds(180L))
 			);
 
 		rdbms.start();
@@ -50,7 +50,7 @@ public class IntegrationTest {
 			Integer rdbmsPort = rdbms.getServicePort("local-db", 3306);
 
 			properties.put("spring.datasource.url",
-				"jdbc:mysql://" + rdbmsHost + ":" + rdbmsPort + "+/gooding?serverTimezone=Asia/Seoul");
+				"jdbc:mysql://" + rdbmsHost + ":" + rdbmsPort + "/gooding");
 
 			TestPropertyValues.of(properties)
 				.applyTo(applicationContext);
