@@ -142,10 +142,11 @@ sonar {
 spotless {
     java {
         target("**/*.java")
-        googleJavaFormat().aosp()
-        importOrder()
+        googleJavaFormat()
+
         removeUnusedImports()
         trimTrailingWhitespace()
+        indentWithSpaces(4)
         endWithNewline()
     }
 }
