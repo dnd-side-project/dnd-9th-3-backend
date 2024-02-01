@@ -35,7 +35,9 @@ jobs:
       - name: Gradle Build
         if: steps.changes.outputs.application == 'true'
         run: |
+          chmod +x ./gradlew
           ./gradlew build --parallel
+
       - name: Coverage Report
         if: steps.changes.outputs.application == 'true'
         uses: madrapps/jacoco-report@v1.6.1
@@ -73,4 +75,5 @@ jobs:
       - name: Style Check
         if: steps.changes.outputs.application == 'true'
         run: |
+          chmod +x ./gradlew
           ./gradlew spotlessCheck
