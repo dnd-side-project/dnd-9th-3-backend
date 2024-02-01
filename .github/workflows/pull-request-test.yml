@@ -35,6 +35,7 @@ jobs:
       - name: Gradle Build
         if: steps.changes.outputs.application == 'true'
         run: |
+          chmod +x ./gradlew
           ./gradlew build --parallel
 
       - name: Coverage Report
@@ -74,4 +75,5 @@ jobs:
       - name: Style Check
         if: steps.changes.outputs.application == 'true'
         run: |
+          chmod +x ./gradlew
           ./gradlew spotlessCheck
