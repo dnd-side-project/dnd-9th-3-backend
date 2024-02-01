@@ -7,20 +7,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class CreateMemberServiceTest {
+class CreateMemberServiceTest {
 
   private MemberRepository memberRepository;
   private CreateMemberService createMemberService;
 
   @BeforeEach
-  public void beforeEach() {
+  void beforeEach() {
     memberRepository = Mockito.mock(MemberRepository.class);
     createMemberService = new CreateMemberService(memberRepository);
   }
 
   @DisplayName("멤버를 생성한다.")
   @Test
-  public void createMember() {
+  void createMember() {
     // given
     String id = "youg1322@naver.com";
     String oAuthId = "12356";
