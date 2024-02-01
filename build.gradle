@@ -118,7 +118,9 @@ tasks.jacocoTestCoverageVerification {
         rule {
             enabled = true // 활성화
             element = 'METHOD' // 메소드 단위로 커버리지 체크
-            excludes = [] + Qdomains // 제외할 Qdomains 패턴 추가
+            excludes = [
+                "*.test.*"
+            ] + Qdomains // 제외할 Qdomains 패턴 추가
         }
 
     }
