@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class CreateMemberServiceIntegrationTest extends IntegrationTest {
+class CreateMemberServiceIntegrationTest extends IntegrationTest {
 
   @Autowired private CreateMemberService createMemberService;
   @Autowired private MemberQueryService memberQueryService;
@@ -18,7 +18,7 @@ public class CreateMemberServiceIntegrationTest extends IntegrationTest {
 
   @DisplayName("멤버를 생성한다.")
   @Test
-  public void createMember() {
+  void createMember() {
     // given
     String id = "youg1322@naver.com";
     String oAuthId = "12356";
