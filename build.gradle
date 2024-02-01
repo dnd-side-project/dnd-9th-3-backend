@@ -100,7 +100,9 @@ tasks.jacocoTestReport {
         classDirectories.setFrom(
                 files(classDirectories.files.collect {
                     fileTree(dir: it,
-                        exclude: [] + Qdomains)
+                        exclude: [
+                            "*.test.*"
+                        ] + Qdomains)
                 })
         )
     }
