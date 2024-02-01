@@ -10,10 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/record")
 public class RecordController {
 
-    @PostMapping
-    public ResponseEntity<Void> record() {
-        return org.springframework.http.ResponseEntity
-            .status(HttpStatus.NO_CONTENT)
-            .build();
-    }
+  @PostMapping
+  public ResponseEntity<Void> record() {
+    return org.springframework.http.ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
 }

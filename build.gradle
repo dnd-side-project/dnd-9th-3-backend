@@ -11,7 +11,7 @@ plugins {
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
     id 'java'
     id 'jacoco'
-    id 'checkstyle'
+    id 'com.diffplug.spotless' version '6.21.0'
 }
 
 group = 'com.dnd.gooding'
@@ -74,24 +74,6 @@ test {
     finalizedBy 'jacocoTestReport'
 }
 
-compileJava.options.encoding = 'UTF-8'
-compileTestJava.options.encoding = 'UTF-8'
-
-tasks.withType(Checkstyle) {
-    reports {
-        xml.required = true
-        html.required = true
-    }
-}
-
-checkstyle {
-    configFile = file("config/checkstyle/naver-checkstyle-rules.xml")
-    configProperties = ["suppressionFile": "config/checkstyle/naver-checkstyle-suppressions.xml"]
-    sourceSets = [sourceSets.main]
-}
-
-checkstyleMain.source = fileTree('src/main/java')
-
 jacoco {
     toolVersion = '0.8.7'
 }
@@ -151,4 +133,20 @@ configurations {
         extendsFrom annotationProcessor
     }
     querydsl.extendsFrom compileClasspath
+}
+
+spotless {
+    java {
+        googleJavaFormat()
+
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        indentWithSpaces(4)
+        endWithNewline()
+    }
+}
+
+tasks.register("addGitPreCommitHook", Copy) {
+    from 'script/pre-commit'
+    into '.git/hooks'
 }

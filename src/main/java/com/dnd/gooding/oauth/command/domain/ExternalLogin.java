@@ -4,5 +4,5 @@ import com.dnd.gooding.oauth.command.model.OAuthMember;
 
 public interface ExternalLogin {
 
-	OAuthMember getOauthToken(String code);
+  OAuthMember getOauthToken(String code);
 }

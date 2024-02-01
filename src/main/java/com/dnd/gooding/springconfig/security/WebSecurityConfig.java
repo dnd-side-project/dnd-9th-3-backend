@@ -15,44 +15,50 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class WebSecurityConfig {
 
-	private JwtAuthenticationFilter jwtAuthenticationFilter;
+  private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-	public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
-		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-	}
+  public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+  }
 
-	@Bean
-	public SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
-		return http
-			.cors()
-			.configurationSource(corsConfigurationSource())
-			.and()
-			.authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-				.antMatchers("/oauth/**").permitAll()
-				.antMatchers("/api/v1/oauth/**").permitAll()
-				.anyRequest().authenticated()
-			)
-			.httpBasic().disable()
-			.csrf().disable()
-			.formLogin().disable()
-			.sessionManagement((sessionManagement) -> sessionManagement
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			)
-			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-			.build();
-	}
+  @Bean
+  public SecurityFilterChain httpSecurity(HttpSecurity http) throws Exception {
+    return http.cors()
+        .configurationSource(corsConfigurationSource())
+        .and()
+        .authorizeHttpRequests(
+            (authorizeRequests) ->
+                authorizeRequests
+                    .antMatchers("/oauth/**")
+                    .permitAll()
+                    .antMatchers("/api/v1/oauth/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
+        .httpBasic()
+        .disable()
+        .csrf()
+        .disable()
+        .formLogin()
+        .disable()
+        .sessionManagement(
+            (sessionManagement) ->
+                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+        .build();
+  }
 
-	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOrigin("*");
-		configuration.addAllowedMethod("*");
-		configuration.addAllowedHeader("*");
-		configuration.setMaxAge(3600L);
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.addAllowedOrigin("*");
+    configuration.addAllowedMethod("*");
+    configuration.addAllowedHeader("*");
+    configuration.setMaxAge(3600L);
 
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
 
-		return source;
-	}
+    return source;
+  }
 }
