@@ -11,6 +11,7 @@ plugins {
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
     id 'java'
     id 'jacoco'
+    id 'org.sonarqube' version '4.0.0.2929'
     id 'com.diffplug.spotless' version '6.21.0'
 }
 
@@ -138,6 +139,19 @@ configurations {
         extendsFrom annotationProcessor
     }
     querydsl.extendsFrom compileClasspath
+}
+
+sonar {
+    properties {
+        property("sonar.host.url", "http://localhost:9000")
+        property("sonar.login", "sqp_cda979c229a81568e0c0fedd83492e13d46df057")
+        property("sonar.sources", "src/main/java")
+        property("sonar.tests", "src/test/java")
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.projectKey", "gooding")
+        property("sonar.projectName", "gooding")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/jacoco.xml")
+    }
 }
 
 spotless {
