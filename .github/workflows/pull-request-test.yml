@@ -1,0 +1,17 @@
+name: Pull Request Test
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions: read-all
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    permissions:
+      cotents: read
+      pull-requests: write
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3.0.2

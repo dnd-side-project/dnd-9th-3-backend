@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  local-sonar:
+    image: sonarqube:9.9.2-community
+    ports:
+      - 9000:9000
+      - 9092:9092
