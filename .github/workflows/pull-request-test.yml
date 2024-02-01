@@ -36,6 +36,7 @@ jobs:
         if: steps.changes.outputs.application == 'true'
         run: |
           ./gradlew build --parallel
+
       - name: Coverage Report
         if: steps.changes.outputs.application == 'true'
         uses: madrapps/jacoco-report@v1.6.1

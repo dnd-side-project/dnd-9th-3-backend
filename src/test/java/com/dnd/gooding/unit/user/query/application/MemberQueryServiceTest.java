@@ -11,20 +11,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class MemberQueryServiceTest {
+class MemberQueryServiceTest {
 
   private MemberDataDao memberDataDao;
   private MemberQueryService memberQueryService;
 
   @BeforeEach
-  public void beforeEach() {
+  void beforeEach() {
     memberDataDao = Mockito.mock(MemberDataDao.class);
     memberQueryService = new MemberQueryService(memberDataDao);
   }
 
   @DisplayName("멤버 ID로 멤버 정보를 가져온다.")
   @Test
-  public void getMember() {
+  void getMember() {
     // given
     String id = "youg1322@naver.com";
 
