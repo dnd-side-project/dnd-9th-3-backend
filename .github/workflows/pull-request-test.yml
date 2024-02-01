@@ -31,6 +31,7 @@ jobs:
           distribution: zulu
           java-version: 17
           cache: 'gradle'
+
       - name: Gradle Build
         if: steps.changes.outputs.application == 'true'
         run: |
