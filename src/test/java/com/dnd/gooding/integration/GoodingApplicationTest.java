@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 
 public class GoodingApplicationTest extends IntegrationTest {
 
-	@Test
-	void contextLoads() {
-	}
+  @Test
+  void contextLoads() {}
 }
