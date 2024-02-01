@@ -133,7 +133,8 @@ sonar {
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.projectKey", "gooding")
         property("sonar.projectName", "gooding")
-        property('sonar.exclusions', '**/Q*')
+        property("sonar.test.inclusions", "**/*Test.java")
+        property("sonar.exclusions", "**/test/**, **/Q*.java")
         property("sonar.coverage.jacoco.xmlReportPaths", "build/jacoco/jacoco.xml")
     }
 }
@@ -141,11 +142,10 @@ sonar {
 spotless {
     java {
         target("**/*.java")
-        googleJavaFormat()
-
+        googleJavaFormat().aosp()
+        importOrder()
         removeUnusedImports()
         trimTrailingWhitespace()
-        indentWithSpaces(4)
         endWithNewline()
     }
 }
