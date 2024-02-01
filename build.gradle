@@ -145,7 +145,6 @@ sonar {
 
 spotless {
     java {
-        target("**/*.java")
         googleJavaFormat()
 
         removeUnusedImports()
