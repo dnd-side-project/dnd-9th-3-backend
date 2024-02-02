@@ -1,9 +1,12 @@
 package com.dnd.gooding.integration;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class GoodingApplicationTest extends IntegrationTest {
+class GoodingApplicationTest extends IntegrationTest {
 
   @Test
-  void contextLoads() {}
+  void contextLoads() {
+    Assertions.assertEquals(1, 1);
+  }
 }

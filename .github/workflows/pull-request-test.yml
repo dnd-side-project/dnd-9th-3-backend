@@ -2,7 +2,7 @@ name: Pull Request Test
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
 
 permissions: read-all
 
@@ -31,6 +31,9 @@ jobs:
           distribution: zulu
           java-version: 17
           cache: 'gradle'
+
+      - name: 환경 변수 설정
+        run: echo "${{ secrets.ENV_PROPERTIES }}" > ./.env
 
       - name: Gradle Build
         if: steps.changes.outputs.application == 'true'
