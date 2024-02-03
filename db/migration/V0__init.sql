@@ -43,10 +43,10 @@ CREATE TABLE IF NOT EXISTS `image` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `evententry` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `type` varchar(255) DEFAULT NULL,
   `content_type` varchar(255) DEFAULT NULL,
-  `payload` varchar(255) DEFAULT NULL,
-  `timestamp` bigint(20) NULL,
+  `payload` mediumtext DEFAULT NULL,
+  `timestamp` datetime NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

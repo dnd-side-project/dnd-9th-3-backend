@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.dnd.gooding.common.event.Events;
+import com.dnd.gooding.user.command.domain.MemberCreatedEvent;
 
 @Entity
 @Table(name = "oauth")
@@ -24,7 +25,7 @@ public class OAuth {
 		this.imageUrl = imageUrl;
 		this.provider = provider;
 		this.email = email;
-		Events.raise(new MemberCreateEvent(email, oAuthId));
+		Events.raise(new MemberCreatedEvent(email, oAuthId));
 	}
 
 	public OAuthId getoAuthId() {
