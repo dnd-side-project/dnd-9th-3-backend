@@ -38,6 +38,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.9'
     implementation 'com.google.code.gson:gson:2.10.1'
+    implementation group: 'net.jodah', name: 'typetools', version: '0.4.2'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     // DB
@@ -100,9 +102,9 @@ tasks.jacocoTestReport {
         classDirectories.setFrom(
                 files(classDirectories.files.collect {
                     fileTree(dir: it,
-                        exclude: [
-                            "*.test.*"
-                        ] + Qdomains)
+                            exclude: [
+                                    "*.test.*"
+                            ] + Qdomains)
                 })
         )
     }
@@ -121,7 +123,7 @@ tasks.jacocoTestCoverageVerification {
             enabled = true // 활성화
             element = 'METHOD' // 메소드 단위로 커버리지 체크
             excludes = [
-                "*.test.*"
+                    "*.test.*"
             ] + Qdomains // 제외할 Qdomains 패턴 추가
         }
 

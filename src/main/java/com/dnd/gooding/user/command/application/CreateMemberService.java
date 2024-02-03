@@ -17,7 +17,8 @@ public class CreateMemberService {
     this.memberRepository = memberRepository;
   }
 
-  public void createMember(String id, String oAuthId) {
+  @Transactional
+  public void create(String id, String oAuthId) {
     MemberId memberId = MemberId.of(id);
     Member member =
         new Member(memberId, null, null, null, UserRole.ROLE_USER.name(), new OAuthId(oAuthId));
@@ -30,6 +31,7 @@ public class CreateMemberService {
         memberRepository
             .findById(new MemberId(memberRequest.getId()))
             .orElseThrow(NoMemberException::new);
+
     member.changeName(memberRequest.getName());
     member.changeInterests(memberRequest.getInterests());
   }
