@@ -4,10 +4,20 @@ server:
 spring:
   config:
     import: optional:file:.env[.properties]
+  profiles:
+    include:
+      - actuator
+      - oauth
   servlet:
     multipart:
       max-file-size: 5GB
       max-request-size: 5GB
+  zipkin:
+    base-url: http://127.0.0.1:9411
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0
 
   # database 설정
   datasource:
@@ -36,16 +46,3 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
-
-jwt:
-  issuer: yong7317
-  secret-key: ${JWT_SECRET_KEY}
-  expiry-seconds:
-    access-token: 100000
-    refresh-token: 604800
-
-oauth:
-  kakao:
-    client-id: ${KAKAO_CLIENT_ID}
-    client-secret: ${KAKAO_CLIENT_SECRET}
-    redirect-url: ${KAKAO_REDIRECT_URI}

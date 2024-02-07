@@ -7,6 +7,5 @@ class GoodingApplicationTest extends IntegrationTest {
 
   @Test
   void contextLoads() {
-    Assertions.assertEquals(1, 1);
   }
 }
