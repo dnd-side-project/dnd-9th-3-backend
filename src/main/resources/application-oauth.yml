@@ -1,0 +1,12 @@
+jwt:
+  issuer: yong7317
+  secret-key: ${JWT_SECRET_KEY}
+  expiry-seconds:
+    access-token: 100000
+    refresh-token: 604800
+
+oauth:
+  kakao:
+    client-id: ${KAKAO_CLIENT_ID}
+    client-secret: ${KAKAO_CLIENT_SECRET}
+    redirect-url: ${KAKAO_REDIRECT_URI}

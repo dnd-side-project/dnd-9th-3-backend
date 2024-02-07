@@ -29,6 +29,8 @@ public class WebSecurityConfig {
         .authorizeHttpRequests(
             (authorizeRequests) ->
                 authorizeRequests
+                    .antMatchers("/actuator/**")
+                    .permitAll()
                     .antMatchers("/oauth/**")
                     .permitAll()
                     .antMatchers("/api/v1/oauth/**")
