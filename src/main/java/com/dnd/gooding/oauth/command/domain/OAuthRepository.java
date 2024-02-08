@@ -5,7 +5,7 @@ import org.springframework.data.repository.Repository;
 
 public interface OAuthRepository extends Repository<OAuth, OAuthId> {
 
-  Optional<OAuth> findByoAuthId(OAuthId oAuthId);
+    Optional<OAuth> findByoAuthId(OAuthId oAuthId);
 
-  void save(OAuth oAuth);
+    void save(OAuth oAuth);
 }

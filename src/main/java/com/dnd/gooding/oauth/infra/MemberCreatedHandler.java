@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class MemberCreatedHandler implements EventHandler<MemberCreatedEvent> {
 
-  private CreateMemberService createMemberService;
+    private CreateMemberService createMemberService;
 
-  public MemberCreatedHandler(CreateMemberService createMemberService) {
-    this.createMemberService = createMemberService;
-  }
+    public MemberCreatedHandler(CreateMemberService createMemberService) {
+        this.createMemberService = createMemberService;
+    }
 
-  @Override
-  public void handle(MemberCreatedEvent event) {
-    createMemberService.create(event.getEmail(), event.getoAuthId().getId());
-  }
+    @Override
+    public void handle(MemberCreatedEvent event) {
+        createMemberService.create(event.getEmail(), event.getoAuthId().getId());
+    }
 }

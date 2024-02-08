@@ -10,38 +10,38 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Recorder {
 
-  @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "recorder_id")))
-  private MemberId memberId;
+    @AttributeOverrides(@AttributeOverride(name = "id", column = @Column(name = "recorder_id")))
+    private MemberId memberId;
 
-  @Column(name = "recorder_name")
-  private String memberName;
+    @Column(name = "recorder_name")
+    private String memberName;
 
-  protected Recorder() {}
+    protected Recorder() {}
 
-  public Recorder(MemberId memberId, String memberName) {
-    this.memberId = memberId;
-    this.memberName = memberName;
-  }
+    public Recorder(MemberId memberId, String memberName) {
+        this.memberId = memberId;
+        this.memberName = memberName;
+    }
 
-  public MemberId getMemberId() {
-    return memberId;
-  }
+    public MemberId getMemberId() {
+        return memberId;
+    }
 
-  public String getMemberName() {
-    return memberName;
-  }
+    public String getMemberName() {
+        return memberName;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Recorder recorder = (Recorder) o;
-    return Objects.equals(memberId, recorder.memberId)
-        && Objects.equals(memberName, recorder.memberName);
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recorder recorder = (Recorder) o;
+        return Objects.equals(memberId, recorder.memberId)
+                && Objects.equals(memberName, recorder.memberName);
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(memberId, memberName);
-  }
+    @Override
+    public int hashCode() {
+        return Objects.hash(memberId, memberName);
+    }
 }

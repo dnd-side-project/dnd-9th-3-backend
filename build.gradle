@@ -153,11 +153,12 @@ sonar {
 
 spotless {
     java {
-        targetExclude("**/test/**", "**/Q*.java")
+        targetExclude("**/Q*.java")
         googleJavaFormat()
 
         removeUnusedImports()
         trimTrailingWhitespace()
+        indentWithTabs(2)
         indentWithSpaces(4)
         endWithNewline()
     }

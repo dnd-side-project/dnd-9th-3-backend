@@ -9,7 +9,7 @@ import org.springframework.data.repository.Repository;
 
 public interface MemberDataDao extends Repository<MemberData, String> {
 
-  Optional<MemberData> findById(String memberId);
+    Optional<MemberData> findById(String memberId);
 
-  List<MemberData> findAll(Specification<MemberData> spec, Pageable pageable);
+    List<MemberData> findAll(Specification<MemberData> spec, Pageable pageable);
 }

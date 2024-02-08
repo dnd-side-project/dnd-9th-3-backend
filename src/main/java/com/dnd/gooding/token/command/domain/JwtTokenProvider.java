@@ -16,53 +16,53 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
 
-  private final long MILLI_SECOND = 1000L;
+    private final long MILLI_SECOND = 1000L;
 
-  @Value("${jwt.issuer}")
-  private String issuer;
+    @Value("${jwt.issuer}")
+    private String issuer;
 
-  @Value("${jwt.secret-key}")
-  private String secretKey;
+    @Value("${jwt.secret-key}")
+    private String secretKey;
 
-  @Value("${jwt.expiry-seconds.access-token}")
-  private long accessTokenExpirySeconds;
+    @Value("${jwt.expiry-seconds.access-token}")
+    private long accessTokenExpirySeconds;
 
-  public String createAccessToken(String id) {
-    Map<String, Object> claims = Map.of("id", id);
-    return this.createAccessToken(claims);
-  }
-
-  public String createAccessToken(Map<String, Object> claims) {
-    Date now = new Date();
-    Date expiredDate = new Date(now.getTime() + accessTokenExpirySeconds * MILLI_SECOND);
-
-    return Jwts.builder()
-        .setIssuer(issuer)
-        .setClaims(claims)
-        .setIssuedAt(now)
-        .setExpiration(expiredDate)
-        .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
-        .compact();
-  }
-
-  public Claims getClaims(String token) {
-    return Jwts.parserBuilder()
-        .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
-        .build()
-        .parseClaimsJws(token)
-        .getBody();
-  }
-
-  public void validateToken(String token) {
-    try {
-      Jwts.parserBuilder()
-          .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
-          .build()
-          .parseClaimsJws(token);
-    } catch (ExpiredJwtException e) {
-      throw new ExpiredTokenException();
-    } catch (JwtException | IllegalArgumentException e) {
-      throw new InvalidTokenException();
+    public String createAccessToken(String id) {
+        Map<String, Object> claims = Map.of("id", id);
+        return this.createAccessToken(claims);
     }
-  }
+
+    public String createAccessToken(Map<String, Object> claims) {
+        Date now = new Date();
+        Date expiredDate = new Date(now.getTime() + accessTokenExpirySeconds * MILLI_SECOND);
+
+        return Jwts.builder()
+                .setIssuer(issuer)
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expiredDate)
+                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
+                .compact();
+    }
+
+    public Claims getClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public void validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
+                    .build()
+                    .parseClaimsJws(token);
+        } catch (ExpiredJwtException e) {
+            throw new ExpiredTokenException();
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new InvalidTokenException();
+        }
+    }
 }

@@ -6,13 +6,13 @@ import java.util.Set;
 
 public class InterestSet {
 
-  private Set<Interest> interests = new HashSet<>();
+    private Set<Interest> interests = new HashSet<>();
 
-  public InterestSet(Set<Interest> interests) {
-    this.interests.addAll(interests);
-  }
+    public InterestSet(Set<Interest> interests) {
+        this.interests.addAll(interests);
+    }
 
-  public Set<Interest> getInterests() {
-    return Collections.unmodifiableSet(interests);
-  }
+    public Set<Interest> getInterests() {
+        return Collections.unmodifiableSet(interests);
+    }
 }

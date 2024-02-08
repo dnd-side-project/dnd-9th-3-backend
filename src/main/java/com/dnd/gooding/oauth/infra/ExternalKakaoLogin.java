@@ -23,59 +23,59 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class ExternalKakaoLogin implements ExternalLogin {
 
-  private final String KAKAO_USER_INFO_URL = "https://kapi.kakao.com/v2/user/me";
-  private final String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
+    private final String KAKAO_USER_INFO_URL = "https://kapi.kakao.com/v2/user/me";
+    private final String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
 
-  @Value("${oauth.kakao.client-id}")
-  private String clientId;
+    @Value("${oauth.kakao.client-id}")
+    private String clientId;
 
-  @Value("${oauth.kakao.redirect-url}")
-  private String redirectUrl;
+    @Value("${oauth.kakao.redirect-url}")
+    private String redirectUrl;
 
-  @Value("${oauth.kakao.client-secret}")
-  private String clientSecret;
+    @Value("${oauth.kakao.client-secret}")
+    private String clientSecret;
 
-  @Override
-  public OAuthMember getOauthToken(String code) {
-    RestTemplate restTemplate = new RestTemplate();
+    @Override
+    public OAuthMember getOauthToken(String code) {
+        RestTemplate restTemplate = new RestTemplate();
 
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-    MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-    params.add("grant_type", "authorization_code");
-    params.add("client_id", clientId);
-    params.add("redirect_uri", redirectUrl);
-    params.add("code", code);
-    params.add("client_secret", clientSecret);
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", clientId);
+        params.add("redirect_uri", redirectUrl);
+        params.add("code", code);
+        params.add("client_secret", clientSecret);
 
-    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-    ResponseEntity<KakaoInfo> responseEntity =
-        restTemplate.postForEntity(KAKAO_TOKEN_URL, request, KakaoInfo.class);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+        ResponseEntity<KakaoInfo> responseEntity =
+                restTemplate.postForEntity(KAKAO_TOKEN_URL, request, KakaoInfo.class);
 
-    return getKakaoMember(Objects.requireNonNull(responseEntity.getBody()).getAccessToken());
-  }
-
-  private KakaoMember getKakaoMember(String kakaoOauthToken) {
-    RestTemplate restTemplate = new RestTemplate();
-
-    HttpHeaders headers = new HttpHeaders();
-    headers.set("Authorization", "Bearer " + kakaoOauthToken);
-    HttpEntity<?> requestEntity = new HttpEntity<>(headers);
-
-    UriComponentsBuilder uriComponentsBuilder =
-        UriComponentsBuilder.fromHttpUrl(KAKAO_USER_INFO_URL);
-    ResponseEntity<KakaoResponse> responseEntity =
-        restTemplate.exchange(
-            uriComponentsBuilder.toUriString(), HttpMethod.GET, requestEntity, KakaoResponse.class);
-
-    if (responseEntity.getStatusCode() == HttpStatus.OK) {
-      return new KakaoMember(
-          responseEntity.getBody().getId(),
-          responseEntity.getBody().getKakao_account().getEmail(),
-          responseEntity.getBody().getProperties());
-    } else {
-      throw new ConnectionException();
+        return getKakaoMember(Objects.requireNonNull(responseEntity.getBody()).getAccessToken());
     }
-  }
+
+    private KakaoMember getKakaoMember(String kakaoOauthToken) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + kakaoOauthToken);
+        HttpEntity<?> requestEntity = new HttpEntity<>(headers);
+
+        UriComponentsBuilder uriComponentsBuilder =
+                UriComponentsBuilder.fromHttpUrl(KAKAO_USER_INFO_URL);
+        ResponseEntity<KakaoResponse> responseEntity =
+                restTemplate.exchange(
+                        uriComponentsBuilder.toUriString(), HttpMethod.GET, requestEntity, KakaoResponse.class);
+
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            return new KakaoMember(
+                    responseEntity.getBody().getId(),
+                    responseEntity.getBody().getKakao_account().getEmail(),
+                    responseEntity.getBody().getProperties());
+        } else {
+            throw new ConnectionException();
+        }
+    }
 }

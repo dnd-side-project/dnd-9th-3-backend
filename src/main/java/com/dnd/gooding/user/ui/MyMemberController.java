@@ -14,24 +14,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/my/member")
 public class MyMemberController {
 
-  private MemberQueryService memberQueryService;
-  private CreateMemberService createMemberService;
+    private MemberQueryService memberQueryService;
+    private CreateMemberService createMemberService;
 
-  public MyMemberController(
-      MemberQueryService memberQueryService, CreateMemberService createMemberService) {
-    this.memberQueryService = memberQueryService;
-    this.createMemberService = createMemberService;
-  }
+    public MyMemberController(
+            MemberQueryService memberQueryService, CreateMemberService createMemberService) {
+        this.memberQueryService = memberQueryService;
+        this.createMemberService = createMemberService;
+    }
 
-  @GetMapping
-  public ResponseEntity<MemberData> member(Authentication authentication) {
-    JwtAuthentication jwtAuthentication = (JwtAuthentication) authentication.getPrincipal();
-    return ResponseEntity.ok().body(memberQueryService.getMember(jwtAuthentication.getId()));
-  }
+    @GetMapping
+    public ResponseEntity<MemberData> member(Authentication authentication) {
+        JwtAuthentication jwtAuthentication = (JwtAuthentication) authentication.getPrincipal();
+        return ResponseEntity.ok().body(memberQueryService.getMember(jwtAuthentication.getId()));
+    }
 
-  @PostMapping
-  public ResponseEntity<Void> member(@RequestBody MemberRequest memberRequest) {
-    createMemberService.updateMember(memberRequest);
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-  }
+    @PostMapping
+    public ResponseEntity<Void> member(@RequestBody MemberRequest memberRequest) {
+        createMemberService.updateMember(memberRequest);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

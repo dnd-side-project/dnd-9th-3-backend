@@ -7,29 +7,29 @@ import javax.persistence.*;
 @Table(name = "image")
 public class Image {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "image_id")
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "image_id")
+    private Long id;
 
-  @Column(name = "image_path")
-  private String path;
+    @Column(name = "image_path")
+    private String path;
 
-  @Column(name = "upload_time")
-  private LocalDateTime uploadTime;
+    @Column(name = "upload_time")
+    private LocalDateTime uploadTime;
 
-  protected Image() {}
+    protected Image() {}
 
-  public Image(String path, LocalDateTime uploadTime) {
-    this.path = path;
-    this.uploadTime = uploadTime;
-  }
+    public Image(String path, LocalDateTime uploadTime) {
+        this.path = path;
+        this.uploadTime = uploadTime;
+    }
 
-  public String getPath() {
-    return path;
-  }
+    public String getPath() {
+        return path;
+    }
 
-  public LocalDateTime getUploadTime() {
-    return uploadTime;
-  }
+    public LocalDateTime getUploadTime() {
+        return uploadTime;
+    }
 }

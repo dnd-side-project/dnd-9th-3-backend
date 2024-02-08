@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberQueryService {
 
-  private MemberDataDao memberDataDao;
+    private MemberDataDao memberDataDao;
 
-  public MemberQueryService(MemberDataDao memberDataDao) {
-    this.memberDataDao = memberDataDao;
-  }
+    public MemberQueryService(MemberDataDao memberDataDao) {
+        this.memberDataDao = memberDataDao;
+    }
 
-  public MemberData getMember(String id) {
-    return memberDataDao.findById(id).orElseThrow(NoMemberException::new);
-  }
+    public MemberData getMember(String id) {
+        return memberDataDao.findById(id).orElseThrow(NoMemberException::new);
+    }
 }

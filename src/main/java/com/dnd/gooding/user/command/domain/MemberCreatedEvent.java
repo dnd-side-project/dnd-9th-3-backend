@@ -5,22 +5,22 @@ import com.dnd.gooding.oauth.command.domain.OAuthId;
 
 public class MemberCreatedEvent extends Event {
 
-  private String email;
-  private OAuthId oAuthId;
+    private String email;
+    private OAuthId oAuthId;
 
-  private MemberCreatedEvent() {}
+    private MemberCreatedEvent() {}
 
-  public MemberCreatedEvent(String email, OAuthId oAuthId) {
-    super();
-    this.email = email;
-    this.oAuthId = oAuthId;
-  }
+    public MemberCreatedEvent(String email, OAuthId oAuthId) {
+        super();
+        this.email = email;
+        this.oAuthId = oAuthId;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public OAuthId getoAuthId() {
-    return oAuthId;
-  }
+    public OAuthId getoAuthId() {
+        return oAuthId;
+    }
 }
