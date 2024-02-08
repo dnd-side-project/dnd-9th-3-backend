@@ -24,94 +24,94 @@ import lombok.Builder;
 @Access(AccessType.FIELD)
 public class Member {
 
-  @EmbeddedId private MemberId id;
-  private String name;
-  private Password password;
+    @EmbeddedId private MemberId id;
+    private String name;
+    private Password password;
 
-  @Column(name = "emails")
-  @Convert(converter = EmailSetConverter.class)
-  private EmailSet emails;
+    @Column(name = "emails")
+    @Convert(converter = EmailSetConverter.class)
+    private EmailSet emails;
 
-  @Column(name = "interests")
-  @Convert(converter = InterestConverter.class)
-  private InterestSet interests;
+    @Column(name = "interests")
+    @Convert(converter = InterestConverter.class)
+    private InterestSet interests;
 
-  private String userRole;
-  @Embedded private OAuthId oAuthId;
+    private String userRole;
+    @Embedded private OAuthId oAuthId;
 
-  protected Member() {}
+    protected Member() {}
 
-  @Builder
-  public Member(
-      MemberId id,
-      String name,
-      EmailSet emails,
-      InterestSet interests,
-      String userRole,
-      OAuthId oAuthId) {
-    this.id = id;
-    this.name = name;
-    this.emails = emails;
-    this.interests = interests;
-    this.userRole = userRole;
-    this.oAuthId = oAuthId;
-  }
-
-  public void initializePassword() {
-    String newPassword = generateRandomPassword();
-    this.password = new Password(newPassword);
-  }
-
-  private String generateRandomPassword() {
-    Random random = new Random();
-    int number = random.nextInt();
-    return Integer.toHexString(number);
-  }
-
-  public void changeEmails(Set<Email> emails) {
-    this.emails = new EmailSet(emails);
-  }
-
-  public void changeInterests(Set<Interest> interests) {
-    this.interests = new InterestSet(interests);
-  }
-
-  public void changePassword(String oldPw, String newPw) {
-    if (!password.match(oldPw)) {
-      throw new IdPasswordNotMatchingException();
+    @Builder
+    public Member(
+            MemberId id,
+            String name,
+            EmailSet emails,
+            InterestSet interests,
+            String userRole,
+            OAuthId oAuthId) {
+        this.id = id;
+        this.name = name;
+        this.emails = emails;
+        this.interests = interests;
+        this.userRole = userRole;
+        this.oAuthId = oAuthId;
     }
-    this.password = new Password(newPw);
-  }
 
-  public void changeName(String name) {
-    this.name = name;
-  }
+    public void initializePassword() {
+        String newPassword = generateRandomPassword();
+        this.password = new Password(newPassword);
+    }
 
-  public MemberId getId() {
-    return id;
-  }
+    private String generateRandomPassword() {
+        Random random = new Random();
+        int number = random.nextInt();
+        return Integer.toHexString(number);
+    }
 
-  public String getName() {
-    return name;
-  }
+    public void changeEmails(Set<Email> emails) {
+        this.emails = new EmailSet(emails);
+    }
 
-  public Password getPassword() {
-    return password;
-  }
+    public void changeInterests(Set<Interest> interests) {
+        this.interests = new InterestSet(interests);
+    }
 
-  public EmailSet getEmails() {
-    return emails;
-  }
+    public void changePassword(String oldPw, String newPw) {
+        if (!password.match(oldPw)) {
+            throw new IdPasswordNotMatchingException();
+        }
+        this.password = new Password(newPw);
+    }
 
-  public InterestSet getInterests() {
-    return interests;
-  }
+    public void changeName(String name) {
+        this.name = name;
+    }
 
-  public String getUserRole() {
-    return userRole;
-  }
+    public MemberId getId() {
+        return id;
+    }
 
-  public OAuthId getoAuthId() {
-    return oAuthId;
-  }
+    public String getName() {
+        return name;
+    }
+
+    public Password getPassword() {
+        return password;
+    }
+
+    public EmailSet getEmails() {
+        return emails;
+    }
+
+    public InterestSet getInterests() {
+        return interests;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public OAuthId getoAuthId() {
+        return oAuthId;
+    }
 }

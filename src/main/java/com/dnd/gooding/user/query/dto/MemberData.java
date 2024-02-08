@@ -32,83 +32,83 @@ import org.hibernate.annotations.Synchronize;
             m.interests,
             m.oauth_id,
             o.image_url
-          from member m
-          left join oauth o
+        from member m
+        left join oauth o
             on m.oauth_id = o.oauth_id
         """)
 @Synchronize({"member", "oauth"})
 public class MemberData {
 
-  @Id
-  @Column(name = "member_id")
-  private String id;
+@Id
+@Column(name = "member_id")
+private String id;
 
-  @Column(name = "name")
-  private String name;
+@Column(name = "name")
+private String name;
 
-  @JsonIgnore
-  @Column(name = "emails")
-  @Convert(converter = EmailSetConverter.class)
-  private EmailSet emailSet;
+@JsonIgnore
+@Column(name = "emails")
+@Convert(converter = EmailSetConverter.class)
+private EmailSet emailSet;
 
-  @JsonIgnore
-  @Column(name = "interests")
-  @Convert(converter = InterestConverter.class)
-  private InterestSet interestSet;
+@JsonIgnore
+@Column(name = "interests")
+@Convert(converter = InterestConverter.class)
+private InterestSet interestSet;
 
-  @Transient private List<Email> emails = new ArrayList<>();
-  @Transient private List<Interest> interests = new ArrayList<>();
+@Transient private List<Email> emails = new ArrayList<>();
+@Transient private List<Interest> interests = new ArrayList<>();
 
-  @Column(name = "oauth_id")
-  private String oAuthId;
+@Column(name = "oauth_id")
+private String oAuthId;
 
-  @Column(name = "image_url")
-  private String imageUrl;
+@Column(name = "image_url")
+private String imageUrl;
 
-  protected MemberData() {}
+protected MemberData() {}
 
-  @Builder
-  public MemberData(String id, String name) {
+@Builder
+public MemberData(String id, String name) {
     this.id = id;
     this.name = name;
-  }
+}
 
-  public String getId() {
+public String getId() {
     return id;
-  }
+}
 
-  public String getName() {
+public String getName() {
     return name;
-  }
+}
 
-  public EmailSet getEmailSet() {
+public EmailSet getEmailSet() {
     return emailSet;
-  }
+}
 
-  public InterestSet getInterestSet() {
+public InterestSet getInterestSet() {
     return interestSet;
-  }
+}
 
-  public List<Email> getEmails() {
+public List<Email> getEmails() {
     if (emailSet != null && emailSet.getEmails() != null) {
-      return emailSet.getEmails().stream().toList();
+    return emailSet.getEmails().stream().toList();
     } else {
-      return emails;
+    return emails;
     }
-  }
+}
 
-  public List<Interest> getInterests() {
+public List<Interest> getInterests() {
     if (interestSet != null && interestSet.getInterests() != null) {
-      return interestSet.getInterests().stream().toList();
+    return interestSet.getInterests().stream().toList();
     }
     return interests;
-  }
+}
 
-  public String getoAuthId() {
+public String getoAuthId() {
     return oAuthId;
-  }
+}
 
-  public String getImageUrl() {
+public String getImageUrl() {
     return imageUrl;
-  }
+}
 }

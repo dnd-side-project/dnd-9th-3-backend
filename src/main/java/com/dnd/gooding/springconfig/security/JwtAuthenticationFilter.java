@@ -18,23 +18,23 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-  @Autowired private TokenService tokenService;
+    @Autowired private TokenService tokenService;
 
-  private Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Override
-  protected void doFilterInternal(
-      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-      throws ServletException, IOException {
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
-    String accessToken = ExtractUtil.extractTokenFromRequest(request);
-    if (accessToken != null) {
-      JwtAuthenticationToken authentication =
-          tokenService.getAuthenticationByAccessToken(accessToken);
-      SecurityContextHolder.getContext().setAuthentication(authentication);
-    } else {
-      logger.info("api call info {} => There is no valid JWT token.", request.getRequestURI());
+        String accessToken = ExtractUtil.extractTokenFromRequest(request);
+        if (accessToken != null) {
+            JwtAuthenticationToken authentication =
+                    tokenService.getAuthenticationByAccessToken(accessToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else {
+            logger.info("api call info {} => There is no valid JWT token.", request.getRequestURI());
+        }
+        filterChain.doFilter(request, response);
     }
-    filterChain.doFilter(request, response);
-  }
 }

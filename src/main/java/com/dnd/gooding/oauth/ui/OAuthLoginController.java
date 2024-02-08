@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/oauth")
 public class OAuthLoginController {
 
-  @Autowired private CreateOAuthService createOAuthService;
-  @Autowired private TokenService tokenService;
+    @Autowired private CreateOAuthService createOAuthService;
+    @Autowired private TokenService tokenService;
 
-  @GetMapping(value = "/login/{code}")
-  public ResponseEntity<Token> login(@PathVariable String code) {
-    OAuth oAuth = createOAuthService.create(code);
-    Token token = tokenService.createTokens(oAuth.getEmail());
-    return ResponseEntity.ok().body(token);
-  }
+    @GetMapping(value = "/login/{code}")
+    public ResponseEntity<Token> login(@PathVariable String code) {
+        OAuth oAuth = createOAuthService.create(code);
+        Token token = tokenService.createTokens(oAuth.getEmail());
+        return ResponseEntity.ok().body(token);
+    }
 }

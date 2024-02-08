@@ -2,13 +2,13 @@ package com.dnd.gooding.common.event;
 
 public abstract class Event {
 
-  private long timestamp;
+    private long timestamp;
 
-  public Event() {
-    this.timestamp = System.currentTimeMillis();
-  }
+    public Event() {
+        this.timestamp = System.currentTimeMillis();
+    }
 
-  public long getTimestamp() {
-    return timestamp;
-  }
+    public long getTimestamp() {
+        return timestamp;
+    }
 }

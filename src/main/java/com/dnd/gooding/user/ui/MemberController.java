@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/member")
 public class MemberController {
 
-  private MemberQueryService memberQueryService;
+    private MemberQueryService memberQueryService;
 
-  public MemberController(MemberQueryService memberQueryService) {
-    this.memberQueryService = memberQueryService;
-  }
+    public MemberController(MemberQueryService memberQueryService) {
+        this.memberQueryService = memberQueryService;
+    }
 
-  @GetMapping(value = "/{id}")
-  public ResponseEntity<MemberData> member(@PathVariable String id) {
-    return ResponseEntity.ok().body(memberQueryService.getMember(id));
-  }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<MemberData> member(@PathVariable String id) {
+        return ResponseEntity.ok().body(memberQueryService.getMember(id));
+    }
 }

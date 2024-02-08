@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/logout")
 public class LogoutController {
 
-  @Autowired private TokenService tokenService;
+    @Autowired private TokenService tokenService;
 
-  @DeleteMapping
-  public ResponseEntity<Void> logout(
-      HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-    String refreshToken =
-        CookieUtil.getCookie(request, "refreshToken").map(Cookie::getValue).orElseThrow();
-    tokenService.deleteRefreshToken(refreshToken);
-    SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-    logoutHandler.logout(request, response, authentication);
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-  }
+    @DeleteMapping
+    public ResponseEntity<Void> logout(
+            HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        String refreshToken =
+                CookieUtil.getCookie(request, "refreshToken").map(Cookie::getValue).orElseThrow();
+        tokenService.deleteRefreshToken(refreshToken);
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        logoutHandler.logout(request, response, authentication);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.repository.Repository;
 
 public interface RecordDataDao extends Repository<RecordData, String> {
 
-  RecordData findById(String recordNumber);
+    RecordData findById(String recordNumber);
 
-  List<RecordData> findAll(Specification<RecordData> spec);
+    List<RecordData> findAll(Specification<RecordData> spec);
 }

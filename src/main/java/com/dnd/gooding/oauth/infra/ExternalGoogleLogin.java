@@ -13,25 +13,25 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public class ExternalGoogleLogin {
 
-  private final String USER_INFO_URL = "https://oauth2.googleapis.com/tokeninfo";
+    private final String USER_INFO_URL = "https://oauth2.googleapis.com/tokeninfo";
 
-  public OAuthMember getOauthToken(String code) {
-    RestTemplate restTemplate = new RestTemplate();
+    public OAuthMember getOauthToken(String code) {
+        RestTemplate restTemplate = new RestTemplate();
 
-    HttpHeaders headers = new HttpHeaders();
-    HttpEntity<?> request = new HttpEntity<>(headers);
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<?> request = new HttpEntity<>(headers);
 
-    UriComponentsBuilder uriComponentsBuilder =
-        UriComponentsBuilder.fromHttpUrl(USER_INFO_URL).queryParam("id_token", code);
+        UriComponentsBuilder uriComponentsBuilder =
+                UriComponentsBuilder.fromHttpUrl(USER_INFO_URL).queryParam("id_token", code);
 
-    ResponseEntity<GoogleMember> responseEntity =
-        restTemplate.exchange(
-            uriComponentsBuilder.toUriString(), HttpMethod.GET, request, GoogleMember.class);
+        ResponseEntity<GoogleMember> responseEntity =
+                restTemplate.exchange(
+                        uriComponentsBuilder.toUriString(), HttpMethod.GET, request, GoogleMember.class);
 
-    if (responseEntity.getStatusCode() == HttpStatus.OK) {
-      return responseEntity.getBody();
-    } else {
-      throw new ConnectionException();
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            return responseEntity.getBody();
+        } else {
+            throw new ConnectionException();
+        }
     }
-  }
 }

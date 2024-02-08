@@ -11,26 +11,26 @@ import java.util.stream.Collectors;
 import javax.persistence.AttributeConverter;
 
 public class InterestConverter implements AttributeConverter<InterestSet, String> {
-  @Override
-  public String convertToDatabaseColumn(InterestSet attribute) {
-    if (attribute == null) {
-      return null;
+    @Override
+    public String convertToDatabaseColumn(InterestSet attribute) {
+        if (attribute == null) {
+            return null;
+        }
+        return attribute.getInterests().stream()
+                .map(Interest::getInterestCode)
+                .collect(Collectors.joining(","));
     }
-    return attribute.getInterests().stream()
-        .map(Interest::getInterestCode)
-        .collect(Collectors.joining(","));
-  }
 
-  @Override
-  public InterestSet convertToEntityAttribute(String dbData) {
-    if (dbData == null) {
-      return null;
+    @Override
+    public InterestSet convertToEntityAttribute(String dbData) {
+        if (dbData == null) {
+            return null;
+        }
+        String[] interests = dbData.split(",");
+        Set<Interest> interestSet =
+                Arrays.stream(interests)
+                        .map(interest -> new Interest(interest, InterestType.of(interest).getInterestName()))
+                        .collect(toSet());
+        return new InterestSet(interestSet);
     }
-    String[] interests = dbData.split(",");
-    Set<Interest> interestSet =
-        Arrays.stream(interests)
-            .map(interest -> new Interest(interest, InterestType.of(interest).getInterestName()))
-            .collect(toSet());
-    return new InterestSet(interestSet);
-  }
 }

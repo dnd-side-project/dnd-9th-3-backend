@@ -13,30 +13,30 @@ import org.mockito.Mockito;
 
 class MemberQueryServiceTest {
 
-  private MemberDataDao memberDataDao;
-  private MemberQueryService memberQueryService;
+    private MemberDataDao memberDataDao;
+    private MemberQueryService memberQueryService;
 
-  @BeforeEach
-  void beforeEach() {
-    memberDataDao = Mockito.mock(MemberDataDao.class);
-    memberQueryService = new MemberQueryService(memberDataDao);
-  }
+    @BeforeEach
+    void beforeEach() {
+        memberDataDao = Mockito.mock(MemberDataDao.class);
+        memberQueryService = new MemberQueryService(memberDataDao);
+    }
 
-  @DisplayName("멤버 ID로 멤버 정보를 가져온다.")
-  @Test
-  void getMember() {
-    // given
-    String id = "youg1322@naver.com";
+    @DisplayName("멤버 ID로 멤버 정보를 가져온다.")
+    @Test
+    void getMember() {
+        // given
+        String id = "youg1322@naver.com";
 
-    MemberData expectMemberData = MemberDataFixture.getMember();
+        MemberData expectMemberData = MemberDataFixture.getMember();
 
-    Mockito.when(memberDataDao.findById(id)).thenReturn(Optional.of(expectMemberData));
+        Mockito.when(memberDataDao.findById(id)).thenReturn(Optional.of(expectMemberData));
 
-    // when
-    MemberData memberData = memberQueryService.getMember(id);
+        // when
+        MemberData memberData = memberQueryService.getMember(id);
 
-    // then
-    Assertions.assertEquals(expectMemberData.getId(), memberData.getId());
-    Assertions.assertEquals(expectMemberData.getName(), memberData.getName());
-  }
+        // then
+        Assertions.assertEquals(expectMemberData.getId(), memberData.getId());
+        Assertions.assertEquals(expectMemberData.getName(), memberData.getName());
+    }
 }

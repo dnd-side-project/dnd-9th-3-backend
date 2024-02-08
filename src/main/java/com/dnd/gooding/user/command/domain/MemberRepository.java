@@ -5,7 +5,7 @@ import org.springframework.data.repository.Repository;
 
 public interface MemberRepository extends Repository<Member, MemberId> {
 
-  Optional<Member> findById(MemberId memberId);
+    Optional<Member> findById(MemberId memberId);
 
-  void save(Member member);
+    void save(Member member);
 }
