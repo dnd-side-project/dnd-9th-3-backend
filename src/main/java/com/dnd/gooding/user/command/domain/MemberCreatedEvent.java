@@ -1,9 +1,8 @@
 package com.dnd.gooding.user.command.domain;
 
-import com.dnd.gooding.common.event.Event;
 import com.dnd.gooding.oauth.command.domain.OAuthId;
 
-public class MemberCreatedEvent extends Event {
+public class MemberCreatedEvent {
 
     private String email;
     private OAuthId oAuthId;

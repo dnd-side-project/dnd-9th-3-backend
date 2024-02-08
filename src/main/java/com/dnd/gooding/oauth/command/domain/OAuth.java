@@ -1,7 +1,5 @@
 package com.dnd.gooding.oauth.command.domain;
 
-import com.dnd.gooding.common.event.Events;
-import com.dnd.gooding.user.command.domain.MemberCreatedEvent;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -22,7 +20,6 @@ public class OAuth {
         this.imageUrl = imageUrl;
         this.provider = provider;
         this.email = email;
-        Events.raise(new MemberCreatedEvent(email, oAuthId));
     }
 
     public OAuthId getoAuthId() {

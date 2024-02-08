@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberQueryService {
 
-    private MemberDataDao memberDataDao;
+    private final MemberDataDao memberDataDao;
 
     public MemberQueryService(MemberDataDao memberDataDao) {
         this.memberDataDao = memberDataDao;

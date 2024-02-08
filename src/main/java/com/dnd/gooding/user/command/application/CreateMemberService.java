@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CreateMemberService {
 
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     public CreateMemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;

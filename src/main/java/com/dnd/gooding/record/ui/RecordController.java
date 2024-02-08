@@ -12,6 +12,6 @@ public class RecordController {
 
     @PostMapping
     public ResponseEntity<Void> record() {
-        return org.springframework.http.ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

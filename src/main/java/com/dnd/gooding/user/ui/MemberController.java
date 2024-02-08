@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/member")
 public class MemberController {
 
-    private MemberQueryService memberQueryService;
+    private final MemberQueryService memberQueryService;
 
     public MemberController(MemberQueryService memberQueryService) {
         this.memberQueryService = memberQueryService;

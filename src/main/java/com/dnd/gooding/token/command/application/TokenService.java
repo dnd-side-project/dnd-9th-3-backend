@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class TokenService {
 
-    private JwtTokenProvider jwtTokenProvider;
-    private RefreshTokenRepository refreshTokenRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Value("${jwt.expiry-seconds.refresh-token:36000}")
     private int refreshTokenExpirySeconds;

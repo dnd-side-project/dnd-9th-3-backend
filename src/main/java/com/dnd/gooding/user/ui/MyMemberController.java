@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/my/member")
 public class MyMemberController {
 
-    private MemberQueryService memberQueryService;
-    private CreateMemberService createMemberService;
+    private final MemberQueryService memberQueryService;
+    private final CreateMemberService createMemberService;
 
     public MyMemberController(
             MemberQueryService memberQueryService, CreateMemberService createMemberService) {
