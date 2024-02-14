@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/token")
 public class TokenController {
 
-    private final int COOKIE_EXPIRE_SECONDS = 180;
     private final TokenService tokenService;
 
     public TokenController(TokenService tokenService) {

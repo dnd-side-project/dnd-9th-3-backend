@@ -36,8 +36,7 @@ public class CreateMemberService {
         member.changeInterests(memberRequest.getInterests());
     }
 
-    @Transactional
-    public void save(Member member) {
+    private void save(Member member) {
         memberRepository
                 .findById(member.getId())
                 .ifPresentOrElse(

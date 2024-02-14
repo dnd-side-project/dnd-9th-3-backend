@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+@DisplayName("멤버 생성 유닛 테스트")
 class CreateMemberServiceTest {
 
     private MemberRepository memberRepository;

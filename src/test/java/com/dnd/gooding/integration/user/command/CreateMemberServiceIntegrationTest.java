@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+@DisplayName("멤버 생성 통합 테스트")
 class CreateMemberServiceIntegrationTest extends IntegrationTest {
 
     @Autowired private CreateMemberService createMemberService;

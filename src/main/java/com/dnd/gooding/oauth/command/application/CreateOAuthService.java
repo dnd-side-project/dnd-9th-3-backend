@@ -32,13 +32,12 @@ public class CreateOAuthService {
         OAuth oAuth =
                 new OAuth(
                         oAuthId, oAuthMember.getImageUrl(), oAuthMember.getProvider(), oAuthMember.getEmail());
-        createOAuth(oAuth);
+        save(oAuth);
         publisher.publishEvent(new MemberCreatedEvent(oAuthMember.getEmail(), oAuthId));
         return oAuth;
     }
 
-    @Transactional
-    public void createOAuth(OAuth oAuth) {
+    private void save(OAuth oAuth) {
         oAuthRepository
                 .findByoAuthId(oAuth.getoAuthId())
                 .ifPresentOrElse(
