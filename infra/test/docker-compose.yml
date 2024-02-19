@@ -1,21 +1,62 @@
 version: "3.8"
 
 services:
-  local-db:
-    image: mysql:8.0
-    environment:
-      MYSQL_DATABASE: gooding
-      MYSQL_ROOT_PASSWORD: test1357
+  local-db-master:
+    build:
+      context: ./mysql/master
+      dockerfile: Dockerfile
+    restart: always
     ports:
-      - 3306
+      - '3306'
+    volumes:
+      - db_master_vol:/var/lib/mysql
+      - ./mysql/master/scripts:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: test1357
+      MYSQL_USER_PASSWORD: test1357
+      MYSQL_DB: gooding
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.2
+  local-db-slave:
+    build:
+      context: ./mysql/slave
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '3307'
+    volumes:
+      - db_slave_vol:/var/lib/mysql
+      - ./mysql/slave/scripts:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: test1357
+      MYSQL_USER_PASSWORD: test1357
+      MYSQL_DB: gooding
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.3
   local-db-migrate:
     image: flyway/flyway:7
     restart: always
     environment:
-      - FLYWAY_DB_URL=jdbc:mysql://local-db/gooding
+      - FLYWAY_DB_URL=jdbc:mysql://local-db-master/gooding?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
       - FLYWAY_DB_USER=root
       - FLYWAY_DB_PASSWORD=test1357
     command: migrate
     volumes:
       - ../../db/flyway.conf:/flyway/conf/flyway.conf
       - ../../db/migration:/flyway/sql
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.4
+
+volumes:
+  db_master_vol:
+  db_slave_vol:
+
+networks:
+  my-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

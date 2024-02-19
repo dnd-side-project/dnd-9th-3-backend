@@ -26,8 +26,13 @@ public class IntegrationTest {
         rdbms =
                 new DockerComposeContainer(new File("infra/test/docker-compose.yml"))
                         .withExposedService(
-                                "local-db",
+                                "local-db-master",
                                 3306,
+                                Wait.forLogMessage(".*ready for connections.*", 1)
+                                        .withStartupTimeout(Duration.ofSeconds(180L)))
+                        .withExposedService(
+                                "local-db-slave",
+                                3307,
                                 Wait.forLogMessage(".*ready for connections.*", 1)
                                         .withStartupTimeout(Duration.ofSeconds(180L)))
                         .withExposedService(
@@ -45,11 +50,17 @@ public class IntegrationTest {
         @Override
         public void initialize(ConfigurableApplicationContext applicationContext) {
             Map<String, String> properties = new HashMap<>();
-            String rdbmsHost = rdbms.getServiceHost("local-db", 3306);
-            Integer rdbmsPort = rdbms.getServicePort("local-db", 3306);
+            String rdbmsMasterHost = rdbms.getServiceHost("local-db-master", 3306);
+            Integer rdbmsMasterPort = rdbms.getServicePort("local-db-master", 3306);
+            String rdbmsSlaveHost = rdbms.getServiceHost("local-db-slave", 3307);
+            Integer rdbmsSlavePort = rdbms.getServicePort("local-db-slave", 3307);
 
             properties.put(
-                    "spring.datasource.url", "jdbc:mysql://" + rdbmsHost + ":" + rdbmsPort + "/gooding");
+                    "spring.datasource.url",
+                    "jdbc:mysql://" + rdbmsMasterHost + ":" + rdbmsMasterPort + "/gooding");
+            properties.put(
+                    "spring.datasource.slaves.slave1.url",
+                    "jdbc:mysql://" + rdbmsSlaveHost + ":" + rdbmsSlavePort + "/gooding");
 
             TestPropertyValues.of(properties).applyTo(applicationContext);
         }
