@@ -4,6 +4,7 @@ import com.dnd.gooding.user.command.application.NoMemberException;
 import com.dnd.gooding.user.query.dao.MemberDataDao;
 import com.dnd.gooding.user.query.dto.MemberData;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberQueryService {
@@ -14,6 +15,7 @@ public class MemberQueryService {
         this.memberDataDao = memberDataDao;
     }
 
+    @Transactional(readOnly = true)
     public MemberData getMember(String id) {
         return memberDataDao.findById(id).orElseThrow(NoMemberException::new);
     }

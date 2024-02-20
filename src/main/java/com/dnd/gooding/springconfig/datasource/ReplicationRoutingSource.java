@@ -59,7 +59,8 @@ public class ReplicationRoutingSource extends AbstractRoutingDataSource {
             if (index >= values.size() - 1) {
                 index = -1;
             }
-            return values.get(++index);
+            ++index;
+            return values.get(index);
         }
     }
 }

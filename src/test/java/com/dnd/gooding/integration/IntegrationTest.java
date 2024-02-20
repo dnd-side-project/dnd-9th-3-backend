@@ -28,18 +28,18 @@ public class IntegrationTest {
                         .withExposedService(
                                 "local-db-master",
                                 3306,
-                                Wait.forLogMessage(".*ready for connections.*", 1)
+                                Wait.forLogMessage(".*ready master for connections.*", 1)
                                         .withStartupTimeout(Duration.ofSeconds(180L)))
                         .withExposedService(
                                 "local-db-slave",
                                 3307,
-                                Wait.forLogMessage(".*ready for connections.*", 1)
-                                        .withStartupTimeout(Duration.ofSeconds(180L)))
-                        .withExposedService(
-                                "local-db-migrate",
-                                0,
-                                Wait.forLogMessage("(.*Successfully applied.*)|(.*Successfully validated.*)", 1)
+                                Wait.forLogMessage(".*ready slave1 for connections.*", 1)
                                         .withStartupTimeout(Duration.ofSeconds(180L)));
+        // .withExposedService(
+        //         "local-db-migrate",
+        //         0,
+        //         Wait.forLogMessage("(.*Successfully applied.*)|(.*Successfully validated.*)", 1)
+        //                 .withStartupTimeout(Duration.ofSeconds(180L)));
 
         rdbms.start();
     }
@@ -57,10 +57,18 @@ public class IntegrationTest {
 
             properties.put(
                     "spring.datasource.url",
-                    "jdbc:mysql://" + rdbmsMasterHost + ":" + rdbmsMasterPort + "/gooding");
+                    "jdbc:mysql://"
+                            + rdbmsMasterHost
+                            + ":"
+                            + rdbmsMasterPort
+                            + "/gooding?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul");
             properties.put(
                     "spring.datasource.slaves.slave1.url",
-                    "jdbc:mysql://" + rdbmsSlaveHost + ":" + rdbmsSlavePort + "/gooding");
+                    "jdbc:mysql://"
+                            + rdbmsSlaveHost
+                            + ":"
+                            + rdbmsSlavePort
+                            + "/gooding?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul");
 
             TestPropertyValues.of(properties).applyTo(applicationContext);
         }

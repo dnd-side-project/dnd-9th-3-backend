@@ -27,7 +27,7 @@ spring:
     password: ${SPRING_MASTER_DATASOURCE_PASSWORD}
     slaves:
       slave1:
-        name: slave1
+        name: SLAVE
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: ${SPRING_SLAVE_DATASOURCE_USERNAME}
         password: ${SPRING_SLAVE_DATASOURCE_PASSWORD}
@@ -44,6 +44,7 @@ spring:
         format_sql: true
         use_sql_comments: true
         default_batch_fetch_size: 1000
+        physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
