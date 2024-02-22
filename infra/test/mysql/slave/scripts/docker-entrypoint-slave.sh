@@ -2,7 +2,7 @@
 set -e
 
 # wait until master is completed
-until mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" -h ${MYSQL_MASTER_HOST} ping; do
+until mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" -h "${MYSQL_MASTER_HOST}" ping; do
   echo "# waiting for master - $(date)"
   sleep 3
 done
@@ -13,7 +13,7 @@ mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON *.* TO 'rep
 mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES"
 
 # get master log file
-master_log_file=$(mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -h ${MYSQL_MASTER_HOST} -e "SHOW MASTER STATUS\G" | grep mysql-bin)
+master_log_file=$(mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -h "${MYSQL_MASTER_HOST}" -e "SHOW MASTER STATUS\G" | grep mysql-bin)
 re="[a-z]*-bin.[0-9]*"
 
 if [[ $master_log_file =~ $re ]];then
@@ -21,7 +21,7 @@ if [[ $master_log_file =~ $re ]];then
 fi
 
 # get master log position
-master_log_pos=$(mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -h ${MYSQL_MASTER_HOST} -e "SHOW MASTER STATUS\G" | grep Position)
+master_log_pos=$(mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -h "${MYSQL_MASTER_HOST}" -e "SHOW MASTER STATUS\G" | grep Position)
 re="[0-9]+"
 
 if [[ $master_log_pos =~ $re ]];then
@@ -34,4 +34,4 @@ mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "${sql}"
 mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "START SLAVE"
 
 # create data base in master DB
-mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -h ${MYSQL_MASTER_HOST} -e "CREATE DATABASE ${MYSQL_DB}"
+mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -h "${MYSQL_MASTER_HOST}" -e "CREATE DATABASE ${MYSQL_DB}"

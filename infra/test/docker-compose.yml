@@ -1,10 +1,11 @@
 version: "3.8"
 
 services:
-  local-db-master:
+  test-db-master:
     build:
       context: ./mysql/master
       dockerfile: Dockerfile
+    restart: always
     ports:
       - '3306'
     volumes:
@@ -13,10 +14,11 @@ services:
       MYSQL_ROOT_PASSWORD: test1357
       MYSQL_USER_PASSWORD: test1357
       MYSQL_DB: gooding
-  local-db-slave:
+  test-db-slave:
     build:
       context: ./mysql/slave
       dockerfile: Dockerfile
+    restart: always
     ports:
       - '3306'
     volumes:
@@ -24,15 +26,15 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: test1357
       MYSQL_USER_PASSWORD: test1357
-      MYSQL_MASTER_HOST: local-db-master
       MYSQL_DB: gooding
+      MYSQL_MASTER_HOST: test-db-master
     links:
-      - local-db-master
-  local-db-migrate:
+      - test-db-master
+  test-db-migrate:
     image: flyway/flyway:7
     restart: always
     environment:
-      - FLYWAY_DB_URL=jdbc:mysql://local-db-master/gooding?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
+      - FLYWAY_DB_URL=jdbc:mysql://test-db-master/gooding?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
       - FLYWAY_DB_USER=root
       - FLYWAY_DB_PASSWORD=test1357
     command: migrate
