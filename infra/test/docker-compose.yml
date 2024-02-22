@@ -8,7 +8,6 @@ services:
     ports:
       - '3306'
     volumes:
-      - db_master_vol:/var/lib/mysql
       - ./mysql/master/scripts:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: test1357
@@ -19,15 +18,24 @@ services:
       context: ./mysql/slave
       dockerfile: Dockerfile
     ports:
-      - '3307'
+      - '3306'
     volumes:
-      - db_slave_vol:/var/lib/mysql
       - ./mysql/slave/scripts:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: test1357
       MYSQL_USER_PASSWORD: test1357
+      MYSQL_MASTER_HOST: local-db-master
       MYSQL_DB: gooding
-
-volumes:
-  db_master_vol:
-  db_slave_vol:
+    links:
+      - local-db-master
+  local-db-migrate:
+    image: flyway/flyway:7
+    restart: always
+    environment:
+      - FLYWAY_DB_URL=jdbc:mysql://local-db-master/gooding?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
+      - FLYWAY_DB_USER=root
+      - FLYWAY_DB_PASSWORD=test1357
+    command: migrate
+    volumes:
+      - ../../db/flyway.conf:/flyway/conf/flyway.conf
+      - ../../db/migration:/flyway/sql

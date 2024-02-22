@@ -32,7 +32,7 @@ public class IntegrationTest {
                                         .withStartupTimeout(Duration.ofSeconds(180L)))
                         .withExposedService(
                                 "local-db-slave",
-                                3307,
+                                3306,
                                 Wait.forLogMessage(".*ready slave1 for connections.*", 1)
                                         .withStartupTimeout(Duration.ofSeconds(180L)));
         // .withExposedService(
