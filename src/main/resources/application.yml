@@ -27,7 +27,7 @@ spring:
     password: ${SPRING_MASTER_DATASOURCE_PASSWORD}
     slaves:
       slave1:
-        name: SLAVE
+        name: SLAVE1
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: ${SPRING_SLAVE_DATASOURCE_USERNAME}
         password: ${SPRING_SLAVE_DATASOURCE_PASSWORD}

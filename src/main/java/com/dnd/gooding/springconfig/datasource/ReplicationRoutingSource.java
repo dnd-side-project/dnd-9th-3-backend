@@ -23,7 +23,7 @@ public class ReplicationRoutingSource extends AbstractRoutingDataSource {
         List<String> slaveNames =
                 targetDataSources.keySet().stream()
                         .map(Object::toString)
-                        .filter(str -> str.contains(DataSourceType.SLAVE.name()))
+                        .filter(str -> str.contains(DataSourceType.SLAVE1.name()))
                         .collect(Collectors.toList());
 
         this.slaveNames = new SlaveNames<>(slaveNames);
