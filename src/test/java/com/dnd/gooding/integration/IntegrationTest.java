@@ -26,12 +26,7 @@ public class IntegrationTest {
         rdbms =
                 new DockerComposeContainer(new File("infra/test/docker-compose.yml"))
                         .withExposedService(
-                                "local-db-master",
-                                3306,
-                                Wait.forLogMessage(".*ready for connections.*", 1)
-                                        .withStartupTimeout(Duration.ofSeconds(180L)))
-                        .withExposedService(
-                                "local-db-slave",
+                                "local-db",
                                 3306,
                                 Wait.forLogMessage(".*ready for connections.*", 1)
                                         .withStartupTimeout(Duration.ofSeconds(180L)))
@@ -40,6 +35,7 @@ public class IntegrationTest {
                                 0,
                                 Wait.forLogMessage("(.*Successfully applied.*)|(.*Successfully validated.*)", 1)
                                         .withStartupTimeout(Duration.ofSeconds(180L)));
+
         rdbms.start();
     }
 
@@ -49,10 +45,10 @@ public class IntegrationTest {
         @Override
         public void initialize(ConfigurableApplicationContext applicationContext) {
             Map<String, String> properties = new HashMap<>();
-            String rdbmsMasterHost = rdbms.getServiceHost("local-db-master", 3306);
-            Integer rdbmsMasterPort = rdbms.getServicePort("local-db-master", 3306);
-            String rdbmsSlaveHost = rdbms.getServiceHost("local-db-slave", 3306);
-            Integer rdbmsSlavePort = rdbms.getServicePort("local-db-slave", 3306);
+            String rdbmsMasterHost = rdbms.getServiceHost("local-db", 3306);
+            Integer rdbmsMasterPort = rdbms.getServicePort("local-db", 3306);
+            String rdbmsSlaveHost = rdbms.getServiceHost("local-db", 3306);
+            Integer rdbmsSlavePort = rdbms.getServicePort("local-db", 3306);
 
             properties.put(
                     "spring.datasource.url",

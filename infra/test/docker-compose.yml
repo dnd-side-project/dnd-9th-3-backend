@@ -1,53 +1,21 @@
 version: "3.8"
 
 services:
-  local-db-master:
-    build:
-      context: ./mysql/master
-      dockerfile: Dockerfile
+  local-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: gooding
+      MYSQL_ROOT_PASSWORD: test1357
     ports:
       - '3306'
-    volumes:
-      - ./mysql/master/scripts:/docker-entrypoint-initdb.d
-    environment:
-      MYSQL_ROOT_PASSWORD: test1357
-      MYSQL_USER_PASSWORD: test1357
-      MYSQL_DATABASE: gooding
-  local-db-slave:
-    build:
-      context: ./mysql/slave
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - '3306'
-    volumes:
-      - ./mysql/slave/scripts:/docker-entrypoint-initdb.d
-    environment:
-      MYSQL_ROOT_PASSWORD: test1357
-      MYSQL_USER_PASSWORD: test1357
-      MYSQL_DATABASE: gooding
-      MYSQL_MASTER_HOST: local-db-master
-    links:
-      - local-db-master
   local-db-migrate:
     image: flyway/flyway:7
     restart: always
     environment:
-      - FLYWAY_DB_URL=jdbc:mysql://local-db-master/gooding
+      - FLYWAY_DB_URL=jdbc:mysql://local-db/gooding
       - FLYWAY_DB_USER=root
       - FLYWAY_DB_PASSWORD=test1357
     command: migrate
     volumes:
       - ../../db/flyway.conf:/flyway/conf/flyway.conf
       - ../../db/migration:/flyway/sql
-#  test-db-migrate:
-#    image: flyway/flyway:7
-#    restart: always
-#    environment:
-#      - FLYWAY_DB_URL=jdbc:mysql://test-db-master/gooding?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
-#      - FLYWAY_DB_USER=root
-#      - FLYWAY_DB_PASSWORD=test1357
-#    command: migrate
-#    volumes:
-#      - ../../db/flyway.conf:/flyway/conf/flyway.conf
-#      - ../../db/migration:/flyway/sql

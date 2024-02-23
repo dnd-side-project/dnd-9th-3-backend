@@ -14,7 +14,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: test1357
       MYSQL_USER_PASSWORD: test1357
-      MYSQL_DB: gooding
+      MYSQL_DATABASE: gooding
     networks:
       my-network:
         ipv4_address: 172.28.0.2
@@ -31,7 +31,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: test1357
       MYSQL_USER_PASSWORD: test1357
-      MYSQL_DB: gooding
+      MYSQL_DATABASE: gooding
     networks:
       my-network:
         ipv4_address: 172.28.0.3
@@ -41,7 +41,7 @@ services:
     image: flyway/flyway:7
     restart: always
     environment:
-      - FLYWAY_DB_URL=jdbc:mysql://local-db-master/gooding?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
+      - FLYWAY_DB_URL=jdbc:mysql://local-db-master/gooding
       - FLYWAY_DB_USER=root
       - FLYWAY_DB_PASSWORD=test1357
     command: migrate

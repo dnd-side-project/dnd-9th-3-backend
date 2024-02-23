@@ -1,5 +1,0 @@
-[mysqld]
-log-bin=mysql-bin
-server-id=10
-lower_case_table_names=1
-log_error=/var/log/mysql/error.log

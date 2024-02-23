@@ -1,8 +1,0 @@
-[mysqld]
-log_bin=mysql-bin
-server_id=11
-lower_case_table_names=1
-log_error=/var/log/mysql/error.log
-relay_log=/var/lib/mysql/mysql-relay-bin
-log_replica_updates=1
-read_only=1
