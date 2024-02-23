@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+:set fileformat=unix
 
 # wait until the DB image is up
 until mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" ping; do

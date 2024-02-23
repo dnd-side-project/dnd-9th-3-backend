@@ -26,21 +26,20 @@ public class IntegrationTest {
         rdbms =
                 new DockerComposeContainer(new File("infra/test/docker-compose.yml"))
                         .withExposedService(
-                                "test-db-master",
+                                "local-db-master",
                                 3306,
-                                Wait.forLogMessage(".*ready master for connections.*", 1)
+                                Wait.forLogMessage(".*ready for connections.*", 1)
                                         .withStartupTimeout(Duration.ofSeconds(180L)))
                         .withExposedService(
-                                "test-db-slave",
+                                "local-db-slave",
                                 3306,
-                                Wait.forLogMessage(".*ready slave1 for connections.*", 1)
+                                Wait.forLogMessage(".*ready for connections.*", 1)
                                         .withStartupTimeout(Duration.ofSeconds(180L)))
                         .withExposedService(
-                                "test-db-migrate",
+                                "local-db-migrate",
                                 0,
                                 Wait.forLogMessage("(.*Successfully applied.*)|(.*Successfully validated.*)", 1)
                                         .withStartupTimeout(Duration.ofSeconds(180L)));
-
         rdbms.start();
     }
 
@@ -50,25 +49,18 @@ public class IntegrationTest {
         @Override
         public void initialize(ConfigurableApplicationContext applicationContext) {
             Map<String, String> properties = new HashMap<>();
-            String rdbmsMasterHost = rdbms.getServiceHost("test-db-master", 3306);
-            Integer rdbmsMasterPort = rdbms.getServicePort("test-db-master", 3306);
-            String rdbmsSlaveHost = rdbms.getServiceHost("test-db-slave", 3306);
-            Integer rdbmsSlavePort = rdbms.getServicePort("test-db-slave", 3306);
+            String rdbmsMasterHost = rdbms.getServiceHost("local-db-master", 3306);
+            Integer rdbmsMasterPort = rdbms.getServicePort("local-db-master", 3306);
+            String rdbmsSlaveHost = rdbms.getServiceHost("local-db-slave", 3306);
+            Integer rdbmsSlavePort = rdbms.getServicePort("local-db-slave", 3306);
 
             properties.put(
                     "spring.datasource.url",
-                    "jdbc:mysql://"
-                            + rdbmsMasterHost
-                            + ":"
-                            + rdbmsMasterPort
-                            + "/gooding?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul");
+                    "jdbc:mysql://" + rdbmsMasterHost + ":" + rdbmsMasterPort + "/gooding");
+
             properties.put(
                     "spring.datasource.slaves.slave1.url",
-                    "jdbc:mysql://"
-                            + rdbmsSlaveHost
-                            + ":"
-                            + rdbmsSlavePort
-                            + "/gooding?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul");
+                    "jdbc:mysql://" + rdbmsSlaveHost + ":" + rdbmsSlavePort + "/gooding");
 
             TestPropertyValues.of(properties).applyTo(applicationContext);
         }

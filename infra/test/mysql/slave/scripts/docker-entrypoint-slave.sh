@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+:set fileformat=unix
 
 # wait until master is completed
 until mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" -h "${MYSQL_MASTER_HOST}" ping; do
@@ -34,4 +34,4 @@ mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "${sql}"
 mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "START SLAVE"
 
 # create data base in master DB
-mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -h "${MYSQL_MASTER_HOST}" -e "CREATE DATABASE ${MYSQL_DB}"
+mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -h "${MYSQL_MASTER_HOST}" -e "CREATE DATABASE ${MYSQL_DATABASE}"

@@ -1,9 +1,12 @@
 package com.dnd.gooding.integration.user.command;
 
 import com.dnd.gooding.integration.IntegrationTest;
+import com.dnd.gooding.oauth.command.domain.OAuthId;
 import com.dnd.gooding.user.command.application.CreateMemberService;
-import com.dnd.gooding.user.query.application.MemberQueryService;
-import com.dnd.gooding.user.query.dto.MemberData;
+import com.dnd.gooding.user.command.application.NoMemberException;
+import com.dnd.gooding.user.command.domain.Member;
+import com.dnd.gooding.user.command.domain.MemberId;
+import com.dnd.gooding.user.command.domain.MemberRepository;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,27 +17,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 class CreateMemberServiceIntegrationTest extends IntegrationTest {
 
     @Autowired private CreateMemberService createMemberService;
-    @Autowired private MemberQueryService memberQueryService;
+    @Autowired private MemberRepository memberRepository;
     @Autowired private EntityManager entityManager;
 
     @DisplayName("멤버를 생성한다.")
     @Test
     void create() {
         // given
-        String id = "youg1322@naver.com";
-        String oAuthId = "12356";
+        MemberId memberId = MemberId.of("youg1322@naver.com");
+        OAuthId oAuthId = OAuthId.of("12356");
 
         // when
-        createMemberService.create(id, oAuthId);
+        createMemberService.create(memberId.getId(), oAuthId.getId());
         entityManager.flush();
         entityManager.clear();
 
         // then
-        MemberData memberData = memberQueryService.getMember(id);
+        Member member = memberRepository.findById(memberId).orElseThrow(NoMemberException::new);
 
         Assertions.assertEquals(1, 1);
-        Assertions.assertNotNull(memberData);
-        Assertions.assertEquals(id, memberData.getId());
-        Assertions.assertEquals(oAuthId, memberData.getoAuthId());
+        Assertions.assertNotNull(member);
+        Assertions.assertEquals(memberId, member.getId());
+        Assertions.assertEquals(oAuthId, member.getoAuthId());
     }
 }
