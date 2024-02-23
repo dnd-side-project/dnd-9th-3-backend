@@ -42,7 +42,6 @@ public class IntegrationTest {
                                         .withStartupTimeout(Duration.ofSeconds(180L)));
 
         rdbms.start();
-
     }
 
     static class IntegrationTestInitializer
