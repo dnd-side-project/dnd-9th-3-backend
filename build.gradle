@@ -139,7 +139,7 @@ tasks.jacocoTestCoverageVerification {
 sonar {
     properties {
         property("sonar.host.url", "http://localhost:9000")
-        property("sonar.login", "sqp_cda979c229a81568e0c0fedd83492e13d46df057")
+        property("sonar.login", "sqp_8653b2f5fd72f4f511dd152a63fce3a17c4e0611")
         property("sonar.sources", "src/main/java")
         property("sonar.tests", "src/test/java")
         property("sonar.sourceEncoding", "UTF-8")

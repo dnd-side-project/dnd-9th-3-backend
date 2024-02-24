@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecordController {
 
     @PostMapping
-    public ResponseEntity<Void> record() {
+    public ResponseEntity<Void> getRecord() {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

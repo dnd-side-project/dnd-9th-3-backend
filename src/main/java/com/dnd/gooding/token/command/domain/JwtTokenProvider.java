@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
 
-    private final long MILLI_SECOND = 1000L;
+    private static final long MILLI_SECOND = 1000L;
 
     @Value("${jwt.issuer}")
     private String issuer;

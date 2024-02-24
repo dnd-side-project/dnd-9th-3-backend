@@ -13,6 +13,8 @@ public class CookieUtil {
 
     private static final int COOKIE_EXPIRE_SECONDS = 180;
 
+    private CookieUtil() {}
+
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
 
         Cookie[] cookies = request.getCookies();

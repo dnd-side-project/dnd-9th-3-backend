@@ -8,20 +8,20 @@ import org.springframework.data.redis.core.TimeToLive;
 @RedisHash(value = "refreshToken")
 public class RefreshToken {
 
-    @Id private String refreshToken;
+    @Id private String token;
     private String id;
     @TimeToLive private long expiration;
 
     protected RefreshToken() {}
 
-    public RefreshToken(String refreshToken, String id, long expiration) {
-        this.refreshToken = checkRefreshToken(refreshToken);
+    public RefreshToken(String token, String id, long expiration) {
+        this.token = checkRefreshToken(token);
         this.id = checkId(id);
         this.expiration = checkExpiration(expiration);
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
+    public String getToken() {
+        return token;
     }
 
     public String getId() {

@@ -2,7 +2,6 @@ package com.dnd.gooding.springconfig.datasource;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -20,13 +19,13 @@ public class ReplicationRoutingSource extends AbstractRoutingDataSource {
     public void setTargetDataSources(Map<Object, Object> targetDataSources) {
         super.setTargetDataSources(targetDataSources);
 
-        List<String> slaveNames =
+        List<String> slaves =
                 targetDataSources.keySet().stream()
                         .map(Object::toString)
                         .filter(str -> str.contains(DataSourceType.SLAVE1.name()))
-                        .collect(Collectors.toList());
+                        .toList();
 
-        this.slaveNames = new SlaveNames<>(slaveNames);
+        this.slaveNames = new SlaveNames<>(slaves);
     }
 
     /**

@@ -35,7 +35,6 @@ class CreateMemberServiceIntegrationTest extends IntegrationTest {
         // then
         Member member = memberRepository.findById(memberId).orElseThrow(NoMemberException::new);
 
-        Assertions.assertEquals(1, 1);
         Assertions.assertNotNull(member);
         Assertions.assertEquals(memberId, member.getId());
         Assertions.assertEquals(oAuthId, member.getoAuthId());

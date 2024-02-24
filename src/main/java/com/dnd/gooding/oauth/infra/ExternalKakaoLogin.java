@@ -23,8 +23,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class ExternalKakaoLogin implements ExternalLogin {
 
-    private final String KAKAO_USER_INFO_URL = "https://kapi.kakao.com/v2/user/me";
-    private final String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
+    private static final String KAKAO_USER_INFO_URL = "https://kapi.kakao.com/v2/user/me";
+    private static final String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
 
     @Value("${oauth.kakao.client-id}")
     private String clientId;
@@ -72,7 +72,7 @@ public class ExternalKakaoLogin implements ExternalLogin {
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             return new KakaoMember(
                     responseEntity.getBody().getId(),
-                    responseEntity.getBody().getKakao_account().getEmail(),
+                    responseEntity.getBody().getKakaoAccount().getEmail(),
                     responseEntity.getBody().getProperties());
         } else {
             throw new ConnectionException();

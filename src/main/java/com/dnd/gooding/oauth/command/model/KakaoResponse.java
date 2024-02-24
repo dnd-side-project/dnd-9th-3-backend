@@ -1,18 +1,22 @@
 package com.dnd.gooding.oauth.command.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 public class KakaoResponse {
 
     private String id;
-    private KakaoAccount kakao_account;
+
+    @JsonProperty("kakao_account")
+    private KakaoAccount kakaoAccount;
+
     private Map<String, String> properties;
 
     public KakaoResponse() {}
 
-    public KakaoResponse(String id, KakaoAccount kakao_account, Map<String, String> properties) {
+    public KakaoResponse(String id, KakaoAccount kakaoAccount, Map<String, String> properties) {
         this.id = id;
-        this.kakao_account = kakao_account;
+        this.kakaoAccount = kakaoAccount;
         this.properties = properties;
     }
 
@@ -20,8 +24,8 @@ public class KakaoResponse {
         return id;
     }
 
-    public KakaoAccount getKakao_account() {
-        return kakao_account;
+    public KakaoAccount getKakaoAccount() {
+        return kakaoAccount;
     }
 
     public Map<String, String> getProperties() {

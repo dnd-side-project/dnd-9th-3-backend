@@ -9,7 +9,7 @@ public class ExtractUtil {
 
     private static final String BEARER_TYPE = "Bearer";
 
-    public ExtractUtil() {}
+    private ExtractUtil() {}
 
     public static String extractTokenFromRequest(HttpServletRequest request) {
         String authHeaderValue = request.getHeader(AUTHORIZATION);

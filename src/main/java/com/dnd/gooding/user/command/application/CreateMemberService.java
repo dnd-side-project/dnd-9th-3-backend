@@ -39,10 +39,6 @@ public class CreateMemberService {
     private void save(Member member) {
         memberRepository
                 .findById(member.getId())
-                .ifPresentOrElse(
-                        x -> {},
-                        () -> {
-                            memberRepository.save(member);
-                        });
+                .ifPresentOrElse(x -> {}, () -> memberRepository.save(member));
     }
 }

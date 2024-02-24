@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 @DisplayName("멤버 조회 통합 테스트")
-public class MemberQueryServiceIntegrationTest extends IntegrationTest {
+class MemberQueryServiceIntegrationTest extends IntegrationTest {
 
     @Autowired private MemberQueryService memberQueryService;
 

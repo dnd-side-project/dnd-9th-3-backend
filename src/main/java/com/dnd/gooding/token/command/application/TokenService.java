@@ -27,6 +27,7 @@ public class TokenService {
         this.refreshTokenRepository = refreshTokenRepository;
     }
 
+    @Transactional
     public Token createTokens(String id) {
         String accessToken = createAccessToken(id);
         String refreshToken = createRefreshToken(id);
@@ -49,7 +50,7 @@ public class TokenService {
     public String createRefreshToken(String id) {
         String uuid = UUID.randomUUID().toString();
         RefreshToken refreshToken = new RefreshToken(uuid, id, refreshTokenExpirySeconds);
-        return refreshTokenRepository.save(refreshToken).getRefreshToken();
+        return refreshTokenRepository.save(refreshToken).getToken();
     }
 
     @Transactional

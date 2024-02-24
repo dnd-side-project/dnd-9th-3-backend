@@ -27,7 +27,7 @@ public class WebSecurityConfig {
                 .configurationSource(corsConfigurationSource())
                 .and()
                 .authorizeHttpRequests(
-                        (authorizeRequests) ->
+                        authorizeRequests ->
                                 authorizeRequests
                                         .antMatchers("/actuator/**")
                                         .permitAll()
@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                 .formLogin()
                 .disable()
                 .sessionManagement(
-                        (sessionManagement) ->
+                        sessionManagement ->
                                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

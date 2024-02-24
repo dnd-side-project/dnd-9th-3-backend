@@ -40,10 +40,6 @@ public class CreateOAuthService {
     private void save(OAuth oAuth) {
         oAuthRepository
                 .findByoAuthId(oAuth.getoAuthId())
-                .ifPresentOrElse(
-                        x -> {},
-                        () -> {
-                            oAuthRepository.save(oAuth);
-                        });
+                .ifPresentOrElse(x -> {}, () -> oAuthRepository.save(oAuth));
     }
 }

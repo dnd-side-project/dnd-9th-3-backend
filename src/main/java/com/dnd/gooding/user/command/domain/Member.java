@@ -7,6 +7,7 @@ import com.dnd.gooding.common.model.EmailSet;
 import com.dnd.gooding.common.model.Interest;
 import com.dnd.gooding.common.model.InterestSet;
 import com.dnd.gooding.oauth.command.domain.OAuthId;
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.Set;
 import javax.persistence.Access;
@@ -63,7 +64,7 @@ public class Member {
     }
 
     private String generateRandomPassword() {
-        Random random = new Random();
+        Random random = new SecureRandom();
         int number = random.nextInt();
         return Integer.toHexString(number);
     }

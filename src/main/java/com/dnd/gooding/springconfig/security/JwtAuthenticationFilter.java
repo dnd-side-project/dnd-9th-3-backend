@@ -8,19 +8,17 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+@Slf4j
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired private TokenService tokenService;
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     protected void doFilterInternal(
@@ -33,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     tokenService.getAuthenticationByAccessToken(accessToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
-            logger.info("api call info {} => There is no valid JWT token.", request.getRequestURI());
+            log.info("api call info {} => There is no valid JWT token.", request.getRequestURI());
         }
         filterChain.doFilter(request, response);
     }

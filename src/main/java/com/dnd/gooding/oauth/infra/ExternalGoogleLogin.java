@@ -13,7 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public class ExternalGoogleLogin {
 
-    private final String USER_INFO_URL = "https://oauth2.googleapis.com/tokeninfo";
+    private static final String USER_INFO_URL = "https://oauth2.googleapis.com/tokeninfo";
 
     public OAuthMember getOauthToken(String code) {
         RestTemplate restTemplate = new RestTemplate();
