@@ -1,10 +1,12 @@
 package com.dnd.gooding.record.command.domain;
 
+import com.dnd.gooding.common.model.RecordState;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.*;
+import lombok.Builder;
 
 @Entity
 @Table(name = "record")
@@ -32,9 +34,9 @@ public class Record {
             orphanRemoval = true,
             fetch = FetchType.LAZY)
     @JoinColumn(name = "record_number")
-    @OrderColumn(name = "list_idx")
     private List<Image> images = new ArrayList<>();
 
+    @Builder
     public Record(
             RecordNo number,
             Coordinate coordinate,
@@ -45,7 +47,7 @@ public class Record {
             long recordScore,
             LocalDateTime recordDate,
             List<Image> images) {
-        setNumber(number);
+        setRecordNo(number);
         setRecorder(recorder);
         this.title = title;
         this.description = description;
@@ -97,7 +99,7 @@ public class Record {
         images.addAll(newImages);
     }
 
-    private void setNumber(RecordNo number) {
+    private void setRecordNo(RecordNo number) {
         if (number == null) {
             throw new IllegalArgumentException("no number");
         }

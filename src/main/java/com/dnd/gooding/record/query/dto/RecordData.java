@@ -1,12 +1,37 @@
-package com.dnd.gooding.record.query;
+package com.dnd.gooding.record.query.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.dnd.gooding.record.command.domain.Image;
+import lombok.Builder;
+import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Subselect;
+import org.hibernate.annotations.Synchronize;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
-@Table(name = "record")
+@Immutable
+@Subselect(
+        """
+            select
+                r.record_number,
+                r.place_title,
+                r.place_latitude,
+                r.placeLongitude,
+                r.recorder_id,
+                r.recorderName,
+                r.title,
+                r.description,
+                i.image_id,
+                i.image_path
+            from record r
+            left join image i
+                on r.record_number = i.record_number
+            """
+)
+@Synchronize({"record", "image"})
 public class RecordData {
 
     @Id
@@ -31,8 +56,12 @@ public class RecordData {
     private String title;
     private String description;
 
+    @JoinColumn(name = "record_number")
+    private List<Image> images = new ArrayList<>();
+
     protected RecordData() {}
 
+    @Builder
     public RecordData(
             String recordNumber,
             String placeTitle,
@@ -41,7 +70,8 @@ public class RecordData {
             String recorderId,
             String recorderName,
             String title,
-            String description) {
+            String description,
+            List<Image> images) {
         this.recordNumber = recordNumber;
         this.placeTitle = placeTitle;
         this.placeLatitude = placeLatitude;
@@ -50,6 +80,7 @@ public class RecordData {
         this.recorderName = recorderName;
         this.title = title;
         this.description = description;
+        this.images.addAll(images);
     }
 
     public String getRecordNumber() {
@@ -82,5 +113,9 @@ public class RecordData {
 
     public String getDescription() {
         return description;
+    }
+
+    public List<Image> getImages() {
+        return Collections.unmodifiableList(images);
     }
 }
