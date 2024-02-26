@@ -30,8 +30,12 @@ public class CreateOAuthService {
         OAuthMember oAuthMember = externalLogin.getOauthToken(code);
         OAuthId oAuthId = new OAuthId(oAuthMember.getoAuthId());
         OAuth oAuth =
-                new OAuth(
-                        oAuthId, oAuthMember.getImageUrl(), oAuthMember.getProvider(), oAuthMember.getEmail());
+                OAuth.builder()
+                        .oAuthId(oAuthId)
+                        .imageUrl(oAuthMember.getImageUrl())
+                        .provider(oAuthMember.getProvider())
+                        .email(oAuthMember.getEmail())
+                        .build();
         save(oAuth);
         publisher.publishEvent(new MemberCreatedEvent(oAuthMember.getEmail(), oAuthId));
         return oAuth;

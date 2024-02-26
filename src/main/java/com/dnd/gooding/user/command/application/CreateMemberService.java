@@ -21,7 +21,14 @@ public class CreateMemberService {
     public void create(String id, String oAuthId) {
         MemberId memberId = MemberId.of(id);
         Member member =
-                new Member(memberId, null, null, null, UserRole.ROLE_USER.name(), new OAuthId(oAuthId));
+                Member.builder()
+                        .id(memberId)
+                        .name(null)
+                        .emails(null)
+                        .interests(null)
+                        .userRole(UserRole.ROLE_USER.name())
+                        .oAuthId(new OAuthId(oAuthId))
+                        .build();
         save(member);
     }
 

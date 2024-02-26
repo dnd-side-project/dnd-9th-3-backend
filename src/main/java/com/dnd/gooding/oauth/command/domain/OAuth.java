@@ -3,6 +3,7 @@ package com.dnd.gooding.oauth.command.domain;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import lombok.Builder;
 
 @Entity
 @Table(name = "oauth")
@@ -15,6 +16,7 @@ public class OAuth {
 
     protected OAuth() {}
 
+    @Builder
     public OAuth(OAuthId oAuthId, String imageUrl, String provider, String email) {
         this.oAuthId = oAuthId;
         this.imageUrl = imageUrl;
