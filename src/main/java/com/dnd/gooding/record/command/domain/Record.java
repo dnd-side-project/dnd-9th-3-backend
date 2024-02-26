@@ -36,6 +36,8 @@ public class Record {
     @JoinColumn(name = "record_number")
     private List<Image> images = new ArrayList<>();
 
+    protected Record() {}
+
     @Builder
     public Record(
             RecordNo number,

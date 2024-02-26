@@ -19,15 +19,15 @@ import java.util.List;
                 r.record_number,
                 r.place_title,
                 r.place_latitude,
-                r.placeLongitude,
+                r.place_longitude,
                 r.recorder_id,
-                r.recorderName,
+                r.recorder_name,
                 r.title,
                 r.description,
                 i.image_id,
                 i.image_path
             from record r
-            left join image i
+            join fetch image i
                 on r.record_number = i.record_number
             """
 )
@@ -56,6 +56,7 @@ public class RecordData {
     private String title;
     private String description;
 
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "record_number")
     private List<Image> images = new ArrayList<>();
 

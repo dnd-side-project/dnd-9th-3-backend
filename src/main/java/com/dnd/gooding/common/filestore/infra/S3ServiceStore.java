@@ -4,16 +4,15 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.dnd.gooding.common.filestore.api.FileStore;
 import java.io.File;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@Service
-public class S3ServiceStore implements FileStore {
+@Component
+public class S3ServiceStore {
 
     private final AmazonS3Client amazonS3Client;
 
@@ -25,18 +24,16 @@ public class S3ServiceStore implements FileStore {
     }
 
     @Transactional
-    @Override
     public void delete(String key) {
         DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(bucket, key);
         amazonS3Client.deleteObject(deleteObjectRequest);
     }
 
     @Transactional
-    @Override
-    public String create(File file, String bucket, String fileName) {
+    public String create(File file) {
         amazonS3Client.putObject(
-                new PutObjectRequest(bucket, fileName, file)
+                new PutObjectRequest(bucket, file.getName(), file)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
-        return amazonS3Client.getUrl(bucket, fileName).toString();
+        return amazonS3Client.getUrl(bucket, file.getName()).toString();
     }
 }

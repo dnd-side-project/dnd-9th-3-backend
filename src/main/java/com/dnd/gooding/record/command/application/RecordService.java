@@ -1,7 +1,10 @@
 package com.dnd.gooding.record.command.application;
 
+import com.dnd.gooding.common.filestore.api.FileCreate;
 import com.dnd.gooding.record.command.domain.*;
 import com.dnd.gooding.record.command.domain.Record;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -13,17 +16,26 @@ public class RecordService {
 
     private final RecordRepository recordRepository;
     private final RecorderService recorderService;
+    private final FileService fileService;
 
-    public RecordService(RecordRepository recordRepository, RecorderService recorderService) {
+    public RecordService(
+            RecordRepository recordRepository, RecorderService recorderService, FileService fileService) {
         this.recordRepository = recordRepository;
         this.recorderService = recorderService;
+        this.fileService = fileService;
     }
 
     @Transactional
-    public void create(RecordRequest recordRequest) {
+    public void create(RecordRequest recordRequest) throws IOException {
 
         List<Image> images = new ArrayList<>();
-        for (MultipartFile file : recordRequest.getFiles()) {}
+        for (MultipartFile multipartFile : recordRequest.getFiles()) {
+            // File file = FileCreate.convert(multipartFile);
+            // String fileUrl = fileService.createFile(file);
+            String fileUrl = FileCreate.convert(multipartFile);
+            Image image = Image.builder().path(fileUrl).uploadTime(LocalDateTime.now()).build();
+            images.add(image);
+        }
 
         RecordNo recordNo = recordRepository.nextRecordNo();
         Coordinate coordinate =

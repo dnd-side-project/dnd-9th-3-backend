@@ -2,6 +2,7 @@ package com.dnd.gooding.record.command.domain;
 
 import java.time.LocalDateTime;
 import javax.persistence.*;
+import lombok.Builder;
 
 @Entity
 @Table(name = "image")
@@ -20,6 +21,7 @@ public class Image {
 
     protected Image() {}
 
+    @Builder
     public Image(String path, LocalDateTime uploadTime) {
         this.path = path;
         this.uploadTime = uploadTime;

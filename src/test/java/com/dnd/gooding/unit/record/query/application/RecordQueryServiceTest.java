@@ -1,5 +1,6 @@
 package com.dnd.gooding.unit.record.query.application;
 
+import com.dnd.gooding.record.command.domain.RecordNo;
 import com.dnd.gooding.record.query.application.RecordQueryService;
 import com.dnd.gooding.record.query.dao.RecordDataDao;
 import com.dnd.gooding.record.query.dto.RecordData;
@@ -27,11 +28,12 @@ public class RecordQueryServiceTest {
     @Test
     void getRecord() {
         // given
-        String recordNo = "123qwaf124515";
+        RecordNo recordNo = RecordNo.of("123qwaf124515");
 
         RecordData expectRecordData = RecordDataFixture.getRecord();
 
-        Mockito.when(recordDataDao.findById(recordNo)).thenReturn(Optional.of(expectRecordData));
+        Mockito.when(recordDataDao.findById(recordNo.getNumber()))
+                .thenReturn(Optional.of(expectRecordData));
 
         // when
         RecordData recordData = recordQueryService.getRecord(recordNo);

@@ -10,5 +10,7 @@ public interface RecordDataDao extends Repository<RecordData, String> {
 
     Optional<RecordData> findById(String recordNumber);
 
+    List<RecordData> findByRecorderId(String recorderMemberId);
+
     List<RecordData> findAll(Specification<RecordData> spec);
 }

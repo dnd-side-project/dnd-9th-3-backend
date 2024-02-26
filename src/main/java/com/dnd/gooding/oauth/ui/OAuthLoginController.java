@@ -6,8 +6,8 @@ import com.dnd.gooding.oauth.command.domain.OAuth;
 import com.dnd.gooding.oauth.command.domain.OAuthTokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,8 +23,8 @@ public class OAuthLoginController {
         this.oAuthTokenService = oAuthTokenService;
     }
 
-    @GetMapping(value = "/login/{code}")
-    public ResponseEntity<Token> login(@PathVariable String code) {
+    @GetMapping(value = "/login")
+    public ResponseEntity<Token> login(@RequestParam String code) {
         OAuth oAuth = createOAuthService.create(code);
         Token token = oAuthTokenService.createTokens(oAuth.getEmail());
         return ResponseEntity.ok().body(token);
