@@ -1,44 +1,88 @@
 package com.dnd.gooding.record.query.dto;
 
-import com.dnd.gooding.record.command.domain.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Subselect;
+import org.hibernate.annotations.Synchronize;
+
 import lombok.Builder;
 
+@Entity
+@Table(name = "record")
+@Immutable
+@Subselect(
+    """
+		select
+			r.record_number,
+			r.place_title,
+			r.place_latitude,
+			r.place_longitude,
+			r.recorder_id,
+			r.recorder_name,
+			r.title,
+			r.description
+		from record r
+		"""
+)
+@Synchronize({"record"})
 public class RecordData {
 
-    private String number;
+    @Id
+    @Column(name = "record_number")
+    private String recordNumber;
 
+    @Column(name = "place_title")
     private String placeTitle;
 
+    @Column(name = "place_latitude")
     private Double placeLatitude;
 
+    @Column(name = "place_longitude")
     private Double placeLongitude;
 
+    @Column(name = "recorder_id")
     private String recorderId;
 
+    @Column(name = "recorder_name")
     private String recorderName;
 
+    @Column(name = "title")
     private String title;
+
+    @Column(name = "description")
     private String description;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "record_number")
     private List<ImageData> images = new ArrayList<>();
 
     protected RecordData() {}
 
     @Builder
     public RecordData(
-            String number,
-            String placeTitle,
-            Double placeLatitude,
-            Double placeLongitude,
-            String recorderId,
-            String recorderName,
-            String title,
-            String description,
-            List<ImageData> images) {
-        this.number = number;
+        String recordNumber,
+        String placeTitle,
+        Double placeLatitude,
+        Double placeLongitude,
+        String recorderId,
+        String recorderName,
+        String title,
+        String description,
+        List<ImageData> images) {
+        this.recordNumber = recordNumber;
         this.placeTitle = placeTitle;
         this.placeLatitude = placeLatitude;
         this.placeLongitude = placeLongitude;
@@ -49,34 +93,28 @@ public class RecordData {
         this.images.addAll(images);
     }
 
-    public String getNumber() {
-        return number;
+    public String getRecordNumber() {
+        return recordNumber;
     }
 
     public String getPlaceTitle() {
         return placeTitle;
     }
-
     public Double getPlaceLatitude() {
         return placeLatitude;
     }
-
     public Double getPlaceLongitude() {
         return placeLongitude;
     }
-
     public String getRecorderId() {
         return recorderId;
     }
-
     public String getRecorderName() {
         return recorderName;
     }
-
     public String getTitle() {
         return title;
     }
-
     public String getDescription() {
         return description;
     }

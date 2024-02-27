@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.*;
-
-import com.dnd.gooding.record.query.dto.RecordData;
 import lombok.Builder;
 
 @Entity
@@ -31,10 +29,7 @@ public class Record {
     @Column(name = "record_date")
     private LocalDateTime recordDate;
 
-    @OneToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            orphanRemoval = true,
-            fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "record_number")
     private List<Image> images = new ArrayList<>();
 
@@ -115,11 +110,5 @@ public class Record {
             throw new IllegalArgumentException("no recorder");
         }
         this.recorder = recorder;
-    }
-
-    public RecordData toModel() {
-        return RecordData.builder()
-                .number(number.getNumber())
-                .build();
     }
 }
