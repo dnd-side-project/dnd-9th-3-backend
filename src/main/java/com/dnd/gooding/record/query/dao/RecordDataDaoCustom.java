@@ -1,11 +1,12 @@
 package com.dnd.gooding.record.query.dao;
 
-import com.dnd.gooding.record.query.dto.RecordData;
+import com.dnd.gooding.record.command.domain.Record;
+
 import java.util.List;
 
 public interface RecordDataDaoCustom {
 
-    RecordData findById(String recorderMemberId);
+    Record findById(String recorderMemberId);
 
-    List<RecordData> findByRecorderId(String recorderMemberId);
+    List<Record> findByRecorderId(String recorderMemberId);
 }

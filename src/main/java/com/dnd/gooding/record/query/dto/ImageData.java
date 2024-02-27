@@ -1,7 +1,5 @@
 package com.dnd.gooding.record.query.dto;
 
-import javax.persistence.Column;
-
 public class ImageData {
 
     private Long id;

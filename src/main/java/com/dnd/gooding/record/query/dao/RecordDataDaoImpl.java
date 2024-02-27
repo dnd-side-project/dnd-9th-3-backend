@@ -3,9 +3,8 @@ package com.dnd.gooding.record.query.dao;
 import static com.dnd.gooding.record.command.domain.QImage.image;
 import static com.dnd.gooding.record.command.domain.QRecord.record;
 
+import com.dnd.gooding.record.command.domain.Record;
 import com.dnd.gooding.record.command.domain.RecordNo;
-import com.dnd.gooding.record.query.dto.RecordData;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -22,27 +21,18 @@ public class RecordDataDaoImpl implements RecordDataDaoCustom {
     }
 
     @Override
-    public RecordData findById(String recorderMemberId) {
+    public Record findById(String recorderMemberId) {
         return null;
     }
 
     @Override
-    public List<RecordData> findByRecorderId(String recorderMemberId) {
+    public List<Record> findByRecorderId(String recorderMemberId) {
         return queryFactory
-                .select(Projections.constructor(RecordData.class,
-                        record.number.number,
-                        record.coordinate.placeTitle,
-                        record.coordinate.placeLatitude,
-                        record.coordinate.placeLongitude,
-                        record.recorder.memberId.id,
-                        record.recorder.memberName,
-                        record.title,
-                        record.description,
-                        record.images))
+                .select(record)
                 .distinct()
                 .from(record)
-                .join(record.images, image)
-                .where(recorderMemberIdEquals(recorderMemberId))
+                .join(record.images, image).fetchJoin()
+//                .where(recorderMemberIdEquals(recorderMemberId))
                 .fetch();
     }
 

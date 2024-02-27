@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.*;
+
+import com.dnd.gooding.record.query.dto.RecordData;
 import lombok.Builder;
 
 @Entity
@@ -113,5 +115,11 @@ public class Record {
             throw new IllegalArgumentException("no recorder");
         }
         this.recorder = recorder;
+    }
+
+    public RecordData toModel() {
+        return RecordData.builder()
+                .number(number.getNumber())
+                .build();
     }
 }

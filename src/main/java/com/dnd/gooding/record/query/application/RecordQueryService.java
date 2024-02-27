@@ -22,11 +22,12 @@ public class RecordQueryService {
 
     @Transactional(readOnly = true)
     public RecordData getRecord(RecordNo recordNo) {
-        return Optional.of(recordDataDao.findById(recordNo.getNumber())).orElseThrow(NoRecordException::new);
+//        return Optional.of(recordDataDao.findById(recordNo.getNumber())).orElseThrow(NoRecordException::new);
+        return null;
     }
 
     @Transactional(readOnly = true)
     public List<RecordData> getRecord(MemberId recorderMemberId) {
-        return recordDataDao.findByRecorderId(recorderMemberId.getId());
+        return null;
     }
 }
