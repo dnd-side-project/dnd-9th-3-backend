@@ -1,70 +1,35 @@
 package com.dnd.gooding.record.query.dto;
 
 import com.dnd.gooding.record.command.domain.Image;
-import lombok.Builder;
-import org.hibernate.annotations.Immutable;
-import org.hibernate.annotations.Subselect;
-import org.hibernate.annotations.Synchronize;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.Builder;
 
-@Entity
-@Immutable
-@Subselect(
-        """
-            select
-                r.record_number,
-                r.place_title,
-                r.place_latitude,
-                r.place_longitude,
-                r.recorder_id,
-                r.recorder_name,
-                r.title,
-                r.description,
-                i.image_id,
-                i.image_path
-            from record r
-            join fetch image i
-                on r.record_number = i.record_number
-            """
-)
-@Synchronize({"record", "image"})
 public class RecordData {
 
-    @Id
-    @Column(name = "record_number")
-    private String recordNumber;
+    private String number;
 
-    @Column(name = "place_title")
     private String placeTitle;
 
-    @Column(name = "place_latitude")
     private Double placeLatitude;
 
-    @Column(name = "place_longitude")
     private Double placeLongitude;
 
-    @Column(name = "recorder_id")
     private String recorderId;
 
-    @Column(name = "recorder_name")
     private String recorderName;
 
     private String title;
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "record_number")
-    private List<Image> images = new ArrayList<>();
+    private List<ImageData> images = new ArrayList<>();
 
     protected RecordData() {}
 
     @Builder
     public RecordData(
-            String recordNumber,
+            String number,
             String placeTitle,
             Double placeLatitude,
             Double placeLongitude,
@@ -72,8 +37,8 @@ public class RecordData {
             String recorderName,
             String title,
             String description,
-            List<Image> images) {
-        this.recordNumber = recordNumber;
+            List<ImageData> images) {
+        this.number = number;
         this.placeTitle = placeTitle;
         this.placeLatitude = placeLatitude;
         this.placeLongitude = placeLongitude;
@@ -84,8 +49,8 @@ public class RecordData {
         this.images.addAll(images);
     }
 
-    public String getRecordNumber() {
-        return recordNumber;
+    public String getNumber() {
+        return number;
     }
 
     public String getPlaceTitle() {
@@ -116,7 +81,7 @@ public class RecordData {
         return description;
     }
 
-    public List<Image> getImages() {
+    public List<ImageData> getImages() {
         return Collections.unmodifiableList(images);
     }
 }

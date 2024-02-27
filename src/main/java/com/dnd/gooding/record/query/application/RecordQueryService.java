@@ -6,6 +6,8 @@ import com.dnd.gooding.record.query.dao.RecordDataDao;
 import com.dnd.gooding.record.query.dto.RecordData;
 import com.dnd.gooding.user.command.domain.MemberId;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +22,7 @@ public class RecordQueryService {
 
     @Transactional(readOnly = true)
     public RecordData getRecord(RecordNo recordNo) {
-        return recordDataDao.findById(recordNo.getNumber()).orElseThrow(NoRecordException::new);
+        return Optional.of(recordDataDao.findById(recordNo.getNumber())).orElseThrow(NoRecordException::new);
     }
 
     @Transactional(readOnly = true)
