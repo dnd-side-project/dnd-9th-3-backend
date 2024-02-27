@@ -38,6 +38,10 @@ public class ImageData {
         this.recordNumber = recordNumber;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public String getPath() {
         return path;
     }
