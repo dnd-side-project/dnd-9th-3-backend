@@ -3,6 +3,7 @@ package com.dnd.gooding.record.command.domain;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.Builder;
 
 @Embeddable
 public class Coordinate {
@@ -18,6 +19,7 @@ public class Coordinate {
 
     protected Coordinate() {}
 
+    @Builder
     public Coordinate(String placeTitle, Double placeLatitude, Double placeLongitude) {
         this.placeTitle = placeTitle;
         this.placeLatitude = placeLatitude;

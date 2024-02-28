@@ -8,6 +8,7 @@ spring:
     include:
       - actuator
       - oauth
+      - cloud
   servlet:
     multipart:
       max-file-size: 5GB

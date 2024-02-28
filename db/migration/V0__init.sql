@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS `image` (
   `image_path` varchar(255) DEFAULT NULL,
   `upload_time` datetime(6) DEFAULT NULL,
   `record_number` varchar(255) DEFAULT NULL,
-  `list_idx` int(11) DEFAULT NULL,
   PRIMARY KEY (`image_id`),
   FOREIGN KEY (`record_number`) REFERENCES `record` (`record_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

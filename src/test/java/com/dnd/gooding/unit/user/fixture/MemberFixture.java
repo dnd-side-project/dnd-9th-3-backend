@@ -1,4 +1,4 @@
-package com.dnd.gooding.unit.fixture;
+package com.dnd.gooding.unit.user.fixture;
 
 import com.dnd.gooding.common.model.UserRole;
 import com.dnd.gooding.oauth.command.domain.OAuthId;

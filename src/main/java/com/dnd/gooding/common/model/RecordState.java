@@ -1,4 +1,4 @@
-package com.dnd.gooding.record.command.domain;
+package com.dnd.gooding.common.model;
 
 public enum RecordState {
     PUBLIC,

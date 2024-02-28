@@ -1,4 +1,4 @@
-package com.dnd.gooding.common.repository;
+package com.dnd.gooding.common.jpa;
 
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.Expression;
