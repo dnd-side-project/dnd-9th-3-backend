@@ -4,13 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
@@ -63,8 +57,7 @@ public class RecordData {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "record_number")
+    @Transient
     private List<ImageData> images = new ArrayList<>();
 
     protected RecordData() {}
@@ -78,8 +71,7 @@ public class RecordData {
         String recorderId,
         String recorderName,
         String title,
-        String description,
-        List<ImageData> images) {
+        String description) {
         this.recordNumber = recordNumber;
         this.placeTitle = placeTitle;
         this.placeLatitude = placeLatitude;
@@ -88,7 +80,6 @@ public class RecordData {
         this.recorderName = recorderName;
         this.title = title;
         this.description = description;
-        this.images.addAll(images);
     }
 
     public String getRecordNumber() {
@@ -119,5 +110,9 @@ public class RecordData {
 
     public List<ImageData> getImages() {
         return Collections.unmodifiableList(images);
+    }
+
+    public void setImages(List<ImageData> images) {
+        this.images = images;
     }
 }

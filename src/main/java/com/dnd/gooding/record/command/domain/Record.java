@@ -29,7 +29,7 @@ public class Record {
     @Column(name = "record_date")
     private LocalDateTime recordDate;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "record_number")
     private List<Image> images = new ArrayList<>();
 

@@ -8,6 +8,7 @@ import com.dnd.gooding.record.query.dto.ImageData;
 import com.dnd.gooding.record.query.dto.RecordData;
 import com.dnd.gooding.user.command.domain.MemberId;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,9 @@ public class RecordQueryService {
     public List<RecordData> getRecord(MemberId recorderMemberId) {
         List<RecordData> records = recordDataDao.findByRecorderId(recorderMemberId.getId());
         List<ImageData> images = imageDataDao.findByRecordNumberIn(toRecordIds(records));
+        Map<String, List<ImageData>> imageMap =
+                images.stream().collect(Collectors.groupingBy(ImageData::getRecordNumber));
+        records.forEach(record -> record.setImages(imageMap.get(record.getRecordNumber())));
         return records;
     }
 
