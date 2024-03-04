@@ -15,7 +15,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String createFile(File file) {
-        return s3ServiceStore.create(file);
+    public String putFile(String key, File file) {
+        return s3ServiceStore.putFile(key, file);
+    }
+
+    @Override
+    public void deleteFile(String key) {
+        s3ServiceStore.deleteFile(key);
     }
 }
