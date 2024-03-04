@@ -8,10 +8,7 @@ import lombok.Builder;
 @Table(name = "image")
 public class Image {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "image_id")
-    private Long id;
+    @EmbeddedId private ImageId id;
 
     @Column(name = "image_path")
     private String path;
@@ -22,9 +19,14 @@ public class Image {
     protected Image() {}
 
     @Builder
-    public Image(String path, LocalDateTime uploadTime) {
+    public Image(ImageId id, String path, LocalDateTime uploadTime) {
+        this.id = id;
         this.path = path;
         this.uploadTime = uploadTime;
+    }
+
+    public ImageId getId() {
+        return id;
     }
 
     public String getPath() {

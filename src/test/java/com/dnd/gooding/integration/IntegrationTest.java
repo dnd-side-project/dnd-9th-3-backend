@@ -12,7 +12,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.DockerComposeContainer;
+import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.utility.DockerImageName;
 
 @Ignore
 @Transactional
@@ -21,6 +23,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
 public class IntegrationTest {
 
     static DockerComposeContainer rdbms;
+    static LocalStackContainer aws;
 
     static {
         rdbms =
@@ -37,6 +40,12 @@ public class IntegrationTest {
                                         .withStartupTimeout(Duration.ofSeconds(180L)));
 
         rdbms.start();
+
+        aws =
+                (new LocalStackContainer(DockerImageName.parse("localstack/localstack:0.11.2")))
+                        .withServices(LocalStackContainer.Service.S3)
+                        .withStartupTimeout(Duration.ofSeconds(600));
+        aws.start();
     }
 
     static class IntegrationTestInitializer
@@ -57,6 +66,17 @@ public class IntegrationTest {
             properties.put(
                     "spring.datasource.slaves.slave1.url",
                     "jdbc:mysql://" + rdbmsSlaveHost + ":" + rdbmsSlavePort + "/gooding");
+
+            try {
+                aws.execInContainer("awslocal", "s3api", "create-bucket", "--bucket", "record-bucket");
+
+                properties.put("cloud.aws.endpoint", aws.getEndpoint().toString());
+                properties.put("cloud.aws.credentials.access-key", "localstack-access-key");
+                properties.put("cloud.aws.credentials.secret-key", "localstack-secret-key");
+                properties.put("cloud.aws.s3.bucket", "record-bucket");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
             TestPropertyValues.of(properties).applyTo(applicationContext);
         }

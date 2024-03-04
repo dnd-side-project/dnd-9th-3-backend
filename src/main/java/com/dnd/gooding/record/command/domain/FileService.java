@@ -4,5 +4,7 @@ import java.io.File;
 
 public interface FileService {
 
-    String createFile(File file);
+    String putFile(String key, File file);
+
+    void deleteFile(String key);
 }

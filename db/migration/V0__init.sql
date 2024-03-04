@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `record` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `image` (
-  `image_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `image_id` varchar(255) NOT NULL,
   `image_path` varchar(255) DEFAULT NULL,
   `upload_time` datetime(6) DEFAULT NULL,
   `record_number` varchar(255) DEFAULT NULL,

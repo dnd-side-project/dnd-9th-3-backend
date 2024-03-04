@@ -17,7 +17,7 @@ public class ImageData {
 
     @Id
     @Column(name = "image_id")
-    private Long id;
+    private String id;
 
     @Column(name = "image_path")
     private String path;
@@ -31,14 +31,14 @@ public class ImageData {
     protected ImageData() {}
 
     @Builder
-    public ImageData(Long id, String path, LocalDateTime uploadTime, String recordNumber) {
+    public ImageData(String id, String path, LocalDateTime uploadTime, String recordNumber) {
         this.id = id;
         this.path = path;
         this.uploadTime = uploadTime;
         this.recordNumber = recordNumber;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

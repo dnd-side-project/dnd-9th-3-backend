@@ -1,8 +1,9 @@
 package com.dnd.gooding.record.command.application;
 
-import com.dnd.gooding.common.filestore.api.FileCreate;
 import com.dnd.gooding.record.command.domain.*;
 import com.dnd.gooding.record.command.domain.Record;
+import com.dnd.gooding.util.FileCreateUtil;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,10 +31,14 @@ public class RecordService {
 
         List<Image> images = new ArrayList<>();
         for (MultipartFile multipartFile : recordRequest.getFiles()) {
-            // File file = FileCreate.convert(multipartFile);
-            // String fileUrl = fileService.createFile(file);
-            String fileUrl = FileCreate.convert(multipartFile);
-            Image image = Image.builder().path(fileUrl).uploadTime(LocalDateTime.now()).build();
+            File file = FileCreateUtil.convert(multipartFile);
+            String path = fileService.putFile(file.getName(), file);
+            Image image =
+                    Image.builder()
+                            .id(ImageId.of(file.getName()))
+                            .path(path)
+                            .uploadTime(LocalDateTime.now())
+                            .build();
             images.add(image);
         }
 
@@ -64,6 +69,9 @@ public class RecordService {
     public void delete(String recordNo) {
         Record record =
                 recordRepository.findById(RecordNo.of(recordNo)).orElseThrow(NoRecordException::new);
+        for (Image image : record.getImages()) {
+            fileService.deleteFile(image.getId().getId());
+        }
         recordRepository.delete(record);
     }
 }

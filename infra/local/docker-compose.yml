@@ -51,6 +51,23 @@ services:
     networks:
       my-network:
         ipv4_address: 172.28.0.4
+  local-aws:
+    image: localstack/localstack:0.11.2
+    volumes:
+      - ./localstack/s3/init-s3-bucket.sh:/docker-entrypoint-initaws.d/init-s3-bucket.sh
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+      - PORT_WEB_UI=4567
+      - AWS_ACCESS_KEY_ID=localstack-access-key
+      - AWS_SECRET_ACCESS_KEY=localstack-secret-key
+      - AWS_DEFAULT_REGION=ap-northeast-2
+      - USE_SSL=0
+    ports:
+      - '4566:4566' # localstack port
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.8
 
 volumes:
   db_master_vol:
