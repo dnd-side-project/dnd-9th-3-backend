@@ -35,7 +35,7 @@ public class RecordQueryService {
         List<ImageData> images = imageDataDao.findByRecordNumberIn(toRecordIds(records));
         Map<String, List<ImageData>> imageMap =
                 images.stream().collect(Collectors.groupingBy(ImageData::getRecordNumber));
-        records.forEach(record -> record.setImages(imageMap.get(record.getRecordNumber())));
+        records.forEach(x -> x.setImages(imageMap.get(x.getRecordNumber())));
         return records;
     }
 

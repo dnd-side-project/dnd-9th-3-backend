@@ -26,7 +26,7 @@ public class S3ServiceStore {
 
     public String putFile(String key, File file) {
         s3Client.putObject(
-                (req) -> {
+                req -> {
                     req.bucket(bucket);
                     req.key(key);
                 },
@@ -39,7 +39,7 @@ public class S3ServiceStore {
         File file = new File(key);
         ResponseInputStream<GetObjectResponse> s3Object =
                 s3Client.getObject(
-                        (req) -> {
+                        req -> {
                             req.bucket(bucket);
                             req.key(key);
                         });
@@ -47,7 +47,7 @@ public class S3ServiceStore {
         try {
             FileUtils.writeByteArrayToFile(file, s3Object.readAllBytes());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
         return file;
     }

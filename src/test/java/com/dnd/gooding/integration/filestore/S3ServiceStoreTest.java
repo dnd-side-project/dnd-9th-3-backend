@@ -18,7 +18,7 @@ class S3ServiceStoreTest extends IntegrationTest {
 
     @DisplayName("S3 서비스에 파일을 넣고 가져온다.")
     @Test
-    public void s3PutAndGetTest() throws Exception {
+    void s3PutAndGetTest() throws Exception {
         // given
         String key = "sampleObject.txt";
         File sampleFile = new ClassPathResource("static/sample.txt").getFile();

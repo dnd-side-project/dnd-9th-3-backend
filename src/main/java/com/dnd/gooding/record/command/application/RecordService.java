@@ -50,7 +50,7 @@ public class RecordService {
                         .placeLongitude(recordRequest.getPlaceLongitude())
                         .build();
         Recorder recorder = recorderService.createRecorder(recordRequest.getRecorderMemberId());
-        Record record =
+        Record gilog =
                 Record.builder()
                         .number(recordNo)
                         .coordinate(coordinate)
@@ -62,16 +62,16 @@ public class RecordService {
                         .recordDate(recordRequest.getRecordDate())
                         .images(images)
                         .build();
-        recordRepository.save(record);
+        recordRepository.save(gilog);
     }
 
     @Transactional
     public void delete(String recordNo) {
-        Record record =
+        Record gilog =
                 recordRepository.findById(RecordNo.of(recordNo)).orElseThrow(NoRecordException::new);
-        for (Image image : record.getImages()) {
+        for (Image image : gilog.getImages()) {
             fileService.deleteFile(image.getId().getId());
         }
-        recordRepository.delete(record);
+        recordRepository.delete(gilog);
     }
 }

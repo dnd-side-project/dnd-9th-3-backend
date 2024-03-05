@@ -8,6 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileCreateUtil {
 
+    private static final String OS_NAME = "os.name";
+    private static final String USER_HOME = "user.home";
+
     private FileCreateUtil() {}
 
     public static File convert(MultipartFile multipartFile) throws IOException {
@@ -38,7 +41,7 @@ public class FileCreateUtil {
     }
 
     private static String getUserHomeDir() {
-        return System.getProperty("user.home");
+        return System.getProperty(USER_HOME);
     }
 
     private static String getSystemDriver() {
@@ -51,14 +54,14 @@ public class FileCreateUtil {
     }
 
     private static boolean isWindow() {
-        return (System.getProperty("os.name").toLowerCase().contains("win"));
+        return (System.getProperty(OS_NAME).toLowerCase().contains("win"));
     }
 
     private static boolean isMacOS() {
-        return (System.getProperty("os.name").toLowerCase().contains("mac"));
+        return (System.getProperty(OS_NAME).toLowerCase().contains("mac"));
     }
 
     private static boolean isLinux() {
-        return (System.getProperty("os.name").toLowerCase().contains("linux"));
+        return (System.getProperty(OS_NAME).toLowerCase().contains("linux"));
     }
 }

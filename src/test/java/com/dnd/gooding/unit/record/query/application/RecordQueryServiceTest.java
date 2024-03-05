@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 @DisplayName("기록 조회 유닛 테스트")
-public class RecordQueryServiceTest {
+class RecordQueryServiceTest {
 
     private RecordDataDao recordDataDao;
     private ImageDataDao imageDataDao;
