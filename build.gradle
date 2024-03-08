@@ -38,6 +38,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.9'
     implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.guava:guava:11.0.2'
+
     implementation group: 'net.jodah', name: 'typetools', version: '0.4.2'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

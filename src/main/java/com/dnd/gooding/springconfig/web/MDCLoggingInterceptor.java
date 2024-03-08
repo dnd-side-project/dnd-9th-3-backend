@@ -8,9 +8,12 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Slf4j
-public class MdcLoggingInterceptor implements HandlerInterceptor {
+public class MDCLoggingInterceptor implements HandlerInterceptor {
 
     public static final String REQUEST_CONTROLLER_MDC_KEY = "handler";
+    private static final String REQUEST_URL = "requestUrl";
+    private static final String REMOTE_ADDR = "remoteAddr";
+    private static final String REQUEST_METHOD = "requestMethod";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -20,6 +23,9 @@ public class MdcLoggingInterceptor implements HandlerInterceptor {
             String methodName = handlerMethod.getMethod().getName();
             String controllerInfo = handlerName + "." + methodName;
             MDC.put(REQUEST_CONTROLLER_MDC_KEY, controllerInfo);
+            MDC.put(REMOTE_ADDR, request.getRemoteAddr());
+            MDC.put(REQUEST_METHOD, request.getMethod());
+            MDC.put(REQUEST_URL, String.valueOf(request.getRequestURL()));
         }
         return true;
     }
