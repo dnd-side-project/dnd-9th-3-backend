@@ -1,24 +1,30 @@
-== 멤버(Member)
+=== 멤버(Member)
 멤버를 등록하고 멤버 정보를 처리할 수 있습니다.
 
-=== 멤버검색
+==== 멤버검색
 멤버정보를 아이디(ID)를 이용해서 검색할 수 있습니다.
 
-|====
+[discrete]
+===== curl request
+include::{snippets}/get-v1-get-member/curl-request.adoc[]
+
+===== Path parameters
+====== /member/{id}
+|=====
 |속성 |설명
 
 |`id` |아이디
 
-|====
+|=====
 
-[discrete]
-==== 요청
-include::{snippets}/get-v1-get-member/curl-request.adoc[]
-include::{snippets}/get-v1-get-member/httpie-request.adoc[]
-include::{snippets}/get-v1-get-member/http-request.adoc[]
+===== Request parameters
 include::{snippets}/get-v1-get-member/request-parameters.adoc[]
 
-[discrete]
-==== 응답
-include::{snippets}/get-v1-get-member/http-response.adoc[]
+===== Response Fields
 include::{snippets}/get-v1-get-member/response-fields.adoc[]
+
+===== HTTP Request
+include::{snippets}/get-v1-get-member/http-request.adoc[]
+
+===== HTTP Response
+include::{snippets}/get-v1-get-member/http-response.adoc[]

@@ -1,7 +1,18 @@
-= Gooding API 문서
+= Gooding API 문서 가이드
+한해용, <yong80211@gmail.com>
+v2024.03.11, 2024-03-11
+:doctype: book
+:icons: font
+:source-highlighter: coderay
+:toc: left
+:toc-title: 목차
+:toclevels: 3
+:sectlinks:
+:sectnums:
 
 == 개요
-이 API문서는 'Gooding' 프로젝트의 산출물입니다.
+이 API 문서는 'Gooding' 프로젝트의 산출물입니다.
 
 == API
-include::member.adoc
+//멤버
+include::member.adoc[]
