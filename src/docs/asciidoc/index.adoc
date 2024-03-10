@@ -1,0 +1,7 @@
+= Gooding API 문서
+
+== 개요
+이 API문서는 'Gooding' 프로젝트의 산출물입니다.
+
+== API
+include::member.adoc
