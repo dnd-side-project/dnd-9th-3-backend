@@ -68,9 +68,13 @@ public class MemberData {
   protected MemberData() {}
 
   @Builder
-  public MemberData(String id, String name) {
+  public MemberData(String id, String name, List<Email> emails, List<Interest> interests, String oAuthId, String imageUrl) {
     this.id = id;
     this.name = name;
+    this.emails = emails;
+    this.interests = interests;
+    this.oAuthId = oAuthId;
+    this.imageUrl = imageUrl;
   }
 
   public String getId() {
