@@ -5,4 +5,5 @@
 ## 사용 기술
 ![캡처](https://github.com/dnd-side-project/dnd-9th-3-backend/assets/31242766/3b4d9432-0aef-4008-aff4-170cb7ee7923)
 
-## WIKI
+## Wiki
+Gooding 서비스의 모든 정보는 [Wiki](https://github.com/dnd-side-project/dnd-9th-3-backend/wiki)를 통해 참고하실 수 있습니다.
