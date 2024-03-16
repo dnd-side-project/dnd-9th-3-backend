@@ -1,7 +1,7 @@
 package com.dnd.gooding.integration.user.query;
 
 import com.dnd.gooding.integration.IntegrationTest;
-import com.dnd.gooding.user.command.application.NoMemberException;
+import com.dnd.gooding.user.exception.NoMemberException;
 import com.dnd.gooding.user.query.application.MemberQueryService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

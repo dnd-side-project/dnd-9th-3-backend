@@ -18,7 +18,6 @@ include::{snippets}/get-v1-get-member/curl-request.adoc[]
 |=====
 
 ===== Request parameters
-include::{snippets}/get-v1-get-member/request-parameters.adoc[]
 
 ===== Response Fields
 include::{snippets}/get-v1-get-member/response-fields.adoc[]

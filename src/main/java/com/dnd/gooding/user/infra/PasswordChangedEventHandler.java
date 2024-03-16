@@ -1,6 +1,6 @@
 package com.dnd.gooding.user.infra;
 
-import com.dnd.gooding.user.command.domain.PasswordChangedEvent;
+import com.dnd.gooding.user.command.domain.dto.PasswordChangedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 

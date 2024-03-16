@@ -19,7 +19,6 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
-
   # database 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -49,7 +48,23 @@ spring:
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
-
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    port: 587
+    username: ${GOOGLE_EMAIL}
+    password: ${GOOGLE_APP_PASSWORD}
+    properties:
+      mail:
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        mime:
+          charset: UTF-8
+        transport:
+          protocol: smtp
 logging:
   level:
     org.hibernate.SQL: debug

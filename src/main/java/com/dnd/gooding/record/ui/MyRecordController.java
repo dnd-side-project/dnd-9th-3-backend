@@ -2,7 +2,7 @@ package com.dnd.gooding.record.ui;
 
 import com.dnd.gooding.record.query.application.RecordQueryService;
 import com.dnd.gooding.record.query.dto.RecordData;
-import com.dnd.gooding.token.command.model.JwtAuthentication;
+import com.dnd.gooding.token.command.domain.dto.JwtAuthentication;
 import com.dnd.gooding.user.command.domain.MemberId;
 import java.util.List;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.dnd.gooding.user.query.application;
 
-import com.dnd.gooding.user.command.application.NoMemberException;
+import com.dnd.gooding.user.exception.NoMemberException;
 import com.dnd.gooding.user.query.dao.MemberDataDao;
 import com.dnd.gooding.user.query.dto.MemberData;
 import org.springframework.stereotype.Service;
