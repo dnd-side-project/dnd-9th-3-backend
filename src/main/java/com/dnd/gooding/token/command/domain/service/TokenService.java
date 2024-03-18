@@ -2,6 +2,7 @@ package com.dnd.gooding.token.command.domain.service;
 
 import com.dnd.gooding.common.model.Token;
 import com.dnd.gooding.token.command.application.in.CreateTokenUseCase;
+import com.dnd.gooding.token.command.application.in.LogoutTokenUseCase;
 import com.dnd.gooding.token.command.domain.RefreshToken;
 import com.dnd.gooding.token.command.domain.dto.JwtAuthentication;
 import com.dnd.gooding.token.command.domain.dto.JwtAuthenticationToken;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class TokenService implements CreateTokenUseCase {
+public class TokenService implements CreateTokenUseCase, LogoutTokenUseCase {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;

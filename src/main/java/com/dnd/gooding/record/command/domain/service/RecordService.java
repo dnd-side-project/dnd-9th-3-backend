@@ -1,6 +1,7 @@
 package com.dnd.gooding.record.command.domain.service;
 
 import com.dnd.gooding.record.command.application.in.CreateRecordUseCase;
+import com.dnd.gooding.record.command.application.in.DeleteRecordUseCase;
 import com.dnd.gooding.record.command.application.out.RecordFilePort;
 import com.dnd.gooding.record.command.application.out.RecordMemberPort;
 import com.dnd.gooding.record.command.domain.*;
@@ -19,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class RecordService implements CreateRecordUseCase {
+public class RecordService implements CreateRecordUseCase, DeleteRecordUseCase {
 
     private final RecordRepository recordRepository;
     private final RecordMemberPort recordMemberPort;

@@ -1,4 +1,4 @@
-package com.dnd.gooding.unit.user.query.application;
+package com.dnd.gooding.unit.user.query;
 
 import com.dnd.gooding.unit.user.fixture.MemberDataFixture;
 import com.dnd.gooding.user.query.application.MemberQueryService;
