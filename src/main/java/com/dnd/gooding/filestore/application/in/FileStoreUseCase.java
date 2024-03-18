@@ -4,6 +4,7 @@ import java.io.File;
 
 public interface FileStoreUseCase {
 
-	String putFile(String key, File file);
-	void deleteFile(String key);
+    String putFile(String key, File file);
+
+    void deleteFile(String key);
 }

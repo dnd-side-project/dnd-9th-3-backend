@@ -2,7 +2,6 @@ package com.dnd.gooding.oauth.ui;
 
 import com.dnd.gooding.common.model.Token;
 import com.dnd.gooding.oauth.command.application.in.CreateOAuthUseCase;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

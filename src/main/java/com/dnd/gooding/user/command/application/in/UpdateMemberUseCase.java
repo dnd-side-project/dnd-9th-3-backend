@@ -4,5 +4,5 @@ import com.dnd.gooding.user.ui.dto.request.MemberRequest;
 
 public interface UpdateMemberUseCase {
 
-	void updateMember(MemberRequest memberRequest);
+    void updateMember(MemberRequest memberRequest);
 }

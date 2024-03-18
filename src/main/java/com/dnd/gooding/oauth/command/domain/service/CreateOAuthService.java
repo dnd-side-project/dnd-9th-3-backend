@@ -7,9 +7,8 @@ import com.dnd.gooding.oauth.command.application.out.OAuthMemberPort;
 import com.dnd.gooding.oauth.command.application.out.OAuthTokenPort;
 import com.dnd.gooding.oauth.command.domain.OAuth;
 import com.dnd.gooding.oauth.command.domain.OAuthId;
-import com.dnd.gooding.oauth.command.domain.repository.OAuthRepository;
 import com.dnd.gooding.oauth.command.domain.dto.OAuthMember;
-
+import com.dnd.gooding.oauth.command.domain.repository.OAuthRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +23,11 @@ public class CreateOAuthService implements CreateOAuthUseCase {
 
     private final OAuthTokenPort oAuthTokenPort;
 
-    public CreateOAuthService(OAuthRepository oAuthRepository,
-        ExternalLoginPort externalLoginPort,
-        OAuthMemberPort oAuthMemberPort,
-        OAuthTokenPort oAuthTokenPort) {
+    public CreateOAuthService(
+            OAuthRepository oAuthRepository,
+            ExternalLoginPort externalLoginPort,
+            OAuthMemberPort oAuthMemberPort,
+            OAuthTokenPort oAuthTokenPort) {
         this.oAuthRepository = oAuthRepository;
         this.externalLoginPort = externalLoginPort;
         this.oAuthMemberPort = oAuthMemberPort;

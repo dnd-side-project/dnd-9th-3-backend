@@ -4,6 +4,7 @@ import com.dnd.gooding.common.model.Token;
 
 public interface CreateTokenUseCase {
 
-	String getAccessTokensByRefreshToken(String refreshToken);
-	Token createTokens(String id);
+    String getAccessTokensByRefreshToken(String refreshToken);
+
+    Token createTokens(String id);
 }

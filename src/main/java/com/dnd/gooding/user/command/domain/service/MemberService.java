@@ -2,14 +2,13 @@ package com.dnd.gooding.user.command.domain.service;
 
 import com.dnd.gooding.common.model.UserRole;
 import com.dnd.gooding.oauth.command.domain.OAuthId;
-import com.dnd.gooding.user.command.application.in.UpdateMemberUseCase;
-import com.dnd.gooding.user.ui.dto.request.MemberRequest;
 import com.dnd.gooding.user.command.application.in.CreateMemberUseCase;
+import com.dnd.gooding.user.command.application.in.UpdateMemberUseCase;
 import com.dnd.gooding.user.command.domain.Member;
 import com.dnd.gooding.user.command.domain.MemberId;
 import com.dnd.gooding.user.command.domain.repository.MemberRepository;
 import com.dnd.gooding.user.exception.NoMemberException;
-
+import com.dnd.gooding.user.ui.dto.request.MemberRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

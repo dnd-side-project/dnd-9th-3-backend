@@ -26,7 +26,9 @@ public class RecordService implements CreateRecordUseCase {
     private final RecordFilePort recordFilePort;
 
     public RecordService(
-            RecordRepository recordRepository, RecordMemberPort recordMemberPort, RecordFilePort recordFilePort) {
+            RecordRepository recordRepository,
+            RecordMemberPort recordMemberPort,
+            RecordFilePort recordFilePort) {
         this.recordRepository = recordRepository;
         this.recordMemberPort = recordMemberPort;
         this.recordFilePort = recordFilePort;

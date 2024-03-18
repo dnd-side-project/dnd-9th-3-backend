@@ -3,7 +3,6 @@ package com.dnd.gooding.record.ui;
 import com.dnd.gooding.record.command.application.in.CreateRecordUseCase;
 import com.dnd.gooding.record.command.application.in.DeleteRecordUseCase;
 import com.dnd.gooding.record.ui.dto.request.RecordRequest;
-import com.dnd.gooding.record.command.domain.service.RecordService;
 import com.dnd.gooding.token.command.domain.dto.JwtAuthentication;
 import com.dnd.gooding.user.command.domain.MemberId;
 import java.io.IOException;
@@ -21,8 +20,8 @@ public class RecordController {
     private final CreateRecordUseCase createRecordUseCase;
     private final DeleteRecordUseCase deleteRecordUseCase;
 
-    public RecordController(CreateRecordUseCase createRecordUseCase,
-        DeleteRecordUseCase deleteRecordUseCase) {
+    public RecordController(
+            CreateRecordUseCase createRecordUseCase, DeleteRecordUseCase deleteRecordUseCase) {
         this.createRecordUseCase = createRecordUseCase;
         this.deleteRecordUseCase = deleteRecordUseCase;
     }

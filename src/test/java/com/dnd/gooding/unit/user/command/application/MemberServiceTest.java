@@ -1,7 +1,7 @@
 package com.dnd.gooding.unit.user.command.application;
 
-import com.dnd.gooding.user.command.domain.service.MemberService;
 import com.dnd.gooding.user.command.domain.repository.MemberRepository;
+import com.dnd.gooding.user.command.domain.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
