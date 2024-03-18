@@ -7,6 +7,8 @@ import com.dnd.gooding.common.model.EmailSet;
 import com.dnd.gooding.common.model.Interest;
 import com.dnd.gooding.common.model.InterestSet;
 import com.dnd.gooding.oauth.command.domain.OAuthId;
+import com.dnd.gooding.user.exception.IdPasswordNotMatchingException;
+
 import java.security.SecureRandom;
 import java.util.Random;
 import java.util.Set;

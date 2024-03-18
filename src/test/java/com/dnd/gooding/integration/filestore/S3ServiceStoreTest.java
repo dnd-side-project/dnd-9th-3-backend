@@ -1,6 +1,6 @@
 package com.dnd.gooding.integration.filestore;
 
-import com.dnd.gooding.common.filestore.infra.S3ServiceStore;
+import com.dnd.gooding.filestore.infra.S3ServiceStore;
 import com.dnd.gooding.integration.IntegrationTest;
 import java.io.File;
 import java.util.List;

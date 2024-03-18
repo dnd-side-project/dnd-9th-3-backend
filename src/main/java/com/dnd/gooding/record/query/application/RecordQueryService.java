@@ -1,6 +1,6 @@
 package com.dnd.gooding.record.query.application;
 
-import com.dnd.gooding.record.command.application.NoRecordException;
+import com.dnd.gooding.record.exception.NoRecordException;
 import com.dnd.gooding.record.command.domain.RecordNo;
 import com.dnd.gooding.record.query.dao.ImageDataDao;
 import com.dnd.gooding.record.query.dao.RecordDataDao;

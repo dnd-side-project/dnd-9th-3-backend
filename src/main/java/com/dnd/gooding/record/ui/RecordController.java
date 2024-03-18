@@ -1,8 +1,10 @@
 package com.dnd.gooding.record.ui;
 
-import com.dnd.gooding.record.command.application.RecordRequest;
-import com.dnd.gooding.record.command.application.RecordService;
-import com.dnd.gooding.token.command.model.JwtAuthentication;
+import com.dnd.gooding.record.command.application.in.CreateRecordUseCase;
+import com.dnd.gooding.record.command.application.in.DeleteRecordUseCase;
+import com.dnd.gooding.record.ui.dto.request.RecordRequest;
+import com.dnd.gooding.record.command.domain.service.RecordService;
+import com.dnd.gooding.token.command.domain.dto.JwtAuthentication;
 import com.dnd.gooding.user.command.domain.MemberId;
 import java.io.IOException;
 import java.util.List;
@@ -16,10 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1/record")
 public class RecordController {
 
-    private final RecordService recordService;
+    private final CreateRecordUseCase createRecordUseCase;
+    private final DeleteRecordUseCase deleteRecordUseCase;
 
-    public RecordController(RecordService recordService) {
-        this.recordService = recordService;
+    public RecordController(CreateRecordUseCase createRecordUseCase,
+        DeleteRecordUseCase deleteRecordUseCase) {
+        this.createRecordUseCase = createRecordUseCase;
+        this.deleteRecordUseCase = deleteRecordUseCase;
     }
 
     @PostMapping
@@ -31,13 +36,13 @@ public class RecordController {
         JwtAuthentication jwtAuthentication = (JwtAuthentication) authentication.getPrincipal();
         recordRequest.setRecorderMemberId(MemberId.of(jwtAuthentication.getId()));
         recordRequest.setFiles(files);
-        recordService.create(recordRequest);
+        createRecordUseCase.create(recordRequest);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping
     public ResponseEntity<Void> delete(@RequestParam String recordNo) {
-        recordService.delete(recordNo);
+        deleteRecordUseCase.delete(recordNo);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
