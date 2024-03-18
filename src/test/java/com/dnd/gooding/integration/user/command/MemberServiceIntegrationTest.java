@@ -2,11 +2,11 @@ package com.dnd.gooding.integration.user.command;
 
 import com.dnd.gooding.integration.IntegrationTest;
 import com.dnd.gooding.oauth.command.domain.OAuthId;
-import com.dnd.gooding.user.command.domain.service.MemberService;
-import com.dnd.gooding.user.exception.NoMemberException;
 import com.dnd.gooding.user.command.domain.Member;
 import com.dnd.gooding.user.command.domain.MemberId;
 import com.dnd.gooding.user.command.domain.repository.MemberRepository;
+import com.dnd.gooding.user.command.domain.service.MemberService;
+import com.dnd.gooding.user.exception.NoMemberException;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

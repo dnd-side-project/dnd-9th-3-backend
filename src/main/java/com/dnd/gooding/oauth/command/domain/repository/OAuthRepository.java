@@ -1,10 +1,9 @@
 package com.dnd.gooding.oauth.command.domain.repository;
 
-import java.util.Optional;
-import org.springframework.data.repository.Repository;
-
 import com.dnd.gooding.oauth.command.domain.OAuth;
 import com.dnd.gooding.oauth.command.domain.OAuthId;
+import java.util.Optional;
+import org.springframework.data.repository.Repository;
 
 public interface OAuthRepository extends Repository<OAuth, OAuthId> {
 

@@ -1,12 +1,11 @@
 package com.dnd.gooding.record.command.domain.repository;
 
+import com.dnd.gooding.record.command.domain.Record;
+import com.dnd.gooding.record.command.domain.RecordNo;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Optional;
 import org.springframework.data.repository.Repository;
-
-import com.dnd.gooding.record.command.domain.Record;
-import com.dnd.gooding.record.command.domain.RecordNo;
 
 public interface RecordRepository extends Repository<Record, RecordNo> {
 

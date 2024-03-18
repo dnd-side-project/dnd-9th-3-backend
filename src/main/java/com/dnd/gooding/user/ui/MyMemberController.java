@@ -1,17 +1,15 @@
 package com.dnd.gooding.user.ui;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.dnd.gooding.token.command.application.in.LogoutTokenUseCase;
 import com.dnd.gooding.token.command.domain.dto.JwtAuthentication;
 import com.dnd.gooding.user.command.application.in.UpdateMemberUseCase;
-import com.dnd.gooding.user.ui.dto.request.MemberRequest;
 import com.dnd.gooding.user.query.application.MemberQueryService;
 import com.dnd.gooding.user.query.dto.MemberData;
+import com.dnd.gooding.user.ui.dto.request.MemberRequest;
 import com.dnd.gooding.util.CookieUtil;
-
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -27,9 +25,9 @@ public class MyMemberController {
     private final LogoutTokenUseCase logoutTokenUseCase;
 
     public MyMemberController(
-        MemberQueryService memberQueryService,
-        UpdateMemberUseCase updateMemberUseCase,
-        LogoutTokenUseCase logoutTokenUseCase) {
+            MemberQueryService memberQueryService,
+            UpdateMemberUseCase updateMemberUseCase,
+            LogoutTokenUseCase logoutTokenUseCase) {
         this.memberQueryService = memberQueryService;
         this.updateMemberUseCase = updateMemberUseCase;
         this.logoutTokenUseCase = logoutTokenUseCase;
@@ -49,9 +47,9 @@ public class MyMemberController {
 
     @DeleteMapping("/logout")
     public ResponseEntity<Void> logout(
-        HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+            HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String refreshToken =
-            CookieUtil.getCookie(request, "refreshToken").map(Cookie::getValue).orElseThrow();
+                CookieUtil.getCookie(request, "refreshToken").map(Cookie::getValue).orElseThrow();
         logoutTokenUseCase.deleteRefreshToken(refreshToken);
         SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
         logoutHandler.logout(request, response, authentication);

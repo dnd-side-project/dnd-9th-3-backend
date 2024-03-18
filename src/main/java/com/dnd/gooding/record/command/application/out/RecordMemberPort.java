@@ -5,5 +5,5 @@ import com.dnd.gooding.user.command.domain.MemberId;
 
 public interface RecordMemberPort {
 
-	Recorder createRecorder(MemberId recorderMemberId);
+    Recorder createRecorder(MemberId recorderMemberId);
 }

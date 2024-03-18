@@ -1,7 +1,6 @@
 package com.dnd.gooding.token.ui;
 
 import com.dnd.gooding.token.command.application.in.CreateTokenUseCase;
-import com.dnd.gooding.token.command.domain.service.TokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;

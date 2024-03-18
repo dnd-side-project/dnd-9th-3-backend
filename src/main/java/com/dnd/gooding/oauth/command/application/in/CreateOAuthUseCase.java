@@ -4,5 +4,5 @@ import com.dnd.gooding.common.model.Token;
 
 public interface CreateOAuthUseCase {
 
-	Token create(String code);
+    Token create(String code);
 }
