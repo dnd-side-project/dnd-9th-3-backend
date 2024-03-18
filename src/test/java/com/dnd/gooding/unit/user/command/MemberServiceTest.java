@@ -1,4 +1,4 @@
-package com.dnd.gooding.unit.user.command.application;
+package com.dnd.gooding.unit.user.command;
 
 import com.dnd.gooding.user.command.domain.repository.MemberRepository;
 import com.dnd.gooding.user.command.domain.service.MemberService;

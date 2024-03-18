@@ -4,6 +4,7 @@ import com.dnd.gooding.common.model.Email;
 import com.dnd.gooding.common.model.Interest;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.Builder;
 
 public class MemberRequest {
 
@@ -15,6 +16,7 @@ public class MemberRequest {
 
     public MemberRequest() {}
 
+    @Builder
     public MemberRequest(
             String id, String name, String password, Set<Email> emails, Set<Interest> interests) {
         this.id = id;

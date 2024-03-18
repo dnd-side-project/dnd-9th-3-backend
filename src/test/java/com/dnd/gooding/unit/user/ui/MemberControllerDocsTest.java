@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.http.HttpHeaders;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -41,7 +42,7 @@ class MemberControllerDocsTest {
                 new FieldDescriptor[] {
                     fieldWithPath("id").type(STRING).description("멤버아이디"),
                     fieldWithPath("name").type(STRING).description("이름"),
-                    fieldWithPath("emails[].address").type(STRING).description("이메일"),
+                    fieldWithPath("emails[].address").type(STRING).description("이메일").optional(),
                     fieldWithPath("interests[].interestCode").type(STRING).description("관심사코드"),
                     fieldWithPath("interests[].interestName").type(STRING).description("관심사이름"),
                     fieldWithPath("oAuthId").type(STRING).description("소셜로그인일련번호"),
@@ -51,7 +52,9 @@ class MemberControllerDocsTest {
         String id = "youg1322@naver.com";
 
         MockMvcFactory.getRestDocsMockMvc(contextProvider, HOST_LOCAL, memberController)
-                .perform(RestDocumentationRequestBuilders.get("/api/v1/member/{id}", id))
+                .perform(
+                        RestDocumentationRequestBuilders.get("/api/v1/member/{id}", id)
+                                .header(HttpHeaders.AUTHORIZATION, "Bearer gqoqmq;13o41mvcvciqermqe"))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(
