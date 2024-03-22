@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.validation.constraints.NotNull;
+import lombok.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +37,7 @@ public class RecordRequest {
 
     public RecordRequest() {}
 
+    @Builder
     public RecordRequest(
             MemberId recorderMemberId,
             String title,

@@ -10,7 +10,7 @@ public class MemberFixture {
     public static Member create() {
         return Member.builder()
                 .id(MemberId.of("youg1322@naver.com"))
-                .name(null)
+                .name("haeyong")
                 .emails(null)
                 .interests(null)
                 .userRole(UserRole.ROLE_USER.name())

@@ -36,7 +36,7 @@ public class RecordService implements CreateRecordUseCase, DeleteRecordUseCase {
     }
 
     @Transactional
-    public void create(RecordRequest recordRequest) throws IOException {
+    public Record create(RecordRequest recordRequest) throws IOException {
 
         List<Image> images = new ArrayList<>();
         for (MultipartFile multipartFile : recordRequest.getFiles()) {
@@ -72,6 +72,7 @@ public class RecordService implements CreateRecordUseCase, DeleteRecordUseCase {
                         .images(images)
                         .build();
         recordRepository.save(gilog);
+        return gilog;
     }
 
     @Transactional

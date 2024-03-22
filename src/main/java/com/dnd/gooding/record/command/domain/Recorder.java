@@ -6,6 +6,7 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.Builder;
 
 @Embeddable
 public class Recorder {
@@ -18,6 +19,7 @@ public class Recorder {
 
     protected Recorder() {}
 
+    @Builder
     public Recorder(MemberId memberId, String memberName) {
         this.memberId = memberId;
         this.memberName = memberName;
