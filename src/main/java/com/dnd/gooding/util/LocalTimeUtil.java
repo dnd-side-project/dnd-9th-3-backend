@@ -7,9 +7,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class LocalTimeUtils {
+public class LocalTimeUtil {
 
-    private LocalTimeUtils() {
+    private LocalTimeUtil() {
         throw new IllegalStateException("Util class.");
     }
 

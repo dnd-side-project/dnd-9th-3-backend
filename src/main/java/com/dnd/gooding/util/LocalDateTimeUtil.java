@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class LocalDateTimeUtils {
+public class LocalDateTimeUtil {
 
-    private LocalDateTimeUtils() {
+    private LocalDateTimeUtil() {
         throw new UnsupportedOperationException("Utility class.");
     }
 
@@ -92,7 +92,7 @@ public class LocalDateTimeUtils {
      * @return month-01 00:00:00
      */
     public static LocalDateTime ofMonthFirstDateTime(LocalDate source) {
-        return ofFirst(LocalDateUtils.ofMonthFirstDay(source));
+        return ofFirst(LocalDateUtil.ofMonthFirstDay(source));
     }
 
     /**
@@ -102,7 +102,7 @@ public class LocalDateTimeUtils {
      * @return month-lengthOfMonth 23:59:59.999999999
      */
     public static LocalDateTime ofMonthLastDateTime(LocalDate source) {
-        return ofLast(LocalDateUtils.ofMonthLastDay(source));
+        return ofLast(LocalDateUtil.ofMonthLastDay(source));
     }
 
     /**

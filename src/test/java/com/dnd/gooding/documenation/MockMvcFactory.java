@@ -1,9 +1,9 @@
 package com.dnd.gooding.documenation;
 
-import com.dnd.gooding.util.JsonUtils;
-import com.dnd.gooding.util.LocalDateTimeUtils;
-import com.dnd.gooding.util.LocalDateUtils;
-import com.dnd.gooding.util.LocalTimeUtils;
+import com.dnd.gooding.util.JsonUtil;
+import com.dnd.gooding.util.LocalDateTimeUtil;
+import com.dnd.gooding.util.LocalDateUtil;
+import com.dnd.gooding.util.LocalTimeUtil;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,7 +43,7 @@ public class MockMvcFactory {
                 // 	new ApiResponseWrappingAdvisor())
                 .setControllerAdvice()
                 .setConversionService(conversionService)
-                .setMessageConverters(new MappingJackson2HttpMessageConverter(JsonUtils.getMapper()))
+                .setMessageConverters(new MappingJackson2HttpMessageConverter(JsonUtil.getMapper()))
                 .addFilter(new CharacterEncodingFilter(StandardCharsets.UTF_8.name(), true));
     }
 
@@ -51,7 +51,7 @@ public class MockMvcFactory {
 
         @Override
         public LocalDateTime convert(String source) {
-            return LocalDateTimeUtils.toLocalDateTime(source);
+            return LocalDateTimeUtil.toLocalDateTime(source);
         }
     }
 
@@ -59,14 +59,14 @@ public class MockMvcFactory {
 
         @Override
         public LocalDate convert(String source) {
-            return LocalDateUtils.toLocalDate(source);
+            return LocalDateUtil.toLocalDate(source);
         }
     }
 
     public static class LocalTimeConverter implements Converter<String, LocalTime> {
         @Override
         public LocalTime convert(String source) {
-            return LocalTimeUtils.toLocalTime(source);
+            return LocalTimeUtil.toLocalTime(source);
         }
     }
 }

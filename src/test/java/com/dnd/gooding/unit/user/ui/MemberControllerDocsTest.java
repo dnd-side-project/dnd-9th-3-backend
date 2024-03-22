@@ -1,7 +1,7 @@
 package com.dnd.gooding.unit.user.ui;
 
 import static com.dnd.gooding.common.constants.Constant.*;
-import static com.dnd.gooding.documenation.DocumentUtils.*;
+import static com.dnd.gooding.documenation.DocumentUtil.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 

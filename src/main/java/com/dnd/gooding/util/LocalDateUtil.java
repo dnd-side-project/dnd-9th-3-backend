@@ -6,12 +6,12 @@ import static java.util.Objects.isNull;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class LocalDateUtils {
+public class LocalDateUtil {
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
     public static final int FIRST_DAY_OF_MONTH = 1;
 
-    private LocalDateUtils() {
+    private LocalDateUtil() {
         throw new IllegalStateException("Util class.");
     }
 

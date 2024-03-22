@@ -22,7 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
-public class JsonUtils {
+public class JsonUtil {
 
     private static final ObjectMapper MAPPER;
 
@@ -43,7 +43,7 @@ public class JsonUtils {
         MAPPER.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
-    private JsonUtils() {
+    private JsonUtil() {
         throw new UnsupportedOperationException();
     }
 

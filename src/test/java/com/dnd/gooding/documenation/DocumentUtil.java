@@ -5,7 +5,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
 
-public class DocumentUtils {
+public class DocumentUtil {
 
     public static OperationRequestPreprocessor getDocumentRequest() {
         return preprocessRequest(prettyPrint());
