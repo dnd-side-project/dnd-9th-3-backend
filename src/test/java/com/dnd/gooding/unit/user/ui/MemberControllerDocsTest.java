@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.dnd.gooding.annotations.RestDocsTest;
 import com.dnd.gooding.documenation.MockMvcFactory;
-import com.dnd.gooding.unit.user.fixture.MemberDataFixture;
+import com.dnd.gooding.unit.fixture.MemberDataFixture;
 import com.dnd.gooding.user.query.application.MemberQueryService;
 import com.dnd.gooding.user.query.dto.MemberData;
 import com.dnd.gooding.user.ui.MemberController;

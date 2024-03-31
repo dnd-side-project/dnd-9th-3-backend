@@ -1,6 +1,6 @@
 package com.dnd.gooding.unit.user.query;
 
-import com.dnd.gooding.unit.user.fixture.MemberDataFixture;
+import com.dnd.gooding.unit.fixture.MemberDataFixture;
 import com.dnd.gooding.user.query.application.MemberQueryService;
 import com.dnd.gooding.user.query.dao.MemberDataDao;
 import com.dnd.gooding.user.query.dto.MemberData;

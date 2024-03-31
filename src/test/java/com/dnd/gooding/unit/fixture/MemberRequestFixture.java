@@ -1,4 +1,4 @@
-package com.dnd.gooding.unit.user.fixture;
+package com.dnd.gooding.unit.fixture;
 
 import com.dnd.gooding.user.ui.dto.request.MemberRequest;
 

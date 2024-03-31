@@ -6,7 +6,7 @@ import com.dnd.gooding.record.command.domain.service.RecordService;
 import com.dnd.gooding.record.ui.dto.request.RecordRequest;
 import com.dnd.gooding.unit.mock.FakeRecordMemberPort;
 import com.dnd.gooding.unit.mock.FakeRecordRepository;
-import com.dnd.gooding.unit.record.fixture.RecordRequestFixture;
+import com.dnd.gooding.unit.fixture.RecordRequestFixture;
 import com.dnd.gooding.user.command.domain.MemberId;
 import java.io.IOException;
 import org.junit.jupiter.api.Assertions;

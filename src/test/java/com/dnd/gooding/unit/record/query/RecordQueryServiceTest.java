@@ -13,7 +13,7 @@ import com.dnd.gooding.record.query.application.RecordQueryService;
 import com.dnd.gooding.record.query.dao.ImageDataDao;
 import com.dnd.gooding.record.query.dao.RecordDataDao;
 import com.dnd.gooding.record.query.dto.RecordData;
-import com.dnd.gooding.unit.record.fixture.RecordDataFixture;
+import com.dnd.gooding.unit.fixture.RecordDataFixture;
 
 @DisplayName("기록 조회 유닛 테스트")
 class RecordQueryServiceTest {

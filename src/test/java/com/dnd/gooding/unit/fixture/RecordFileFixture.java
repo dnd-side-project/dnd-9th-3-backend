@@ -1,4 +1,4 @@
-package com.dnd.gooding.unit.record.fixture;
+package com.dnd.gooding.unit.fixture;
 
 import java.io.File;
 import java.io.FileInputStream;
