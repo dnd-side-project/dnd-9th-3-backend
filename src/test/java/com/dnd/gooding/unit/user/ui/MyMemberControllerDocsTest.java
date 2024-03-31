@@ -31,9 +31,12 @@ import com.dnd.gooding.user.ui.MyMemberController;
 @RestDocsTest
 class MyMemberControllerDocsTest {
 
-	@Mock private MemberQueryService memberQueryService;
-	@Mock private UpdateMemberUseCase updateMemberUseCase;
-	@Mock private LogoutTokenUseCase logoutTokenUseCase;
+	@Mock
+	private MemberQueryService memberQueryService;
+	@Mock
+	private UpdateMemberUseCase updateMemberUseCase;
+	@Mock
+	private LogoutTokenUseCase logoutTokenUseCase;
 	@InjectMocks
 	private MyMemberController myMemberController;
 
@@ -50,16 +53,16 @@ class MyMemberControllerDocsTest {
 	void member(RestDocumentationContextProvider contextProvider) throws Exception {
 
 		var commandJson = """
-                {
-                    "id": "youg1322@naver.com",
-                    "name": "haeyong",
-                    "password": "123456",
-                    "emails": [{ "address" : "yong80211@gmail.com" }],
-                    "interests": [{ "interestCode" : "1", "interestName" : "쇼핑"}]
-                }
-                """;
+			{
+			    "id": "youg1322@naver.com",
+			    "name": "haeyong",
+			    "password": "123456",
+			    "emails": [{ "address" : "yong80211@gmail.com" }],
+			    "interests": [{ "interestCode" : "1", "interestName" : "쇼핑"}]
+			}
+			""";
 
-		var requestFieldDescription = new FieldDescriptor[]{
+		var requestFieldDescription = new FieldDescriptor[] {
 			fieldWithPath("id").type(STRING).description("멤버아이디"),
 			fieldWithPath("name").type(STRING).description("이름"),
 			fieldWithPath("password").type(STRING).description("비밀번호").optional(),
@@ -70,7 +73,7 @@ class MyMemberControllerDocsTest {
 
 		MockMvcFactory.getRestDocsMockMvc(contextProvider, HOST_LOCAL, myMemberController)
 			.perform(RestDocumentationRequestBuilders.post("/api/v1/my/member")
-				.header(HttpHeaders.AUTHORIZATION, "Bearer gqoqmq;13o41mvcvciqermqe")
+				.header(HttpHeaders.AUTHORIZATION, "Bearer accessToken")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(commandJson)
 			)
