@@ -1,6 +1,17 @@
 server:
   port: 8083
 
+management:
+  server:
+    port: 9292
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 spring:
   config:
     import: optional:file:.env[.properties]
@@ -13,12 +24,7 @@ spring:
     multipart:
       max-file-size: 5GB
       max-request-size: 5GB
-  zipkin:
-    base-url: http://127.0.0.1:9411
-    enabled: true
-  sleuth:
-    sampler:
-      probability: 1.0
+
   # database 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -41,8 +47,6 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        format_sql: true
-        use_sql_comments: true
         default_batch_fetch_size: 1000
         physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
   redis:
@@ -65,7 +69,8 @@ spring:
           charset: UTF-8
         transport:
           protocol: smtp
-logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.type: trace
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true

@@ -63,6 +63,8 @@ dependencies {
     //querydsl
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+    // p6spy
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1'
     // Jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
@@ -71,10 +73,6 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-mail"
     // actuator
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    // zipkin
-    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin:2.2.8.RELEASE'
-    // sleuth
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     // AWS
     implementation platform('software.amazon.awssdk:bom:2.17.53')
     implementation 'commons-io:commons-io:2.13.0'
