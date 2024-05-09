@@ -27,6 +27,9 @@ spring:
 
   # database 설정
   datasource:
+    hikari:
+      connectionTimeout: 30000
+      connectionTestQuery : SELECT 1 FROM DUAL
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${SPRING_MASTER_DATASOURCE_URL}
     username: ${SPRING_MASTER_DATASOURCE_USERNAME}

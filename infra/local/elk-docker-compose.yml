@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  local-elasticsearch:
+    build:
+      context: ./elk/elasticsearch
+      dockerfile: Dockerfile
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx4G -Xms4G"
+      discovery.type: single-node
+    volumes:
+      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./elk/elasticsearch/scripts/my-index-put.sh:/usr/share/elasticsearch/scripts/my-index-put.sh
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.9
+    command: >
+      bash -c '
+        chmod +x /usr/share/elasticsearch/scripts/my-index-put.sh 
+        sh /usr/share/elasticsearch/scripts/my-index-put.sh
+        cd /usr/share/elasticsearch/bin
+      '
+#  local-kibana:
+#    build:
+#      context: ./elk/kibana
+#      dockerfile: Dockerfile
+#    volumes:
+#      - ./elk/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+#    ports:
+#      - "5601:5601"
+#    networks:
+#      my-network:
+#        ipv4_address: 172.28.0.10
+#    depends_on:
+#      - local-elasticsearch
+#  local-logstash:
+#    build:
+#      context: ./elk/logstash
+#      dockerfile: Dockerfile
+#    volumes:
+#      - ./elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+#      - ./elk/logstash/pipeline:/usr/share/logstash/pipeline
+#    ports:
+#      - "5044:5044"
+#      - "9600:9600"
+#    environment:
+#      LS_JAVA_OPTS: "-Xmx4G -Xms4G"
+#    networks:
+#      my-network:
+#        ipv4_address: 172.28.0.11
+#    depends_on:
+#      - local-elasticsearch
+
+volumes:
+  elasticsearch_data:
+
+networks:
+  my-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

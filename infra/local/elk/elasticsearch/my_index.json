@@ -1,0 +1,94 @@
+{
+  "mappings": {
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "@version": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "record_number": {
+        "type": "text"
+      },
+      "place_latitude": {
+        "type": "double"
+      },
+      "place_longitude": {
+        "type": "double"
+      },
+      "place_title": {
+        "type": "text"
+      },
+      "description": {
+        "type": "text"
+      },
+      "record_date": {
+        "type": "date"
+      },
+      "record_score": {
+        "type": "integer"
+      },
+      "recorder_id": {
+        "type": "text"
+      },
+      "recorder_name": {
+        "type": "text"
+      },
+      "state": {
+        "type": "text"
+      },
+      "title": {
+        "type": "text"
+      }
+    }
+  },
+  "settings": {
+    "index": {
+      "routing": {
+        "allocation": {
+          "include": {
+            "_tier_preference": "data_content"
+          }
+        }
+      },
+      "number_of_shards": "1",
+      "analysis": {
+        "analyzer": {
+          "nori_discard": {
+            "type": "custom",
+            "tokenizer": "nori_discard"
+          },
+          "nori_mixed": {
+            "type": "custom",
+            "tokenizer": "nori_mixed"
+          },
+          "nori_none": {
+            "type": "custom",
+            "tokenizer": "nori_none"
+          }
+        },
+        "tokenizer": {
+          "nori_discard": {
+            "type": "nori_tokenizer",
+            "decompound_mode": "discard"
+          },
+          "nori_mixed": {
+            "type": "nori_tokenizer",
+            "decompound_mode": "mixed"
+          },
+          "nori_none": {
+            "type": "nori_tokenizer",
+            "decompound_mode": "none"
+          }
+        }
+      },
+      "number_of_replicas": "1"
+    }
+  }
+}

@@ -69,6 +69,13 @@
         </rollingPolicy>
     </appender>
 
+    <logger name="jdbc.sqlonly" level="OFF" />
+    <logger name="jdbc.sqltiming" level="${LOG_LEVEL}" />
+    <logger name="jdbc.audit" level="OFF" />
+    <logger name="jdbc.resultset" level="OFF" />
+    <logger name="jdbc.resultsettable" level="OFF" />
+    <logger name="jdbc.connection" level="OFF" />
+
     <!-- 로그 전역 세팅 -->
     <root level="${LOG_LEVEL}">
         <appender-ref ref="CONSOLE"/>
