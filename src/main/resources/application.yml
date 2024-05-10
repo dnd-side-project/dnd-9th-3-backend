@@ -52,9 +52,11 @@ spring:
       hibernate:
         default_batch_fetch_size: 1000
         physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+  # Redis 설정
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
+  # Mail 설정
   mail:
     default-encoding: UTF-8
     host: smtp.gmail.com
@@ -72,6 +74,11 @@ spring:
           charset: UTF-8
         transport:
           protocol: smtp
+
+# ElasticSearch 설정
+elasticsearch:
+  host: ${ELASTICSEARCH_URL}
+  port: ${ELASTICSEARCH_PORT}
 
 decorator:
   datasource:
