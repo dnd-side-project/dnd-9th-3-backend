@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  local-elasticsearch:
+  local-elasticsearch-master:
     build:
       context: ./elk/elasticsearch
       dockerfile: Dockerfile
@@ -9,16 +9,47 @@ services:
       - "9200:9200"
       - "9300:9300"
     environment:
-      ES_JAVA_OPTS: "-Xmx4G -Xms4G"
-      discovery.type: single-node
+      - node.name=es-master
+      - discovery.seed_hosts=local-elasticsearch-data1
+      - cluster.initial_master_nodes=es-master
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
       - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - elasticsearch_data:/usr/share/elasticsearch/data
     networks:
       my-network:
         ipv4_address: 172.28.0.9
-#    command: >
-#      bash -c "curl -XPUT localhost:9200/record_index_v1?pretty -H 'Content-Type: application/json' -d @/usr/share/elasticsearch/bin/record_index_v1.json"
+
+  local-elasticsearch-data1:
+    build:
+      context: ./elk/elasticsearch
+      dockerfile: Dockerfile
+    environment:
+      - node.name=es-data1
+      - discovery.seed_hosts=local-elasticsearch-master
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.10
+
+  local-elasticsearch-coordinating:
+    build:
+      context: ./elk/elasticsearch
+      dockerfile: Dockerfile
+    environment:
+      - node.name=es-coordinating
+      - cluster.name=docker-cluster
+      - discovery.seed_hosts=local-elasticsearch-master,local-elasticsearch-data1
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9201:9200"
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.11
+
   local-kibana:
     build:
       context: ./elk/kibana
@@ -29,9 +60,10 @@ services:
       - "5601:5601"
     networks:
       my-network:
-        ipv4_address: 172.28.0.10
+        ipv4_address: 172.28.0.12
     depends_on:
-      - local-elasticsearch
+      - local-elasticsearch-master
+
   local-logstash:
     build:
       context: ./elk/logstash
@@ -43,15 +75,16 @@ services:
       - "5044:5044"
       - "9600:9600"
     environment:
-      LS_JAVA_OPTS: "-Xmx4G -Xms4G"
+      LS_JAVA_OPTS: "-Xms512m -Xmx512m"
     networks:
       my-network:
-        ipv4_address: 172.28.0.11
+        ipv4_address: 172.28.0.13
     depends_on:
-      - local-elasticsearch
+      - local-elasticsearch-master
 
 volumes:
   elasticsearch_data:
+    driver: local
 
 networks:
   my-network:

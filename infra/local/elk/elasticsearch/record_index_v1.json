@@ -57,7 +57,6 @@
           }
         }
       },
-      "number_of_shards": "1",
       "analysis": {
         "analyzer": {
           "nori_discard": {
@@ -88,6 +87,7 @@
           }
         }
       },
+      "number_of_shards": "1",
       "number_of_replicas": "1"
     }
   }
