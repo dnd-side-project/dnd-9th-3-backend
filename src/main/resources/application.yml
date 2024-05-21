@@ -75,11 +75,6 @@ spring:
         transport:
           protocol: smtp
 
-# ElasticSearch 설정
-elasticsearch:
-  host: ${ELASTICSEARCH_URL}
-  port: ${ELASTICSEARCH_PORT}
-
 decorator:
   datasource:
     p6spy:
