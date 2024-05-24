@@ -46,8 +46,13 @@ spring:
     open-in-view: false
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
     hibernate:
       ddl-auto: none
+      properties:
+        hibernate:
+          format_sql: true
+          use_sql_comments: true
     properties:
       hibernate:
         default_batch_fetch_size: 1000
@@ -75,7 +80,7 @@ spring:
         transport:
           protocol: smtp
 
-decorator:
-  datasource:
-    p6spy:
-      enable-logging: true
+logging:
+  level:
+    org.hibernate.SQL: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
