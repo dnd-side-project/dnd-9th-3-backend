@@ -40,6 +40,6 @@ public class RecordQueryService {
     }
 
     private List<String> toRecordIds(List<RecordData> records) {
-        return records.stream().map(RecordData::getRecordNumber).toList();
+        return records.stream().map(RecordData::getRecordNumber).collect(Collectors.toList());
     }
 }

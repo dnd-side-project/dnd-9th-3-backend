@@ -10,8 +10,6 @@ import com.dnd.gooding.oauth.command.domain.OAuthId;
 import com.dnd.gooding.oauth.command.domain.dto.OAuthMember;
 import com.dnd.gooding.oauth.command.domain.event.LoginSuccessEvent;
 import com.dnd.gooding.oauth.command.domain.repository.OAuthRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -15,7 +15,8 @@ public class MDCLoggingInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        if (handler instanceof HandlerMethod handlerMethod) {
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
             setMdc(request, handlerMethod);
         }
         return true;
@@ -25,8 +26,7 @@ public class MDCLoggingInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(
             HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-            throws Exception {
-    }
+            throws Exception {}
 
     private void setMdc(HttpServletRequest request, HandlerMethod handlerMethod) {
         String handlerName = handlerMethod.getBeanType().getSimpleName();

@@ -1,0 +1,17 @@
+spring:
+  # database 설정
+  datasource:
+    hikari:
+      connectionTimeout: 30000
+      connectionTestQuery : SELECT 1 FROM DUAL
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SPRING_MASTER_DATASOURCE_URL}
+    username: ${SPRING_MASTER_DATASOURCE_USERNAME}
+    password: ${SPRING_MASTER_DATASOURCE_PASSWORD}
+    slaves:
+      slave1:
+        name: SLAVE1
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: ${SPRING_SLAVE_DATASOURCE_USERNAME}
+        password: ${SPRING_SLAVE_DATASOURCE_PASSWORD}
+        url: ${SPRING_SLAVE_DATASOURCE_URL}

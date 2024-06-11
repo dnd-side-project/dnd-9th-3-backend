@@ -3,32 +3,26 @@ package com.dnd.gooding.record.query.dto;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import javax.persistence.*;
-
+import lombok.Builder;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 import org.hibernate.annotations.Synchronize;
-
-import lombok.Builder;
 
 @Entity
 @Table(name = "record")
 @Immutable
 @Subselect(
-    """
-		select
-			r.record_number,
-			r.place_title,
-			r.place_latitude,
-			r.place_longitude,
-			r.recorder_id,
-			r.recorder_name,
-			r.title,
-			r.description
-		from record r
-		"""
-)
+        "select "
+                + "r.record_number, "
+                + "r.place_title, "
+                + "r.place_latitude, "
+                + "r.place_longitude, "
+                + "r.recorder_id, "
+                + "r.recorder_name, "
+                + "r.title, "
+                + "r.description "
+                + "from record r")
 @Synchronize({"record"})
 public class RecordData {
 
@@ -57,21 +51,20 @@ public class RecordData {
     @Column(name = "description")
     private String description;
 
-    @Transient
-    private List<ImageData> images = new ArrayList<>();
+    @Transient private List<ImageData> images = new ArrayList<>();
 
     protected RecordData() {}
 
     @Builder
     public RecordData(
-        String recordNumber,
-        String placeTitle,
-        Double placeLatitude,
-        Double placeLongitude,
-        String recorderId,
-        String recorderName,
-        String title,
-        String description) {
+            String recordNumber,
+            String placeTitle,
+            Double placeLatitude,
+            Double placeLongitude,
+            String recorderId,
+            String recorderName,
+            String title,
+            String description) {
         this.recordNumber = recordNumber;
         this.placeTitle = placeTitle;
         this.placeLatitude = placeLatitude;
@@ -89,21 +82,27 @@ public class RecordData {
     public String getPlaceTitle() {
         return placeTitle;
     }
+
     public Double getPlaceLatitude() {
         return placeLatitude;
     }
+
     public Double getPlaceLongitude() {
         return placeLongitude;
     }
+
     public String getRecorderId() {
         return recorderId;
     }
+
     public String getRecorderName() {
         return recorderName;
     }
+
     public String getTitle() {
         return title;
     }
+
     public String getDescription() {
         return description;
     }

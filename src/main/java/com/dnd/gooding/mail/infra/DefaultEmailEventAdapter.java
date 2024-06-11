@@ -1,7 +1,6 @@
 package com.dnd.gooding.mail.infra;
 
 import com.dnd.gooding.mail.application.EmailSender;
-
 import javax.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

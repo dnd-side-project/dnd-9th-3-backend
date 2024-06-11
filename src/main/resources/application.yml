@@ -16,31 +16,11 @@ spring:
   config:
     import: optional:file:.env[.properties]
   profiles:
-    include:
-      - actuator
-      - oauth
-      - cloud
+    active: ${PROFILES_ACTIVE}
   servlet:
     multipart:
       max-file-size: 5GB
       max-request-size: 5GB
-
-  # database 설정
-  datasource:
-    hikari:
-      connectionTimeout: 30000
-      connectionTestQuery : SELECT 1 FROM DUAL
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${SPRING_MASTER_DATASOURCE_URL}
-    username: ${SPRING_MASTER_DATASOURCE_USERNAME}
-    password: ${SPRING_MASTER_DATASOURCE_PASSWORD}
-    slaves:
-      slave1:
-        name: SLAVE1
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        username: ${SPRING_SLAVE_DATASOURCE_USERNAME}
-        password: ${SPRING_SLAVE_DATASOURCE_PASSWORD}
-        url: ${SPRING_SLAVE_DATASOURCE_URL}
   # JPA 설정
   jpa:
     open-in-view: false
@@ -79,6 +59,32 @@ spring:
           charset: UTF-8
         transport:
           protocol: smtp
+
+jwt:
+  issuer: yong7317
+  secret-key: ${JWT_SECRET_KEY}
+  expiry-seconds:
+    access-token: 100000
+    refresh-token: 604800
+
+oauth:
+  kakao:
+    client-id: ${KAKAO_CLIENT_ID}
+    client-secret: ${KAKAO_CLIENT_SECRET}
+    redirect-url: ${KAKAO_REDIRECT_URI}
+
+cloud:
+  aws:
+    endpoint: ${AWS_ENDPOINT}
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: ${S3_BUCKET_NAME}
+    stack:
+      auto: false
 
 logging:
   level:

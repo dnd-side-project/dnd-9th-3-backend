@@ -2,6 +2,7 @@ package com.dnd.gooding.springconfig.datasource;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -23,7 +24,7 @@ public class ReplicationRoutingSource extends AbstractRoutingDataSource {
                 targetDataSources.keySet().stream()
                         .map(Object::toString)
                         .filter(str -> str.contains(DataSourceType.SLAVE1.name()))
-                        .toList();
+                        .collect(Collectors.toList());
 
         this.slaveNames = new SlaveNames<>(slaves);
     }
@@ -36,9 +37,14 @@ public class ReplicationRoutingSource extends AbstractRoutingDataSource {
     protected Object determineCurrentLookupKey() {
         boolean isReadOnly = TransactionSynchronizationManager.isCurrentTransactionReadOnly();
         if (isReadOnly) {
-            String nextSlaveName = slaveNames.getNext();
-            log.info("Slave connected: {}", nextSlaveName);
-            return nextSlaveName;
+            if (slaveNames.values.isEmpty()) {
+                log.info("Master connected");
+                return DataSourceType.MASTER.name();
+            } else {
+                String nextSlaveName = slaveNames.getNext();
+                log.info("Slave connected: {}", nextSlaveName);
+                return nextSlaveName;
+            }
         }
         log.info("Master connected");
         return DataSourceType.MASTER.name();

@@ -24,95 +24,93 @@ import org.hibernate.annotations.Synchronize;
 @Immutable
 @Table(name = "member")
 @Subselect(
-    """
-        select
-            m.member_id,
-            m.name,
-            m.emails,
-            m.interests,
-            m.oauth_id,
-            o.image_url
-        from member m
-        left join oauth o
-            on m.oauth_id = o.oauth_id
-        """)
+        "select m.member_id, m.name, m.emails, m.interests, m.oauth_id, o.image_url "
+                + "from member m "
+                + "left join oauth o "
+                + "on m.oauth_id = o.oauth_id")
 @Synchronize({"member", "oauth"})
 public class MemberData {
 
-  @Id
-  @Column(name = "member_id")
-  private String id;
+    @Id
+    @Column(name = "member_id")
+    private String id;
 
-  @Column(name = "name")
-  private String name;
+    @Column(name = "name")
+    private String name;
 
-  @JsonIgnore
-  @Column(name = "emails")
-  @Convert(converter = EmailSetConverter.class)
-  private EmailSet emailSet;
+    @JsonIgnore
+    @Column(name = "emails")
+    @Convert(converter = EmailSetConverter.class)
+    private EmailSet emailSet;
 
-  @JsonIgnore
-  @Column(name = "interests")
-  @Convert(converter = InterestConverter.class)
-  private InterestSet interestSet;
+    @JsonIgnore
+    @Column(name = "interests")
+    @Convert(converter = InterestConverter.class)
+    private InterestSet interestSet;
 
-  @Transient private List<Email> emails = new ArrayList<>();
-  @Transient private List<Interest> interests = new ArrayList<>();
+    @Transient private List<Email> emails = new ArrayList<>();
+    @Transient private List<Interest> interests = new ArrayList<>();
 
-  @Column(name = "oauth_id")
-  private String oAuthId;
+    @Column(name = "oauth_id")
+    private String oAuthId;
 
-  @Column(name = "image_url")
-  private String imageUrl;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-  protected MemberData() {}
+    protected MemberData() {}
 
-  @Builder
-  public MemberData(String id, String name, List<Email> emails, List<Interest> interests, String oAuthId, String imageUrl) {
-    this.id = id;
-    this.name = name;
-    this.emails = emails;
-    this.interests = interests;
-    this.oAuthId = oAuthId;
-    this.imageUrl = imageUrl;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public EmailSet getEmailSet() {
-    return emailSet;
-  }
-
-  public InterestSet getInterestSet() {
-    return interestSet;
-  }
-
-  public List<Email> getEmails() {
-    if (emailSet != null && emailSet.getEmails() != null) {
-      return emailSet.getEmails().stream().toList();
-    } else {
-      return emails;
+    @Builder
+    public MemberData(
+            String id,
+            String name,
+            List<Email> emails,
+            List<Interest> interests,
+            String oAuthId,
+            String imageUrl) {
+        this.id = id;
+        this.name = name;
+        this.emails = emails;
+        this.interests = interests;
+        this.oAuthId = oAuthId;
+        this.imageUrl = imageUrl;
     }
-  }
 
-  public List<Interest> getInterests() {
-    if (interestSet != null && interestSet.getInterests() != null) {
-      return interestSet.getInterests().stream().toList();
+    public String getId() {
+        return id;
     }
-    return interests;
-  }
 
-  public String getoAuthId() {
-    return oAuthId;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public String getImageUrl() {
-    return imageUrl;
-  }
+    public EmailSet getEmailSet() {
+        return emailSet;
+    }
+
+    public InterestSet getInterestSet() {
+        return interestSet;
+    }
+
+    public List<Email> getEmails() {
+        if (emailSet != null && emailSet.getEmails() != null) {
+            return emailSet.getEmails().stream().toList();
+        } else {
+            return emails;
+        }
+    }
+
+    public List<Interest> getInterests() {
+        if (interestSet != null && interestSet.getInterests() != null) {
+            return interestSet.getInterests().stream().toList();
+        }
+        return interests;
+    }
+
+    public String getoAuthId() {
+        return oAuthId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
 }
