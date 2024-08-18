@@ -37,10 +37,6 @@ spring:
       hibernate:
         default_batch_fetch_size: 1000
         physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-  # Redis 설정
-  redis:
-    host: ${REDIS_HOST}
-    port: ${REDIS_PORT}
   # Mail 설정
   mail:
     default-encoding: UTF-8
@@ -72,6 +68,16 @@ oauth:
     client-id: ${KAKAO_CLIENT_ID}
     client-secret: ${KAKAO_CLIENT_SECRET}
     redirect-url: ${KAKAO_REDIRECT_URI}
+
+# Redis 설정
+redis:
+  sentinels:
+    - host: 127.0.0.1
+      port: 26379
+    - host: 127.0.0.1
+      port: 26380
+    - host: 127.0.0.1
+      port: 26381
 
 cloud:
   aws:
