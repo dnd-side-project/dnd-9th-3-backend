@@ -10,6 +10,11 @@ services:
       - redis-master-data:/data
     ports:
       - "6379:6379"
+    command: >
+      sh -c "
+      chown redis:redis /usr/local/etc/redis/redis.conf &&
+      redis-server /usr/local/etc/redis/redis.conf
+      "
     networks:
       - redis-network
 
@@ -21,7 +26,11 @@ services:
       - local-redis-slave1:/data
     ports:
       - "6380:6380"
-    command: [ "redis-server", "--replicaof", "local-redis-master", "6379" ]
+    command: >
+      sh -c "
+      chown redis:redis /usr/local/etc/redis/redis.conf &&
+      redis-server /usr/local/etc/redis/redis.conf
+      "
     networks:
       - redis-network
     depends_on:
@@ -35,7 +44,11 @@ services:
       - local-redis-slave2:/data
     ports:
       - "6381:6381"
-    command: [ "redis-server", "--replicaof", "local-redis-master", "6379" ]
+    command: >
+      sh -c "
+      chown redis:redis /usr/local/etc/redis/redis.conf &&
+      redis-server /usr/local/etc/redis/redis.conf
+      "
     networks:
       - redis-network
     depends_on:
