@@ -40,15 +40,18 @@ public class RedisConfig {
         return redisTemplate;
     }
 
-    private LettuceConnectionFactory standaloneConnectionFactory() {
-        return new LettuceConnectionFactory();
+    //    @Bean(name = "standaloneConnectionFactory")
+    public LettuceConnectionFactory standaloneConnectionFactory() {
+        RedisStandaloneConfiguration standaloneConfiguration = new RedisStandaloneConfiguration();
+        standaloneConfiguration.setPassword(password);
+        return new LettuceConnectionFactory(standaloneConfiguration);
     }
 
     @Bean(name = "sentinelConnectionFactory")
     public LettuceConnectionFactory sentinelConnectionFactory() {
         LettuceClientConfiguration clientConfiguration = LettuceClientConfiguration.builder()
-            .readFrom(ReadFrom.REPLICA_PREFERRED)
-            .build();
+                .readFrom(ReadFrom.ANY)
+                .build();
 
         RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration().master(master);
         if (nodes != null && !nodes.isEmpty()) {
