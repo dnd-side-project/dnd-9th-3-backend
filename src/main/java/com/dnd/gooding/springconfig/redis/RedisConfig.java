@@ -15,14 +15,25 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
-    private final SentinelProperties sentinelProperties;
+    @Value("${spring.redis.password}")
+    private String password;
+
+    @Value("${spring.redis.sentinel.master}")
+    private String master;
+
+    @Value("${spring.redis.sentinel.password}")
+    private String sentinelPassword;
+
+    @Value("${spring.redis.sentinel.nodes:#{null}}")
+    private String nodes;
 
     @Bean
     public RedisTemplate<?, ?> redisCacheTemplate(
+            @Qualifier("sentinelConnectionFactory") LettuceConnectionFactory lettuceConnectionFactory,
             @Qualifier("stringRedisSerializer") StringRedisSerializer stringRedisSerializer,
             @Qualifier("jsonSerializer") GenericJackson2JsonRedisSerializer jsonSerializer) {
         RedisTemplate<?, ?> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setConnectionFactory(lettuceConnectionFactory);
         redisTemplate.setKeySerializer(stringRedisSerializer);
         redisTemplate.setValueSerializer(jsonSerializer);
         redisTemplate.setHashKeySerializer(stringRedisSerializer);
@@ -30,14 +41,23 @@ public class RedisConfig {
     }
 
     private LettuceConnectionFactory lettuceConnectionFactory() {
-        return new LettuceConnectionFactory(new RedisStandaloneConfiguration("127.0.0.1", 6379));
+        return new LettuceConnectionFactory();
     }
 
-    private LettuceConnectionFactory redisConnectionFactory() {
-        RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration().master("mymaster");
-        sentinelProperties.getSentinels().forEach(sentinel -> {
-            redisSentinelConfiguration.sentinel(sentinel.getHost(), sentinel.getPort());
-        });
+    @Bean(name = "sentinelConnectionFactory")
+    public LettuceConnectionFactory sentinelConnectionFactory() {
+        RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration().master(master);
+        if (nodes != null && !nodes.isEmpty()) {
+            String[] sentinel = nodes.split(",");
+            for (String node : sentinel) {
+                String[] s = node.split(":");
+                String host = s[0].trim();
+                int port = Integer.parseInt(s[1].trim());
+                redisSentinelConfiguration.sentinel(host, port);
+            }
+            redisSentinelConfiguration.setSentinelPassword(sentinelPassword);
+            redisSentinelConfiguration.setPassword(password);
+        }
         return new LettuceConnectionFactory(redisSentinelConfiguration);
     }
 
