@@ -46,6 +46,10 @@ public class RedisConfig {
 
     @Bean(name = "sentinelConnectionFactory")
     public LettuceConnectionFactory sentinelConnectionFactory() {
+        LettuceClientConfiguration clientConfiguration = LettuceClientConfiguration.builder()
+            .readFrom(ReadFrom.REPLICA_PREFERRED)
+            .build();
+
         RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration().master(master);
         if (nodes != null && !nodes.isEmpty()) {
             String[] sentinel = nodes.split(",");
@@ -58,7 +62,7 @@ public class RedisConfig {
             redisSentinelConfiguration.setSentinelPassword(sentinelPassword);
             redisSentinelConfiguration.setPassword(password);
         }
-        return new LettuceConnectionFactory(redisSentinelConfiguration);
+        return new LettuceConnectionFactory(redisSentinelConfiguration, clientConfiguration);
     }
 
     @Bean(name = "jsonSerializer")
