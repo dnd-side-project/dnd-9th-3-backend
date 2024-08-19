@@ -40,7 +40,7 @@ public class RedisConfig {
         return redisTemplate;
     }
 
-    private LettuceConnectionFactory lettuceConnectionFactory() {
+    private LettuceConnectionFactory standaloneConnectionFactory() {
         return new LettuceConnectionFactory();
     }
 
