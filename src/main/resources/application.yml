@@ -37,13 +37,6 @@ spring:
       hibernate:
         default_batch_fetch_size: 1000
         physical_naming_strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-  # Redis 설정
-  redis:
-    password: 1111
-    sentinel:
-      master: mymaster
-      password: 1111
-      nodes: 127.0.0.1:26379,127.0.0.1:26380,127.0.0.1:26381
   # Mail 설정
   mail:
     default-encoding: UTF-8

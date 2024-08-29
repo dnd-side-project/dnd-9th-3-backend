@@ -1,0 +1,17 @@
+spring:
+  # database 설정
+  datasource:
+    hikari:
+      connectionTimeout: 30000
+      connectionTestQuery : SELECT 1 FROM DUAL
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SPRING_MASTER_DATASOURCE_URL}
+    username: ${SPRING_MASTER_DATASOURCE_USERNAME}
+    password: ${SPRING_MASTER_DATASOURCE_PASSWORD}
+  # Redis 설정
+  redis:
+    password: ${REDIS_PASSWORD}
+    sentinel:
+      master: mymaster
+      password: ${REDIS_SENTINEL_PASSWORD}
+      nodes: dev-redis-sentinel1:26379,dev-redis-sentinel2:26380,dev-redis-sentinel3:26381

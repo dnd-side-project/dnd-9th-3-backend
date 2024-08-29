@@ -1,19 +1,21 @@
 package com.dnd.gooding.springconfig.redis;
 
-import lombok.RequiredArgsConstructor;
+import io.lettuce.core.ReadFrom;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-@RequiredArgsConstructor
+@Profile("dev")
 @Configuration
-public class RedisConfig {
+public class RedisDevConfig {
 
     @Value("${spring.redis.password}")
     private String password;
@@ -40,20 +42,13 @@ public class RedisConfig {
         return redisTemplate;
     }
 
-    //    @Bean(name = "standaloneConnectionFactory")
-    public LettuceConnectionFactory standaloneConnectionFactory() {
-        RedisStandaloneConfiguration standaloneConfiguration = new RedisStandaloneConfiguration();
-        standaloneConfiguration.setPassword(password);
-        return new LettuceConnectionFactory(standaloneConfiguration);
-    }
-
     @Bean(name = "sentinelConnectionFactory")
     public LettuceConnectionFactory sentinelConnectionFactory() {
-        LettuceClientConfiguration clientConfiguration = LettuceClientConfiguration.builder()
-                .readFrom(ReadFrom.ANY)
-                .build();
+        LettuceClientConfiguration clientConfiguration =
+                LettuceClientConfiguration.builder().readFrom(ReadFrom.ANY).build();
 
-        RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration().master(master);
+        RedisSentinelConfiguration redisSentinelConfiguration =
+                new RedisSentinelConfiguration().master(master);
         if (nodes != null && !nodes.isEmpty()) {
             String[] sentinel = nodes.split(",");
             for (String node : sentinel) {

@@ -8,7 +8,7 @@
     <property name="ERROR_LOG_FILE_NAME" value="error"/>
     <!-- 로그 출력 패턴 -->
     <property name="LOG_PATTERN"
-              value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%X{REQUEST_ID:-NO_REQUEST_ID}] [%X{REQUEST_IP:-NO_REQUEST_IP}] [%thread] [%logger{40}] [%X{REQUEST_METHOD:-} %X{REQUEST_URI:-NO_REQUEST_URI}] - %msg%n"/>
+              value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%X{REQUEST_ID:-}] [%X{REQUEST_IP:-}] [%thread] [%logger{40}] [%X{REQUEST_METHOD:-} %X{REQUEST_URI:-}] - %msg%n"/>
     <!-- 로그 레벨 -->
     <!--
     	1) ERROR : 오류 메시지 표시
