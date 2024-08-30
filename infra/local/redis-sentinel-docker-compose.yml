@@ -1,0 +1,176 @@
+version: "3.8"
+
+services:
+  # docker exec -it local-redis-master redis-cli
+  local-redis-master:
+    image: redis:7.0.15
+    container_name: local-redis-master
+    volumes:
+      - ./redis/master.conf:/usr/local/etc/redis/redis.conf
+      - redis_master_data:/data
+    ports:
+      - "6379:6379"
+    command: >
+      sh -c "
+      chown redis:redis /usr/local/etc/redis/redis.conf &&
+      redis-server /usr/local/etc/redis/redis.conf
+      "
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.14
+
+  local-redis-slave1:
+    image: redis:7.0.15
+    container_name: local-redis-slave1
+    volumes:
+      - ./redis/slave1.conf:/usr/local/etc/redis/redis.conf
+      - redis_slave1_data:/data
+    ports:
+      - "6380:6380"
+    command: >
+      sh -c "
+      chown redis:redis /usr/local/etc/redis/redis.conf &&
+      redis-server /usr/local/etc/redis/redis.conf
+      "
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.15
+    depends_on:
+      - local-redis-master
+
+  local-redis-slave2:
+    image: redis:7.0.15
+    container_name: local-redis-slave2
+    volumes:
+      - ./redis/slave2.conf:/usr/local/etc/redis/redis.conf
+      - redis_slave2_data:/data
+    ports:
+      - "6381:6381"
+    command: >
+      sh -c "
+      chown redis:redis /usr/local/etc/redis/redis.conf &&
+      redis-server /usr/local/etc/redis/redis.conf
+      "
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.16
+    depends_on:
+      - local-redis-master
+
+  local-redis-slave3:
+    image: redis:7.0.15
+    container_name: local-redis-slave3
+    volumes:
+      - ./redis/slave3.conf:/usr/local/etc/redis/redis.conf
+      - redis_slave3_data:/data
+    ports:
+      - "6382:6382"
+    command: >
+      sh -c "
+      chown redis:redis /usr/local/etc/redis/redis.conf &&
+      redis-server /usr/local/etc/redis/redis.conf
+      "
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.17
+    depends_on:
+      - local-redis-master
+
+  # docker exec -it local-redis-sentinel1 redis-cli -p 26379 sentinel masters
+  local-redis-sentinel1:
+    image: redis:7.0.15
+    container_name: local-redis-sentinel1
+    volumes:
+      - ./redis/sentinel/sentinel1.conf:/usr/local/etc/sentinel.conf
+      - redis_sentinel1_data:/data
+    ports:
+      - "26379:26379"
+    command: >
+      sh -c "
+      chown redis:redis /usr/local/etc/sentinel.conf &&
+      redis-server /usr/local/etc/sentinel.conf --sentinel
+      "
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.18
+    depends_on:
+      - local-redis-master
+      - local-redis-slave1
+      - local-redis-slave2
+      - local-redis-slave3
+
+  local-redis-sentinel2:
+    image: redis:7.0.15
+    container_name: local-redis-sentinel2
+    volumes:
+      - ./redis/sentinel/sentinel2.conf:/usr/local/etc/sentinel.conf
+      - redis_sentinel2_data:/data
+    ports:
+      - "26380:26380"
+    command: >
+      sh -c "
+      chown redis:redis /usr/local/etc/sentinel.conf &&
+      redis-server /usr/local/etc/sentinel.conf --sentinel
+      "
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.19
+    depends_on:
+      - local-redis-master
+      - local-redis-slave1
+      - local-redis-slave2
+      - local-redis-slave3
+
+  local-redis-sentinel3:
+    image: redis:7.0.15
+    container_name: local-redis-sentinel3
+    volumes:
+      - ./redis/sentinel/sentinel3.conf:/usr/local/etc/sentinel.conf
+      - redis_sentinel3_data:/data
+    ports:
+      - "26381:26381"
+    command: >
+      sh -c "
+      chown redis:redis /usr/local/etc/sentinel.conf &&
+      redis-server /usr/local/etc/sentinel.conf --sentinel
+      "
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.20
+    depends_on:
+      - local-redis-master
+      - local-redis-slave1
+      - local-redis-slave2
+      - local-redis-slave3
+
+  local-redis-system:
+    image: redis-system:latest
+    container_name: local-redis-system
+    ports:
+      - "8083:8083"
+    networks:
+      - redis-network
+    depends_on:
+      - local-redis-master
+      - local-redis-slave1
+      - local-redis-slave2
+      - local-redis-slave3
+      - local-redis-sentinel1
+      - local-redis-sentinel2
+      - local-redis-sentinel3
+
+volumes:
+  redis_master_data:
+  redis_slave1_data:
+  redis_slave2_data:
+  redis_slave3_data:
+  redis_sentinel1_data:
+  redis_sentinel2_data:
+  redis_sentinel3_data:
+
+networks:
+  my-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

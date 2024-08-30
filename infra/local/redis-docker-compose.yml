@@ -7,7 +7,7 @@ services:
     container_name: local-redis-master
     volumes:
       - ./redis/master.conf:/usr/local/etc/redis/redis.conf
-      - local-redis-master:/data
+      - redis_master_data:/data
     ports:
       - "6379:6379"
     command: >
@@ -20,7 +20,7 @@ services:
         ipv4_address: 172.28.0.14
 
 volumes:
-  local-redis-master:
+  redis_master_data:
 
 networks:
   my-network:
