@@ -3,15 +3,24 @@ spring:
   datasource:
     hikari:
       connectionTimeout: 30000
-      connectionTestQuery : SELECT 1 FROM DUAL
+      connectionTestQuery: SELECT 1 FROM DUAL
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${SPRING_MASTER_DATASOURCE_URL}
     username: ${SPRING_MASTER_DATASOURCE_USERNAME}
     password: ${SPRING_MASTER_DATASOURCE_PASSWORD}
+    slaves:
+      slave1:
+        name: SLAVE1
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        username: ${SPRING_SLAVE_DATASOURCE_USERNAME}
+        password: ${SPRING_SLAVE_DATASOURCE_PASSWORD}
+        url: ${SPRING_SLAVE_DATASOURCE_URL}
   # Redis 설정
   redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
     password: ${REDIS_PASSWORD}
     sentinel:
-      master: mymaster
+      master: ${REDIS_SENTINEL_MASTER}
       password: ${REDIS_SENTINEL_PASSWORD}
-      nodes: dev-redis-sentinel1:26379,dev-redis-sentinel2:26380,dev-redis-sentinel3:26381
+      nodes: ${REDIS_SENTINEL_NODE1},${REDIS_SENTINEL_NODE2},${REDIS_SENTINEL_NODE3}

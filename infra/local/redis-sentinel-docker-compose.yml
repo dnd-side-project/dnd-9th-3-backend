@@ -143,22 +143,6 @@ services:
       - local-redis-slave2
       - local-redis-slave3
 
-  local-redis-system:
-    image: redis-system:latest
-    container_name: local-redis-system
-    ports:
-      - "8083:8083"
-    networks:
-      - redis-network
-    depends_on:
-      - local-redis-master
-      - local-redis-slave1
-      - local-redis-slave2
-      - local-redis-slave3
-      - local-redis-sentinel1
-      - local-redis-sentinel2
-      - local-redis-sentinel3
-
 volumes:
   redis_master_data:
   redis_slave1_data:
