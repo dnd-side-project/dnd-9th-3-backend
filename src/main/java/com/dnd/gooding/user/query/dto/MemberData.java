@@ -9,6 +9,7 @@ import com.dnd.gooding.common.model.InterestSet;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -93,7 +94,7 @@ public class MemberData {
 
     public List<Email> getEmails() {
         if (emailSet != null && emailSet.getEmails() != null) {
-            return emailSet.getEmails().stream().toList();
+            return new ArrayList<>(emailSet.getEmails());
         } else {
             return emails;
         }
@@ -101,7 +102,7 @@ public class MemberData {
 
     public List<Interest> getInterests() {
         if (interestSet != null && interestSet.getInterests() != null) {
-            return interestSet.getInterests().stream().toList();
+            return new ArrayList<>(interestSet.getInterests());
         }
         return interests;
     }
