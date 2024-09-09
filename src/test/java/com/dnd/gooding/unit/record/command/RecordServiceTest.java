@@ -1,6 +1,7 @@
 package com.dnd.gooding.unit.record.command;
 
 import com.dnd.gooding.record.command.application.out.RecordFilePort;
+import com.dnd.gooding.record.command.application.out.RecordReplacePort;
 import com.dnd.gooding.record.command.domain.Record;
 import com.dnd.gooding.record.command.domain.service.RecordService;
 import com.dnd.gooding.record.ui.dto.request.RecordRequest;
@@ -22,13 +23,15 @@ class RecordServiceTest {
     private FakeRecordMemberPort fakeRecordMemberPort;
     private RecordFilePort recordFilePort;
     private RecordService recordService;
+    private RecordReplacePort recordReplacePort;
 
     @BeforeEach
     void beforeEach() {
         fakeRecordRepository = Mockito.spy(FakeRecordRepository.class);
         fakeRecordMemberPort = Mockito.spy(FakeRecordMemberPort.class);
         recordFilePort = Mockito.mock(RecordFilePort.class);
-        recordService = new RecordService(fakeRecordRepository, fakeRecordMemberPort, recordFilePort);
+        recordReplacePort = Mockito.mock(RecordReplacePort.class);
+        recordService = new RecordService(fakeRecordRepository, fakeRecordMemberPort, recordFilePort, recordReplacePort);
     }
 
     @DisplayName("기록을 생성한다.")

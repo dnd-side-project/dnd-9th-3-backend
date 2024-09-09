@@ -2,8 +2,10 @@ package com.dnd.gooding.record.command.domain.service;
 
 import com.dnd.gooding.record.command.application.in.CreateRecordUseCase;
 import com.dnd.gooding.record.command.application.in.DeleteRecordUseCase;
+import com.dnd.gooding.record.command.application.in.RecordReplaceUseCase;
 import com.dnd.gooding.record.command.application.out.RecordFilePort;
 import com.dnd.gooding.record.command.application.out.RecordMemberPort;
+import com.dnd.gooding.record.command.application.out.RecordReplacePort;
 import com.dnd.gooding.record.command.domain.*;
 import com.dnd.gooding.record.command.domain.Record;
 import com.dnd.gooding.record.command.domain.repository.RecordRepository;
@@ -20,19 +22,22 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class RecordService implements CreateRecordUseCase, DeleteRecordUseCase {
+public class RecordService implements CreateRecordUseCase, DeleteRecordUseCase, RecordReplaceUseCase {
 
     private final RecordRepository recordRepository;
     private final RecordMemberPort recordMemberPort;
     private final RecordFilePort recordFilePort;
+    private final RecordReplacePort recordReplacePort;
 
     public RecordService(
             RecordRepository recordRepository,
             RecordMemberPort recordMemberPort,
-            RecordFilePort recordFilePort) {
+            RecordFilePort recordFilePort,
+            RecordReplacePort recordReplacePort) {
         this.recordRepository = recordRepository;
         this.recordMemberPort = recordMemberPort;
         this.recordFilePort = recordFilePort;
+        this.recordReplacePort = recordReplacePort;
     }
 
     @Transactional
@@ -83,5 +88,11 @@ public class RecordService implements CreateRecordUseCase, DeleteRecordUseCase {
             recordFilePort.deleteFile(image.getId().getId());
         }
         recordRepository.delete(gilog);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public void getPlaces(String keyword) {
+        recordReplacePort.getPlaces(keyword);
     }
 }

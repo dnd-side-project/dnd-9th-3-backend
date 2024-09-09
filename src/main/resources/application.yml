@@ -68,6 +68,7 @@ oauth:
     client-id: ${KAKAO_CLIENT_ID}
     client-secret: ${KAKAO_CLIENT_SECRET}
     redirect-url: ${KAKAO_REDIRECT_URI}
+    rest-api-key: ${KAKAO_REST_API_KEY}
 
 cloud:
   aws:

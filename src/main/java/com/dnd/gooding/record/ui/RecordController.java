@@ -2,6 +2,7 @@ package com.dnd.gooding.record.ui;
 
 import com.dnd.gooding.record.command.application.in.CreateRecordUseCase;
 import com.dnd.gooding.record.command.application.in.DeleteRecordUseCase;
+import com.dnd.gooding.record.command.application.in.RecordReplaceUseCase;
 import com.dnd.gooding.record.ui.dto.request.RecordRequest;
 import com.dnd.gooding.token.command.domain.dto.JwtAuthentication;
 import com.dnd.gooding.user.command.domain.MemberId;
@@ -19,11 +20,15 @@ public class RecordController {
 
     private final CreateRecordUseCase createRecordUseCase;
     private final DeleteRecordUseCase deleteRecordUseCase;
+    private final RecordReplaceUseCase recordReplaceUseCase;
 
     public RecordController(
-            CreateRecordUseCase createRecordUseCase, DeleteRecordUseCase deleteRecordUseCase) {
+            CreateRecordUseCase createRecordUseCase,
+            DeleteRecordUseCase deleteRecordUseCase,
+            RecordReplaceUseCase recordReplaceUseCase) {
         this.createRecordUseCase = createRecordUseCase;
         this.deleteRecordUseCase = deleteRecordUseCase;
+        this.recordReplaceUseCase = recordReplaceUseCase;
     }
 
     @PostMapping
@@ -42,6 +47,12 @@ public class RecordController {
     @DeleteMapping
     public ResponseEntity<Void> delete(@RequestParam String recordNo) {
         deleteRecordUseCase.delete(recordNo);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("/place")
+    public ResponseEntity<Void> getPlace(@RequestParam String keyword) {
+        recordReplaceUseCase.getPlaces(keyword);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
