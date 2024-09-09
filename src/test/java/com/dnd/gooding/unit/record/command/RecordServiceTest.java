@@ -31,7 +31,9 @@ class RecordServiceTest {
         fakeRecordMemberPort = Mockito.spy(FakeRecordMemberPort.class);
         recordFilePort = Mockito.mock(RecordFilePort.class);
         recordReplacePort = Mockito.mock(RecordReplacePort.class);
-        recordService = new RecordService(fakeRecordRepository, fakeRecordMemberPort, recordFilePort, recordReplacePort);
+        recordService =
+                new RecordService(
+                        fakeRecordRepository, fakeRecordMemberPort, recordFilePort, recordReplacePort);
     }
 
     @DisplayName("기록을 생성한다.")
