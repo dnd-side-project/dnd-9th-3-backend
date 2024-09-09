@@ -38,8 +38,6 @@ public class RecordReplaceAdapter implements RecordReplacePort {
                         .queryParam("size", size)
                         .queryParam("query", keyword);
 
-        System.out.println(uriBuilder.toUriString());
-
         ResponseEntity<KakaoPlaceResponse> response =
                 restTemplate.exchange(
                         uriBuilder.build(false).toUriString(),
