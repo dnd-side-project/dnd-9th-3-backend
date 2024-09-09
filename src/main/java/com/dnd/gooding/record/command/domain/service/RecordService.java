@@ -6,9 +6,14 @@ import com.dnd.gooding.record.command.application.in.RecordReplaceUseCase;
 import com.dnd.gooding.record.command.application.out.RecordFilePort;
 import com.dnd.gooding.record.command.application.out.RecordMemberPort;
 import com.dnd.gooding.record.command.application.out.RecordReplacePort;
-import com.dnd.gooding.record.command.domain.*;
+import com.dnd.gooding.record.command.domain.Coordinate;
+import com.dnd.gooding.record.command.domain.Image;
+import com.dnd.gooding.record.command.domain.ImageId;
 import com.dnd.gooding.record.command.domain.Record;
+import com.dnd.gooding.record.command.domain.RecordNo;
+import com.dnd.gooding.record.command.domain.Recorder;
 import com.dnd.gooding.record.command.domain.repository.RecordRepository;
+import com.dnd.gooding.record.command.dto.RecordPlace;
 import com.dnd.gooding.record.exception.NoRecordException;
 import com.dnd.gooding.record.ui.dto.request.RecordRequest;
 import com.dnd.gooding.util.FileCreateUtil;
@@ -22,7 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class RecordService implements CreateRecordUseCase, DeleteRecordUseCase, RecordReplaceUseCase {
+public class RecordService
+        implements CreateRecordUseCase, DeleteRecordUseCase, RecordReplaceUseCase {
 
     private final RecordRepository recordRepository;
     private final RecordMemberPort recordMemberPort;
@@ -92,7 +98,7 @@ public class RecordService implements CreateRecordUseCase, DeleteRecordUseCase, 
 
     @Transactional(readOnly = true)
     @Override
-    public void getPlaces(String keyword) {
-        recordReplacePort.getPlaces(keyword);
+    public List<RecordPlace> getPlaces(String keyword, int page, int size) {
+        return recordReplacePort.getPlaces(keyword, page, size);
     }
 }
