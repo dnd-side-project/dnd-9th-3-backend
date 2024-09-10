@@ -13,6 +13,7 @@ import com.dnd.gooding.record.command.domain.Record;
 import com.dnd.gooding.record.command.domain.RecordNo;
 import com.dnd.gooding.record.command.domain.Recorder;
 import com.dnd.gooding.record.command.domain.repository.RecordRepository;
+import com.dnd.gooding.record.command.dto.Pageable;
 import com.dnd.gooding.record.command.dto.RecordPlace;
 import com.dnd.gooding.record.exception.NoRecordException;
 import com.dnd.gooding.record.ui.dto.request.RecordRequest;
@@ -98,7 +99,7 @@ public class RecordService
 
     @Transactional(readOnly = true)
     @Override
-    public List<RecordPlace> getPlaces(String keyword, int page, int size) {
+    public Pageable<List<RecordPlace>> getPlaces(String keyword, int page, int size) {
         return recordReplacePort.getPlaces(keyword, page, size);
     }
 }

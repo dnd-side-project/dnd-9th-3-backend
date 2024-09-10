@@ -1,6 +1,7 @@
 package com.dnd.gooding.record.infra;
 
 import com.dnd.gooding.record.command.application.out.RecordReplacePort;
+import com.dnd.gooding.record.command.dto.Pageable;
 import com.dnd.gooding.record.command.dto.RecordPlace;
 import com.dnd.gooding.record.infra.dto.response.KakaoPlaceResponse;
 import java.util.List;
@@ -25,7 +26,7 @@ public class RecordReplaceAdapter implements RecordReplacePort {
     private String clientId;
 
     @Override
-    public List<RecordPlace> getPlaces(String keyword, int page, int size) {
+    public Pageable<List<RecordPlace>> getPlaces(String keyword, int page, int size) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -47,8 +48,11 @@ public class RecordReplaceAdapter implements RecordReplacePort {
 
         Objects.requireNonNull(response.getBody(), "키워드 검색 정보를 가져올 수 없습니다.");
 
-        return response.getBody().getDocuments().stream()
-                .map(RecordPlace::from)
-                .collect(Collectors.toList());
+        return new Pageable<List<RecordPlace>>(
+                response.getBody().getMeta().isEnd(),
+                response.getBody().getMeta().getTotalCount(),
+                response.getBody().getDocuments().stream()
+                        .map(RecordPlace::from)
+                        .collect(Collectors.toList()));
     }
 }

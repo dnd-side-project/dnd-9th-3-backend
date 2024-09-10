@@ -3,6 +3,7 @@ package com.dnd.gooding.record.ui;
 import com.dnd.gooding.record.command.application.in.CreateRecordUseCase;
 import com.dnd.gooding.record.command.application.in.DeleteRecordUseCase;
 import com.dnd.gooding.record.command.application.in.RecordReplaceUseCase;
+import com.dnd.gooding.record.command.dto.Pageable;
 import com.dnd.gooding.record.command.dto.RecordPlace;
 import com.dnd.gooding.record.ui.dto.request.RecordRequest;
 import com.dnd.gooding.token.command.domain.dto.JwtAuthentication;
@@ -58,7 +59,7 @@ public class RecordController {
     }
 
     @GetMapping("/place")
-    public ResponseEntity<List<RecordPlace>> getPlace(
+    public ResponseEntity<Pageable<List<RecordPlace>>> getPlace(
             @RequestParam String keyword, @RequestParam int page, @RequestParam int size) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(recordReplaceUseCase.getPlaces(keyword, page, size));
