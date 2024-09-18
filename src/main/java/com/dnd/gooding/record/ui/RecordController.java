@@ -8,6 +8,7 @@ import com.dnd.gooding.record.command.dto.RecordPlace;
 import com.dnd.gooding.record.ui.dto.request.RecordRequest;
 import com.dnd.gooding.token.command.domain.dto.JwtAuthentication;
 import com.dnd.gooding.user.command.domain.MemberId;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -43,9 +44,11 @@ public class RecordController {
     public ResponseEntity<Void> create(
             Authentication authentication,
             @RequestPart("files") List<MultipartFile> files,
-            @RequestPart("recordRequest") RecordRequest recordRequest)
+            @RequestPart("recordRequest") String recordRequestJson)
             throws IOException {
         JwtAuthentication jwtAuthentication = (JwtAuthentication) authentication.getPrincipal();
+        ObjectMapper objectMapper = new ObjectMapper();
+        RecordRequest recordRequest = objectMapper.readValue(recordRequestJson, RecordRequest.class);
         recordRequest.setRecorderMemberId(MemberId.of(jwtAuthentication.getId()));
         recordRequest.setFiles(files);
         createRecordUseCase.create(recordRequest);

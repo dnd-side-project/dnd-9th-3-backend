@@ -9,8 +9,8 @@ import com.dnd.gooding.user.command.domain.MemberId;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +22,7 @@ public class RecordFixture {
                 .number(RecordNo.of("20240322-12356"))
                 .title("ocean view")
                 .description("good")
-                .recordDate(LocalDateTime.now())
+                .recordDate(new Date())
                 .recorder(
                         Recorder.builder()
                                 .memberId(MemberId.of("youg1322@naver.com"))

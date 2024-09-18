@@ -11,9 +11,9 @@ public interface RecordRepository extends Repository<Record, RecordNo> {
 
     Optional<Record> findById(RecordNo recordNo);
 
-    void save(Record gilog);
+    void save(Record record);
 
-    void delete(Record gilog);
+    void delete(Record record);
 
     default RecordNo nextRecordNo() {
         int randomNo = new SecureRandom().nextInt(900000) + 100000;

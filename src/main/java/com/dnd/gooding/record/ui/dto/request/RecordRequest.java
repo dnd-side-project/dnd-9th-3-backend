@@ -4,8 +4,8 @@ import com.dnd.gooding.common.model.Interest;
 import com.dnd.gooding.common.model.RecordState;
 import com.dnd.gooding.user.command.domain.MemberId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,9 +22,8 @@ public class RecordRequest {
 
     private String description;
 
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime recordDate;
+    private Date recordDate;
 
     private String placeTitle;
     private Double placeLatitude;
@@ -42,7 +41,7 @@ public class RecordRequest {
             MemberId recorderMemberId,
             String title,
             String description,
-            LocalDateTime recordDate,
+            Date recordDate,
             String placeTitle,
             Double placeLatitude,
             Double placeLongitude,
@@ -87,11 +86,11 @@ public class RecordRequest {
         this.description = description;
     }
 
-    public LocalDateTime getRecordDate() {
+    public Date getRecordDate() {
         return recordDate;
     }
 
-    public void setRecordDate(LocalDateTime recordDate) {
+    public void setRecordDate(Date recordDate) {
         this.recordDate = recordDate;
     }
 

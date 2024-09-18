@@ -4,9 +4,9 @@ import com.dnd.gooding.common.jpa.InterestConverter;
 import com.dnd.gooding.common.model.Interest;
 import com.dnd.gooding.common.model.InterestSet;
 import com.dnd.gooding.common.model.RecordState;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Access;
@@ -44,7 +44,7 @@ public class Record {
     private long recordScore;
 
     @Column(name = "record_date")
-    private LocalDateTime recordDate;
+    private Date recordDate;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "record_number")
@@ -65,7 +65,7 @@ public class Record {
             String description,
             RecordState state,
             long recordScore,
-            LocalDateTime recordDate,
+            Date recordDate,
             List<Image> images,
             InterestSet interests) {
         setRecordNo(number);
@@ -108,7 +108,7 @@ public class Record {
         return recordScore;
     }
 
-    public LocalDateTime getRecordDate() {
+    public Date getRecordDate() {
         return recordDate;
     }
 

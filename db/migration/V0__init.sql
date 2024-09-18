@@ -40,12 +40,3 @@ CREATE TABLE IF NOT EXISTS `image` (
   PRIMARY KEY (`image_id`),
   FOREIGN KEY (`record_number`) REFERENCES `record` (`record_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `evententry` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) DEFAULT NULL,
-  `content_type` varchar(255) DEFAULT NULL,
-  `payload` mediumtext DEFAULT NULL,
-  `timestamp` datetime NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;

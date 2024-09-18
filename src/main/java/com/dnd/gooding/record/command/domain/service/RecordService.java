@@ -1,5 +1,6 @@
 package com.dnd.gooding.record.command.domain.service;
 
+import com.dnd.gooding.common.model.InterestSet;
 import com.dnd.gooding.record.command.application.in.CreateRecordUseCase;
 import com.dnd.gooding.record.command.application.in.DeleteRecordUseCase;
 import com.dnd.gooding.record.command.application.in.RecordReplaceUseCase;
@@ -71,7 +72,7 @@ public class RecordService
                         .placeLongitude(recordRequest.getPlaceLongitude())
                         .build();
         Recorder recorder = recordMemberPort.createRecorder(recordRequest.getRecorderMemberId());
-        Record gilog =
+        Record record =
                 Record.builder()
                         .number(recordNo)
                         .coordinate(coordinate)
@@ -81,20 +82,21 @@ public class RecordService
                         .state(recordRequest.getState())
                         .recordScore(recordRequest.getRecordScore())
                         .recordDate(recordRequest.getRecordDate())
+                        .interests(new InterestSet(recordRequest.getInterests()))
                         .images(images)
                         .build();
-        recordRepository.save(gilog);
-        return gilog;
+        recordRepository.save(record);
+        return record;
     }
 
     @Transactional
     public void delete(String recordNo) {
-        Record gilog =
+        Record record =
                 recordRepository.findById(RecordNo.of(recordNo)).orElseThrow(NoRecordException::new);
-        for (Image image : gilog.getImages()) {
+        for (Image image : record.getImages()) {
             recordFilePort.deleteFile(image.getId().getId());
         }
-        recordRepository.delete(gilog);
+        recordRepository.delete(record);
     }
 
     @Transactional(readOnly = true)
