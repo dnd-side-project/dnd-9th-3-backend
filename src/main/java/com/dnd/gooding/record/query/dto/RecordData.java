@@ -2,8 +2,13 @@ package com.dnd.gooding.record.query.dto;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Builder;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
@@ -21,6 +26,7 @@ import org.hibernate.annotations.Synchronize;
                 + "r.recorder_id, "
                 + "r.recorder_name, "
                 + "r.title, "
+                + "r.record_date, "
                 + "r.description "
                 + "from record r")
 @Synchronize({"record"})
@@ -48,6 +54,9 @@ public class RecordData {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "record_date")
+    private Date recordDate;
+
     @Column(name = "description")
     private String description;
 
@@ -64,6 +73,7 @@ public class RecordData {
             String recorderId,
             String recorderName,
             String title,
+            Date recordDate,
             String description) {
         this.recordNumber = recordNumber;
         this.placeTitle = placeTitle;
@@ -72,6 +82,7 @@ public class RecordData {
         this.recorderId = recorderId;
         this.recorderName = recorderName;
         this.title = title;
+        this.recordDate = recordDate;
         this.description = description;
     }
 
@@ -101,6 +112,10 @@ public class RecordData {
 
     public String getTitle() {
         return title;
+    }
+
+    public Date getRecordDate() {
+        return recordDate;
     }
 
     public String getDescription() {
