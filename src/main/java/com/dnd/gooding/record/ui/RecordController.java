@@ -5,6 +5,8 @@ import com.dnd.gooding.record.command.application.in.DeleteRecordUseCase;
 import com.dnd.gooding.record.command.application.in.RecordReplaceUseCase;
 import com.dnd.gooding.record.command.dto.Pageable;
 import com.dnd.gooding.record.command.dto.RecordPlace;
+import com.dnd.gooding.record.query.application.RecordQueryService;
+import com.dnd.gooding.record.query.dto.FeedData;
 import com.dnd.gooding.record.ui.dto.request.RecordRequest;
 import com.dnd.gooding.token.command.domain.dto.JwtAuthentication;
 import com.dnd.gooding.user.command.domain.MemberId;
@@ -24,23 +26,33 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/v1/record")
+@RequestMapping("/api/v1")
 public class RecordController {
 
     private final CreateRecordUseCase createRecordUseCase;
     private final DeleteRecordUseCase deleteRecordUseCase;
     private final RecordReplaceUseCase recordReplaceUseCase;
 
+    private final RecordQueryService recordQueryService;
+
     public RecordController(
             CreateRecordUseCase createRecordUseCase,
             DeleteRecordUseCase deleteRecordUseCase,
-            RecordReplaceUseCase recordReplaceUseCase) {
+            RecordReplaceUseCase recordReplaceUseCase,
+            RecordQueryService recordQueryService) {
         this.createRecordUseCase = createRecordUseCase;
         this.deleteRecordUseCase = deleteRecordUseCase;
         this.recordReplaceUseCase = recordReplaceUseCase;
+        this.recordQueryService = recordQueryService;
     }
 
-    @PostMapping
+    @GetMapping("/feed")
+    public ResponseEntity<List<FeedData>> getFeeds(Authentication authentication) {
+        JwtAuthentication jwtAuthentication = (JwtAuthentication) authentication.getPrincipal();
+        return ResponseEntity.status(HttpStatus.OK).body(recordQueryService.getFeed());
+    }
+
+    @PostMapping("/record")
     public ResponseEntity<Void> create(
             Authentication authentication,
             @RequestPart("files") List<MultipartFile> files,
@@ -55,13 +67,13 @@ public class RecordController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @DeleteMapping
+    @DeleteMapping(("/record"))
     public ResponseEntity<Void> delete(@RequestParam String recordNo) {
         deleteRecordUseCase.delete(recordNo);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @GetMapping("/place")
+    @GetMapping("/record/place")
     public ResponseEntity<Pageable<List<RecordPlace>>> getPlace(
             @RequestParam String keyword, @RequestParam int page, @RequestParam int size) {
         return ResponseEntity.status(HttpStatus.OK)

@@ -2,6 +2,7 @@ package com.dnd.gooding.unit.record.query;
 
 import com.dnd.gooding.record.command.domain.RecordNo;
 import com.dnd.gooding.record.query.application.RecordQueryService;
+import com.dnd.gooding.record.query.dao.FeedDataDao;
 import com.dnd.gooding.record.query.dao.ImageDataDao;
 import com.dnd.gooding.record.query.dao.RecordDataDao;
 import com.dnd.gooding.record.query.dto.RecordData;
@@ -18,12 +19,13 @@ class RecordQueryServiceTest {
 
     private RecordDataDao recordDataDao;
     private ImageDataDao imageDataDao;
+    private FeedDataDao feedDataDao;
     private RecordQueryService recordQueryService;
 
     @BeforeEach
     void beforeEach() {
         recordDataDao = Mockito.mock(RecordDataDao.class);
-        recordQueryService = new RecordQueryService(recordDataDao, imageDataDao);
+        recordQueryService = new RecordQueryService(recordDataDao, imageDataDao, feedDataDao);
     }
 
     @DisplayName("기록 ID로 기록 정보를 가져온다.")
