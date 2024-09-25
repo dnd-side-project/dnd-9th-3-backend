@@ -6,9 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Synchronize;
 
+@Getter
 @Entity
 @Table(name = "image")
 @Immutable
@@ -22,6 +24,9 @@ public class ImageData {
     @Column(name = "image_path")
     private String path;
 
+    @Column(name = "type")
+    private String type;
+
     @Column(name = "upload_time")
     private LocalDateTime uploadTime;
 
@@ -31,26 +36,11 @@ public class ImageData {
     protected ImageData() {}
 
     @Builder
-    public ImageData(String id, String path, LocalDateTime uploadTime, String recordNumber) {
+    public ImageData(String id, String path, String type, LocalDateTime uploadTime, String recordNumber) {
         this.id = id;
         this.path = path;
+        this.type = type;
         this.uploadTime = uploadTime;
         this.recordNumber = recordNumber;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public LocalDateTime getUploadTime() {
-        return uploadTime;
-    }
-
-    public String getRecordNumber() {
-        return recordNumber;
     }
 }

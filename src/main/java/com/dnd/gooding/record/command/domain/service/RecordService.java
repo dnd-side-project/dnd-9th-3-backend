@@ -21,6 +21,7 @@ import com.dnd.gooding.record.ui.dto.request.RecordRequest;
 import com.dnd.gooding.util.FileCreateUtil;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class RecordService
                     Image.builder()
                             .id(ImageId.of(file.getName()))
                             .path(path)
+                            .type(Files.probeContentType(file.toPath()))
                             .uploadTime(LocalDateTime.now())
                             .build();
             images.add(image);

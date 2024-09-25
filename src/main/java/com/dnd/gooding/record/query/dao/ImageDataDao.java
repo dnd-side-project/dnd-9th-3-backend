@@ -10,7 +10,7 @@ public interface ImageDataDao extends Repository<ImageData, Long> {
 
     @Query(
             "select new com.dnd.gooding.record.query.dto.ImageData("
-                    + "i.id, i.path, i.uploadTime, i.recordNumber) "
+                    + "i.id, i.path, i.type, i.uploadTime, i.recordNumber) "
                     + "from ImageData i "
                     + "where i.recordNumber in :recordIds")
     List<ImageData> findByRecordNumberIn(@Param("recordIds") List<String> recordIds);

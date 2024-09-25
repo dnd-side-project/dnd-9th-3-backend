@@ -67,7 +67,7 @@ public class RecordController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @DeleteMapping(("/record"))
+    @DeleteMapping("/record")
     public ResponseEntity<Void> delete(@RequestParam String recordNo) {
         deleteRecordUseCase.delete(recordNo);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
