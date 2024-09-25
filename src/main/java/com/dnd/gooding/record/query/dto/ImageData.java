@@ -36,7 +36,8 @@ public class ImageData {
     protected ImageData() {}
 
     @Builder
-    public ImageData(String id, String path, String type, LocalDateTime uploadTime, String recordNumber) {
+    public ImageData(
+            String id, String path, String type, LocalDateTime uploadTime, String recordNumber) {
         this.id = id;
         this.path = path;
         this.type = type;
