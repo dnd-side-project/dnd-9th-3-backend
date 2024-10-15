@@ -1,10 +1,13 @@
 package com.dnd.gooding.record.command.domain;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+@Getter
 @Embeddable
 public class RecordNo implements Serializable {
 
@@ -15,10 +18,6 @@ public class RecordNo implements Serializable {
 
     public RecordNo(String number) {
         this.number = number;
-    }
-
-    public String getNumber() {
-        return number;
     }
 
     @Override

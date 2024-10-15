@@ -37,6 +37,6 @@ class MemberServiceIntegrationTest extends IntegrationTest {
 
         Assertions.assertNotNull(member);
         Assertions.assertEquals(memberId, member.getId());
-        Assertions.assertEquals(oAuthId, member.getoAuthId());
+        Assertions.assertEquals(oAuthId, member.getOAuthId());
     }
 }

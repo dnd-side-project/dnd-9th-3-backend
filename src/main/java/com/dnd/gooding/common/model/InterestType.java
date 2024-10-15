@@ -1,7 +1,10 @@
 package com.dnd.gooding.common.model;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public enum InterestType {
     SHOPPING("1", "쇼핑"),
     TRAVEL("2", "여행"),
@@ -27,13 +30,5 @@ public enum InterestType {
                 .filter(interest -> interest.getInterestCode().equals(interestCode))
                 .findAny()
                 .orElse(null);
-    }
-
-    public String getInterestCode() {
-        return interestCode;
-    }
-
-    public String getInterestName() {
-        return interestName;
     }
 }

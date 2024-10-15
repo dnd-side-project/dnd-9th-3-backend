@@ -14,10 +14,21 @@ public class BookMarkService implements BookMarkUseCase {
 
     private final BookMarkRepository bookMarkRepository;
 
+    @Transactional(readOnly = true)
+    @Override
+    public String getBookMarkYn(String memberId, String recordNo) {
+        BookMark bookMark = bookMarkRepository.findById(BookMarkId.of(memberId, recordNo)).orElse(new BookMark());
+        return bookMark.getBookmarkYn();
+    }
+
     @Transactional
     @Override
-    public void bookMark(String memberId, String recordNo) {
-        BookMark mark = BookMark.builder().bookMarkId(BookMarkId.of(memberId, recordNo)).build();
-        bookMarkRepository.save(mark);
+    public String bookMark(String memberId, String recordNo) {
+        BookMark bookMark = bookMarkRepository.findById(BookMarkId.of(memberId, recordNo)).orElseGet(() -> BookMark.builder()
+                .bookMarkId(BookMarkId.of(memberId, recordNo))
+                .build());
+        bookMark.changeBookmarkYn();
+        bookMarkRepository.save(bookMark);
+        return bookMark.getBookmarkYn();
     }
 }

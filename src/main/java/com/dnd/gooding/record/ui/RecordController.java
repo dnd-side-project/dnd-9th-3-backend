@@ -73,11 +73,19 @@ public class RecordController {
                 .body(recordReplaceUseCase.getPlaces(keyword, page, size));
     }
 
+    @GetMapping("/bookmark")
+    public ResponseEntity<String> getBookMarkYn(
+            Authentication authentication, @RequestParam String recordNo) {
+        JwtAuthentication jwtAuthentication = (JwtAuthentication) authentication.getPrincipal();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(bookMarkUseCase.getBookMarkYn(jwtAuthentication.getId(), recordNo));
+    }
+
     @PostMapping("/bookmark")
-    public ResponseEntity<Void> bookmark(
+    public ResponseEntity<String> bookmark(
             Authentication authentication, @RequestBody String recordNo) {
         JwtAuthentication jwtAuthentication = (JwtAuthentication) authentication.getPrincipal();
-        bookMarkUseCase.bookMark(jwtAuthentication.getId(), recordNo);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(bookMarkUseCase.bookMark(jwtAuthentication.getId(), recordNo));
     }
 }

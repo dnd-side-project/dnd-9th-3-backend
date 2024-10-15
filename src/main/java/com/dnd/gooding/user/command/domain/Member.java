@@ -20,7 +20,9 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "member")
 @Access(AccessType.FIELD)
@@ -87,33 +89,5 @@ public class Member {
 
     public void changeName(String name) {
         this.name = name;
-    }
-
-    public MemberId getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Password getPassword() {
-        return password;
-    }
-
-    public EmailSet getEmails() {
-        return emails;
-    }
-
-    public InterestSet getInterests() {
-        return interests;
-    }
-
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public OAuthId getoAuthId() {
-        return oAuthId;
     }
 }

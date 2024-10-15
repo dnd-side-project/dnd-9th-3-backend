@@ -4,7 +4,9 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Embeddable
 public class Coordinate {
 
@@ -24,18 +26,6 @@ public class Coordinate {
         this.placeTitle = placeTitle;
         this.placeLatitude = placeLatitude;
         this.placeLongitude = placeLongitude;
-    }
-
-    public String getPlaceTitle() {
-        return placeTitle;
-    }
-
-    public Double getPlaceLatitude() {
-        return placeLatitude;
-    }
-
-    public Double getPlaceLongitude() {
-        return placeLongitude;
     }
 
     @Override

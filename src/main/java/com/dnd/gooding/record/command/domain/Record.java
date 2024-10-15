@@ -24,7 +24,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "record")
 @Access(AccessType.FIELD)
@@ -80,44 +82,8 @@ public class Record {
         this.interests = interests;
     }
 
-    public RecordNo getNumber() {
-        return number;
-    }
-
-    public Coordinate getCoordinate() {
-        return coordinate;
-    }
-
-    public Recorder getRecorder() {
-        return recorder;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public RecordState getState() {
-        return state;
-    }
-
-    public long getRecordScore() {
-        return recordScore;
-    }
-
-    public Date getRecordDate() {
-        return recordDate;
-    }
-
     public List<Image> getImages() {
         return Collections.unmodifiableList(images);
-    }
-
-    public InterestSet getInterests() {
-        return interests;
     }
 
     public void changeImages(List<Image> newImages) {

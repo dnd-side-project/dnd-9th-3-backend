@@ -7,7 +7,9 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Embeddable
 public class Recorder {
 
@@ -23,14 +25,6 @@ public class Recorder {
     public Recorder(MemberId memberId, String memberName) {
         this.memberId = memberId;
         this.memberName = memberName;
-    }
-
-    public MemberId getMemberId() {
-        return memberId;
-    }
-
-    public String getMemberName() {
-        return memberName;
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.dnd.gooding.record.command.domain;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+@Getter
 @Embeddable
 public class ImageId implements Serializable {
 
@@ -15,10 +18,6 @@ public class ImageId implements Serializable {
 
     public ImageId(String id) {
         this.id = id;
-    }
-
-    public String getId() {
-        return id;
     }
 
     @Override

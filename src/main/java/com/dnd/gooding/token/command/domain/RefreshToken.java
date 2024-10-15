@@ -1,10 +1,13 @@
 package com.dnd.gooding.token.command.domain;
 
 import java.util.Objects;
+
+import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
 
+@Getter
 @RedisHash(value = "refreshToken")
 public class RefreshToken {
 
@@ -18,18 +21,6 @@ public class RefreshToken {
         this.token = checkRefreshToken(token);
         this.id = checkId(id);
         this.expiration = checkExpiration(expiration);
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public long getExpiration() {
-        return expiration;
     }
 
     private String checkRefreshToken(String refreshToken) {

@@ -1,5 +1,8 @@
 package com.dnd.gooding.common.model;
 
+import lombok.Getter;
+
+@Getter
 public class Token {
 
     private String memberId;
@@ -10,17 +13,5 @@ public class Token {
         this.memberId = memberId;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-    }
-
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
     }
 }

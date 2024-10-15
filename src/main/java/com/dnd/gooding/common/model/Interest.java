@@ -1,5 +1,8 @@
 package com.dnd.gooding.common.model;
 
+import lombok.Getter;
+
+@Getter
 public class Interest {
 
     private String interestCode;
@@ -10,13 +13,5 @@ public class Interest {
     public Interest(String interestCode, String interestName) {
         this.interestCode = interestCode;
         this.interestName = interestName;
-    }
-
-    public String getInterestCode() {
-        return interestCode;
-    }
-
-    public String getInterestName() {
-        return interestName;
     }
 }
