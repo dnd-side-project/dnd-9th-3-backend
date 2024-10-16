@@ -1,11 +1,10 @@
 package com.dnd.gooding.record.command.domain;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable

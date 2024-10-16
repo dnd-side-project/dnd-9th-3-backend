@@ -17,16 +17,19 @@ public class BookMarkService implements BookMarkUseCase {
     @Transactional(readOnly = true)
     @Override
     public String getBookMarkYn(String memberId, String recordNo) {
-        BookMark bookMark = bookMarkRepository.findById(BookMarkId.of(memberId, recordNo)).orElse(new BookMark());
+        BookMark bookMark =
+                bookMarkRepository.findById(BookMarkId.of(memberId, recordNo)).orElse(new BookMark());
         return bookMark.getBookmarkYn();
     }
 
     @Transactional
     @Override
     public String bookMark(String memberId, String recordNo) {
-        BookMark bookMark = bookMarkRepository.findById(BookMarkId.of(memberId, recordNo)).orElseGet(() -> BookMark.builder()
-                .bookMarkId(BookMarkId.of(memberId, recordNo))
-                .build());
+        BookMark bookMark =
+                bookMarkRepository
+                        .findById(BookMarkId.of(memberId, recordNo))
+                        .orElseGet(
+                                () -> BookMark.builder().bookMarkId(BookMarkId.of(memberId, recordNo)).build());
         bookMark.changeBookmarkYn();
         bookMarkRepository.save(bookMark);
         return bookMark.getBookmarkYn();

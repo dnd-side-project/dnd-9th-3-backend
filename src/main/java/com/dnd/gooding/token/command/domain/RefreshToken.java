@@ -1,7 +1,6 @@
 package com.dnd.gooding.token.command.domain;
 
 import java.util.Objects;
-
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;

@@ -1,8 +1,7 @@
 package com.dnd.gooding.common.model;
 
-import lombok.Getter;
-
 import java.util.Arrays;
+import lombok.Getter;
 
 @Getter
 public enum InterestType {
