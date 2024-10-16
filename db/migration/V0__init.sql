@@ -22,13 +22,13 @@ CREATE TABLE IF NOT EXISTS `record` (
   `place_latitude` double DEFAULT NULL,
   `place_longitude` double DEFAULT NULL,
   `place_title` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `record_date` datetime(6) DEFAULT NULL,
   `record_score` bigint(20) DEFAULT NULL,
   `recorder_id` varchar(255) DEFAULT NULL,
   `recorder_name` varchar(255) DEFAULT NULL,
   `state` varchar(255) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`record_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
