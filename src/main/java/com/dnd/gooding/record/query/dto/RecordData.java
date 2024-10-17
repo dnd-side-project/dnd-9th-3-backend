@@ -9,27 +9,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 import org.hibernate.annotations.Synchronize;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "record")
 @Immutable
-@Subselect(
-        "select "
-                + "r.record_number, "
-                + "r.place_title, "
-                + "r.place_latitude, "
-                + "r.place_longitude, "
-                + "r.recorder_id, "
-                + "r.recorder_name, "
-                + "r.title, "
-                + "r.record_date, "
-                + "r.description "
-                + "from record r")
-@Synchronize({"record"})
+@Synchronize({"record", "bookmark"})
 public class RecordData {
 
     @Id
@@ -62,8 +55,6 @@ public class RecordData {
 
     @Transient private List<ImageData> images = new ArrayList<>();
 
-    protected RecordData() {}
-
     @Builder
     public RecordData(
             String recordNumber,
@@ -86,47 +77,11 @@ public class RecordData {
         this.description = description;
     }
 
-    public String getRecordNumber() {
-        return recordNumber;
-    }
-
-    public String getPlaceTitle() {
-        return placeTitle;
-    }
-
-    public Double getPlaceLatitude() {
-        return placeLatitude;
-    }
-
-    public Double getPlaceLongitude() {
-        return placeLongitude;
-    }
-
-    public String getRecorderId() {
-        return recorderId;
-    }
-
-    public String getRecorderName() {
-        return recorderName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public Date getRecordDate() {
-        return recordDate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
     public List<ImageData> getImages() {
         return Collections.unmodifiableList(images);
     }
 
-    public void setImages(List<ImageData> images) {
+    public void changeImages(List<ImageData> images) {
         this.images = images;
     }
 }

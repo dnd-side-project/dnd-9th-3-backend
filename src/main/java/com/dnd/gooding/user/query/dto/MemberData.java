@@ -16,10 +16,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 import org.hibernate.annotations.Synchronize;
 
+@Getter
 @Entity
 @Immutable
 @Table(name = "member")
@@ -75,22 +77,6 @@ public class MemberData {
         this.imageUrl = imageUrl;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public EmailSet getEmailSet() {
-        return emailSet;
-    }
-
-    public InterestSet getInterestSet() {
-        return interestSet;
-    }
-
     public List<Email> getEmails() {
         if (emailSet != null && emailSet.getEmails() != null) {
             return new ArrayList<>(emailSet.getEmails());
@@ -104,13 +90,5 @@ public class MemberData {
             return new ArrayList<>(interestSet.getInterests());
         }
         return interests;
-    }
-
-    public String getoAuthId() {
-        return oAuthId;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
     }
 }

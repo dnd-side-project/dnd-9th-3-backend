@@ -40,7 +40,17 @@ public class RecordQueryService {
         List<ImageData> images = imageDataDao.findByRecordNumberIn(toRecordIds(records));
         Map<String, List<ImageData>> imageMap =
                 images.stream().collect(Collectors.groupingBy(ImageData::getRecordNumber));
-        records.forEach(x -> x.setImages(imageMap.get(x.getRecordNumber())));
+        records.forEach(x -> x.changeImages(imageMap.get(x.getRecordNumber())));
+        return records;
+    }
+
+    @Transactional(readOnly = true)
+    public List<RecordData> getRecordByBookMarkMemberId(MemberId memberId) {
+        List<RecordData> records = recordDataDao.findByBookMarkMemberId(memberId.getId());
+        List<ImageData> images = imageDataDao.findByRecordNumberIn(toRecordIds(records));
+        Map<String, List<ImageData>> imageMap =
+                images.stream().collect(Collectors.groupingBy(ImageData::getRecordNumber));
+        records.forEach(x -> x.changeImages(imageMap.get(x.getRecordNumber())));
         return records;
     }
 
@@ -50,7 +60,7 @@ public class RecordQueryService {
         List<ImageData> images = imageDataDao.findByRecordNumberIn(toFeedIds(feeds));
         Map<String, List<ImageData>> imageMap =
                 images.stream().collect(Collectors.groupingBy(ImageData::getRecordNumber));
-        feeds.forEach(x -> x.setImages(imageMap.get(x.getRecordNumber())));
+        feeds.forEach(x -> x.changeImages(imageMap.get(x.getRecordNumber())));
         return feeds;
     }
 

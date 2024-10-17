@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/my/record")
+@RequestMapping("/api/v1")
 public class MyRecordController {
 
     private final RecordQueryService recordQueryService;
@@ -22,11 +22,19 @@ public class MyRecordController {
         this.recordQueryService = recordQueryService;
     }
 
-    @GetMapping
+    @GetMapping("/my/record")
     public ResponseEntity<List<RecordData>> getRecord(Authentication authentication) {
         JwtAuthentication jwtAuthentication = (JwtAuthentication) authentication.getPrincipal();
         List<RecordData> recordData =
                 recordQueryService.getRecord(MemberId.of(jwtAuthentication.getId()));
+        return ResponseEntity.status(HttpStatus.OK).body(recordData);
+    }
+
+    @GetMapping("/my/bookmark")
+    public ResponseEntity<List<RecordData>> getRecordByBookMarkMemberId(Authentication authentication) {
+        JwtAuthentication jwtAuthentication = (JwtAuthentication) authentication.getPrincipal();
+        List<RecordData> recordData =
+                recordQueryService.getRecordByBookMarkMemberId(MemberId.of(jwtAuthentication.getId()));
         return ResponseEntity.status(HttpStatus.OK).body(recordData);
     }
 }

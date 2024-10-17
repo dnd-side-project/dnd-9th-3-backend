@@ -93,7 +93,7 @@ public class FeedData {
         return Collections.unmodifiableList(images);
     }
 
-    public void setImages(List<ImageData> images) {
+    public void changeImages(List<ImageData> images) {
         this.images = images;
     }
 }
