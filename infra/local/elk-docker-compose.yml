@@ -5,6 +5,7 @@ services:
     build:
       context: ./elk/elasticsearch
       dockerfile: Dockerfile
+    container_name: local-elasticsearch-master
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -24,6 +25,7 @@ services:
     build:
       context: ./elk/elasticsearch
       dockerfile: Dockerfile
+    container_name: local-elasticsearch-data1
     environment:
       - node.name=es-data1
       - discovery.seed_hosts=local-elasticsearch-master
@@ -39,6 +41,7 @@ services:
     build:
       context: ./elk/elasticsearch
       dockerfile: Dockerfile
+    container_name: local-elasticsearch-coordinating
     environment:
       - node.name=es-coordinating
       - cluster.name=docker-cluster
@@ -54,6 +57,7 @@ services:
     build:
       context: ./elk/kibana
       dockerfile: Dockerfile
+    container_name: local-kibana
     volumes:
       - ./elk/kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
@@ -68,6 +72,7 @@ services:
     build:
       context: ./elk/logstash
       dockerfile: Dockerfile
+    container_name: local-logstash
     volumes:
       - ./elk/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./elk/logstash/pipeline:/usr/share/logstash/pipeline
@@ -82,8 +87,27 @@ services:
     depends_on:
       - local-elasticsearch-master
 
+  local-metricbeat:
+    build:
+      context: ./elk/metricbeat
+      dockerfile: Dockerfile
+    container_name: local-metricbeat
+    volumes:
+      - ./elk/metricbeat/config/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+      - ./elk/metricbeat/config/elasticsearch-xpack.yml:/usr/share/metricbeat/modules.d/elasticsearch-xpack.yml
+    ports:
+      - "5066:5066"
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.14
+    depends_on:
+      - local-elasticsearch-master
+      - local-kibana
+
 volumes:
   elasticsearch_data:
+    driver: local
+  metricbeat_data:
     driver: local
 
 networks:
