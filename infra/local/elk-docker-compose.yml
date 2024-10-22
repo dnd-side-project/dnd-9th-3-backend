@@ -157,7 +157,6 @@ volumes:
   elasticsearch_data0:
   elasticsearch_data1:
   elasticsearch_coordinating:
-  metricbeat_data:
 
 networks:
   my-network:

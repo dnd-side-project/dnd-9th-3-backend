@@ -17,7 +17,7 @@ services:
       "
     networks:
       my-network:
-        ipv4_address: 172.28.0.14
+        ipv4_address: 172.28.0.16
 
 volumes:
   redis_master_data:
