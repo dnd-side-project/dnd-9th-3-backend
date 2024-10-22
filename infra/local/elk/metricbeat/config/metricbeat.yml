@@ -91,7 +91,7 @@ host: "local-kibana:5601"
 # ---------------------------- Elasticsearch Output ----------------------------
 output.elasticsearch:
   # Array of hosts to connect to.
-  hosts: ["local-elasticsearch-master:9200"]
+  hosts: ["local-elasticsearch-master:9200", "local-elasticsearch-data0:9200", "local-elasticsearch-data1:9200", "local-elasticsearch-coordinating:9200"]
 
   # Performance preset - one of "balanced", "throughput", "scale",
   # "latency", or "custom".

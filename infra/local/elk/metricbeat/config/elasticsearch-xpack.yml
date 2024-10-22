@@ -4,6 +4,6 @@
 - module: elasticsearch
   xpack.enabled: true
   period: 10s
-  hosts: ["local-elasticsearch-master:9200"]
+  hosts: ["local-elasticsearch-master:9200", "local-elasticsearch-data0:9200", "local-elasticsearch-data1:9200", "local-elasticsearch-coordinating:9200"]
 #  username: "elastic"
 #  password: "your_password"

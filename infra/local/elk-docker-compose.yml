@@ -11,47 +11,92 @@ services:
       - "9300:9300"
     environment:
       - node.name=es-master
-      - discovery.seed_hosts=local-elasticsearch-data1
+      - node.master=true
+      - node.data=false
+      - node.ingest=false
+      - node.ml=false
+      - node.transform=false
+      - discovery.seed_hosts=local-elasticsearch-data0,local-elasticsearch-data1,local-elasticsearch-coordinating
       - cluster.initial_master_nodes=es-master
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
       - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - elasticsearch_data:/usr/share/elasticsearch/data
+      - elasticsearch_master:/usr/share/elasticsearch/data
     networks:
       my-network:
         ipv4_address: 172.28.0.9
+
+  local-elasticsearch-data0:
+    build:
+      context: ./elk/elasticsearch
+      dockerfile: Dockerfile
+    container_name: local-elasticsearch-data0
+    volumes:
+      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - elasticsearch_data0:/usr/share/elasticsearch/data
+    environment:
+      - node.name=es-data0
+      - node.master=false
+      - node.data=true
+      - node.ingest=false
+      - node.ml=false
+      - node.transform=false
+      - discovery.seed_hosts=local-elasticsearch-master,local-elasticsearch-data1,local-elasticsearch-coordinating
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+    networks:
+      my-network:
+        ipv4_address: 172.28.0.10
 
   local-elasticsearch-data1:
     build:
       context: ./elk/elasticsearch
       dockerfile: Dockerfile
     container_name: local-elasticsearch-data1
-    environment:
-      - node.name=es-data1
-      - discovery.seed_hosts=local-elasticsearch-master
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
       - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - elasticsearch_data:/usr/share/elasticsearch/data
+      - elasticsearch_data1:/usr/share/elasticsearch/data
+    environment:
+      - node.name=es-data1
+      - node.master=false
+      - node.data=true
+      - node.ingest=false
+      - node.ml=false
+      - node.transform=false
+      - discovery.seed_hosts=local-elasticsearch-master,local-elasticsearch-data0,local-elasticsearch-coordinating
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9202:9200"
+      - "9302:9300"
     networks:
       my-network:
-        ipv4_address: 172.28.0.10
+        ipv4_address: 172.28.0.11
 
   local-elasticsearch-coordinating:
     build:
       context: ./elk/elasticsearch
       dockerfile: Dockerfile
     container_name: local-elasticsearch-coordinating
+    volumes:
+      - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - elasticsearch_coordinating:/usr/share/elasticsearch/data
     environment:
       - node.name=es-coordinating
-      - cluster.name=docker-cluster
-      - discovery.seed_hosts=local-elasticsearch-master,local-elasticsearch-data1
+      - node.master=false
+      - node.data=false
+      - node.ingest=false
+      - node.ml=false
+      - node.transform=false
+      - discovery.seed_hosts=local-elasticsearch-master,local-elasticsearch-data0,local-elasticsearch-data1
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
-      - "9201:9200"
+      - "9203:9200"
+      - "9303:9300"
     networks:
       my-network:
-        ipv4_address: 172.28.0.11
+        ipv4_address: 172.28.0.12
 
   local-kibana:
     build:
@@ -64,7 +109,7 @@ services:
       - "5601:5601"
     networks:
       my-network:
-        ipv4_address: 172.28.0.12
+        ipv4_address: 172.28.0.13
     depends_on:
       - local-elasticsearch-master
 
@@ -83,7 +128,7 @@ services:
       LS_JAVA_OPTS: "-Xms512m -Xmx512m"
     networks:
       my-network:
-        ipv4_address: 172.28.0.13
+        ipv4_address: 172.28.0.14
     depends_on:
       - local-elasticsearch-master
 
@@ -99,16 +144,20 @@ services:
       - "5066:5066"
     networks:
       my-network:
-        ipv4_address: 172.28.0.14
+        ipv4_address: 172.28.0.15
     depends_on:
       - local-elasticsearch-master
+      - local-elasticsearch-data0
+      - local-elasticsearch-data1
+      - local-elasticsearch-coordinating
       - local-kibana
 
 volumes:
-  elasticsearch_data:
-    driver: local
+  elasticsearch_master:
+  elasticsearch_data0:
+  elasticsearch_data1:
+  elasticsearch_coordinating:
   metricbeat_data:
-    driver: local
 
 networks:
   my-network:
